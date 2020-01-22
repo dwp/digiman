@@ -1,0 +1,55 @@
+<div class="govuk-form-group" id="id-section-{{id}}">
+  {{#readOnly}}
+    <div>
+      <p class="govuk-fieldset__legend govuk-fieldset__legend--s text">
+        {{label}}
+      </p>
+      <p id="{{id}}-hint" class="govuk-hint text">
+        {{#hint}}{{hint}}{{/hint}}
+      </p>
+      <ul class="list-checks">
+        {{#options}}
+          {{#selected}}
+            <li id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                  data-name="{{id}}"
+                  {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
+              >
+                {{text}}
+            </li>
+          {{/selected}}
+        {{/options}}
+      </ul>
+    </div>
+  {{/readOnly}}
+  {{^readOnly}}
+    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m text">
+        {{label}}
+      </legend>
+      <span id="{{id}}-hint" class="govuk-hint text">
+        {{#hint}}{{hint}}{{/hint}}
+      </span>
+      <div class="govuk-checkboxes">
+        {{#options}}
+          <div class="govuk-checkboxes__item">
+            <input
+                    class="govuk-checkboxes__input"
+                    id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                    name="{{id}}"
+                    type="checkbox"
+                    {{#optionId}}data-option-id="{{optionId}}"{{/optionId}}
+                    value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+              {{#selected}}checked{{/selected}}
+              {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
+            >
+            <label class="govuk-label govuk-checkboxes__label"
+                   for="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+            >
+              {{text}}
+            </label>
+          </div>
+        {{/options}}
+      </div>
+    </fieldset>
+  {{/readOnly}}
+</div>

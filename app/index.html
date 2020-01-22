@@ -1,0 +1,43 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <link rel="icon" href="favicon.ico" />
+  </head>
+
+  <body>
+    <script>document.body.className = ((document.body.className) ? document.body.className + " js-enabled" : "js-enabled");</script>
+    <div class="panel digiman"
+             id="digiman-two"
+             data-state-endpoint="/digiman/state/EXAMPLE_TYPE"
+             data-post-state-endpoint="/digiman/state/EXAMPLE_TYPE"
+             data-read-only="false"
+             data-general-error="There was a technical problem. Try again in a few minutes.">
+
+            <input type="hidden" name="csrfToken" value="1234" />
+            <script type="text/x-template" class="spinner__template">
+                <div class="spinner text-center gutter-half-bottom gutter-half-top">
+                        <span class="spinner__icon" aria-hidden="true">
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                            <span class="spinner__petal"></span>
+                        </span>
+                    <p class="spinner__text">Loading</p>
+                </div>
+            </script>
+        </div>
+  </body>
+</html>

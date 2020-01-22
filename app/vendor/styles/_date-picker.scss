@@ -1,0 +1,223 @@
+$is-ie: false !default;
+
+@mixin ie-lte($version) {
+  @if $is-ie {
+    @if $ie-version <= $version {
+      @content;
+    }
+  }
+}
+
+@mixin contain-floats {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  @include ie-lte(7) {
+    zoom: 1;
+  }
+}
+
+.link-style {
+  color: #005ea5;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  padding: 0;
+  margin-bottom: 10px;
+
+  &:hover {
+      color: #073873;
+      cursor: pointer;
+  }
+}
+
+.date-picker {
+  text-align: center;
+  @media (min-width: 550px) {
+    position: relative;
+  }
+  font-family: "GDS Transport", Arial, sans-serif;
+}
+
+.date-picker--left {
+  text-align: left;
+}
+
+.date-picker__container {
+  left: 0;
+  width: 300px;
+  display: block;
+  position: absolute;
+  background: #dee0e2;
+  z-index: 3;
+  padding: 5px;
+  @media (min-width: 550px) {
+    top: 45px;
+  }
+}
+
+.date-picker__button--arrow {
+  background: none;
+  width: 20%;
+  float: left;
+  border: 0;
+  cursor: pointer;
+
+  &:hover, &:focus {
+    outline: 3px solid #0b0c0c;
+    outline-offset: 0;
+    background: #ffbf47;
+  }
+}
+
+.date-picker__button--disabled:hover {
+  background: none;
+  outline: 0;
+  cursor: default;
+}
+
+.date-picker__title {
+  width: 60%;
+  float: left;
+  margin: 5px 0;
+  font-size: 19px;
+}
+
+.date-picker__container--title {
+  margin: 10px 0;
+  @include contain-floats;
+}
+
+.date-picker__highlight-week {
+  &:hover,
+  &:focus {
+    .date-picker__cell {
+      background: #dee0e2;
+    }
+  }
+}
+
+.date-picker__table {
+  border-top: 3px solid #0b0c0c;
+}
+
+.date-picker__table-row {
+  background: #fff;
+  td span {
+    background-color: transparent;
+    background: #fff;
+  }
+}
+
+.date-picker__cell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+  .date-picker__link,
+  span {
+    padding: 10px;
+    display: block;
+  }
+}
+
+.date-picker__non-toggle {
+  position: relative;
+  top: 0;
+}
+
+.date-picker__inactive-date {
+  color: #6f777b;
+}
+
+.date-picker__date-highlighted {
+  background: #ffbf47;
+  outline: 0;
+  outline-offset: 0;
+  .date-picker__link {
+    color: #0b0c0c;
+  }
+}
+
+
+.date-picker__selectable-date {
+  &:hover {
+    background: #dee0e2;
+    color: #2b8cc4;
+    cursor: pointer;
+  }
+
+  .date-picker__link,
+  .date-picker__link:hover,
+  .date-picker__link:focus {
+    color: #0b0c0c;
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+  }
+
+  .date-picker__link {
+    &:focus {
+      background: #ffbf47;
+      outline: 3px solid #0b0c0c;
+      outline-offset: 0;
+      color: #0b0c0c;
+    }
+  }
+}
+
+.date-picker__date-selected {
+  background: #005ea5;
+  .date-picker__link {
+    color: #fff;
+  }
+
+  &:hover {
+    .date-picker__link {
+      color: #0b0c0c;
+    }
+  }
+}
+
+.date-picker__text-date {
+  @include contain-floats;
+  vertical-align: none;
+
+  &.has-errors {
+    width:93%;
+  }
+
+  fill: currentColor;
+  vertical-align: bottom;
+}
+
+.date-picker__appointment-booking {
+  display: inline-block;
+}
+
+.date-picker__calendar-icon {
+  fill: currentColor;
+  position: absolute;
+  top: 0;
+  right: -25px;
+}
+
+.date-picker__controls {
+  position: relative;
+}
+
+.date-picker__button-caret {
+  fill: currentColor;
+  vertical-align: middle;
+}
+
+.date-picker__today {
+  border: 3px solid #0b0c0c;
+}

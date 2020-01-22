@@ -1,0 +1,22 @@
+{
+  "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "jasmine": true,
+    "browser": true
+  },
+  "globals": {
+    "GOVUK": true,
+    "require": false
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-unused-vars": 0
+  },
+  "plugins": [
+    "jasmine"
+  ]
+}

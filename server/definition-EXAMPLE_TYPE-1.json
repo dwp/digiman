@@ -1,0 +1,155 @@
+{
+  "id": {
+   "type": "EXAMPLE_TYPE",
+   "version": 1
+  },
+  "questionBlocks": [
+   {
+    "id": "qb-start-id",
+    "question": {
+     "hint": null,
+     "id": "qb-start-id_question",
+     "label": "Go to end block?",
+     "options": [
+      {
+       "questionBlockId": "qb-end",
+       "text": "Yes",
+       "optionId": "yes"
+      },
+      {
+       "questionBlockId": "qb-another",
+       "text": "No",
+       "optionId": "no"
+      }
+     ],
+     "type": "RADIO"
+    },
+    "contents": [
+     {
+      "type": "HEADING",
+      "content": "Heading"
+     },
+     {
+      "type": "PARAGRAPH",
+      "content": "Normal paragraph"
+     },
+     {
+      "type": "IMPORTANT",
+      "content": "Important paragraph"
+     },
+     {
+      "type": "HINT",
+      "content": "Hint paragraph"
+     },
+     {
+      "type": "LIST",
+      "content": [
+       "List item 1",
+       "List item 2",
+       "List item 3"
+      ]
+     },
+     {
+      "type": "LIST_ORDERED",
+      "content": [
+       "Ordered list item 1",
+       "Ordered list item 2",
+       "Ordered list item 3"
+      ]
+     },
+     {
+      "type": "TEXT_INPUT",
+      "id": "qb-start-id_input-box-label_t7zvl3vu23",
+      "label": "Input box label",
+      "hint": "Input box hint"
+     },
+     {
+      "type": "TEXTAREA",
+      "id": "qb-start-id_textarea-label_rolwxjc87f",
+      "label": "Textarea label",
+      "hint": "Textarea hint"
+     },
+     {
+      "type": "DATE",
+      "id": "qb-start-id_date-label_uh7op7uusg",
+      "label": "Date label",
+      "hint": ""
+     },
+     {
+      "type": "CHECKBOX",
+      "id": "qb-start-id_checkbox-label_0miprh7apb",
+      "label": "Checkbox label",
+      "hint": "Checkbox hint",
+      "options": [
+       {
+        "value": "qb-start-id_checkbox-label_0miprh7apb_option-1_0",
+        "text": "Option 1"
+       },
+       {
+        "value": "qb-start-id_checkbox-label_0miprh7apb_option-2_1",
+        "text": "Option 2"
+       }
+      ]
+     },
+     {
+      "type": "RADIO",
+      "id": "qb-start-id_radio-label_vvm6h04guf",
+      "label": "Radio label",
+      "hint": "Radio hint",
+      "options": [
+       {
+        "value": "qb-start-id_radio-label_vvm6h04guf_option-1_0",
+        "text": "Option 1"
+       },
+       {
+        "value": "qb-start-id_radio-label_vvm6h04guf_option-2_1",
+        "text": "Option 2"
+       }
+      ]
+     },
+     {
+      "type": "BREAK"
+     }
+    ]
+   },
+   {
+    "id": "qb-end",
+    "question": {
+     "hint": null,
+     "id": "qb-end_question",
+     "label": "End",
+     "options": [
+      {
+       "questionBlockId": "done",
+       "text": "Done",
+       "optionId": "done"
+      }
+     ],
+     "type": "CHECKBOX"
+    },
+    "contents": []
+   },
+   {
+    "id": "qb-another",
+    "question": {
+     "hint": null,
+     "id": "qb-another_question",
+     "label": null,
+     "options": [
+      {
+       "questionBlockId": "qb-end",
+       "text": "Next",
+       "optionId": "next"
+      }
+     ],
+     "type": "CHECKBOX"
+    },
+    "contents": [
+     {
+      "type": "PARAGRAPH",
+      "content": "Follow to the end block"
+     }
+    ]
+   }
+  ]
+ }

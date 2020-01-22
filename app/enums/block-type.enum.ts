@@ -1,0 +1,14 @@
+export enum BlockType {
+    RADIO = "RADIO",
+    CHECKBOX = "CHECKBOX",
+    TEXT_INPUT = "TEXT_INPUT",
+    TEXTAREA = "TEXTAREA",
+    BREAK = "BREAK",
+    HINT = "HINT",
+    IMPORTANT = "IMPORTANT",
+    LIST = "LIST",
+    LIST_ORDERED ="LIST_ORDERED",
+    PARAGRAPH = "PARAGRAPH",
+    HEADING = "HEADING",
+    DATE = "DATE"
+}

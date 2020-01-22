@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "allowJs": false,
+        "module": "es6",
+        "target": "es5",
+        "sourceMap": true,
+        "noEmitOnError": true,
+        "noImplicitAny": true,
+        "lib": ["esnext", "dom"]
+    },
+    "files": [
+        "app/typings/mustache.d.ts"
+    ],
+    "include": [
+        "app/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "app/vendor",
+        "webpack.*.js"
+    ]
+}

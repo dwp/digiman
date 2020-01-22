@@ -1,0 +1,20 @@
+<div class="govuk-form-group text" id="id-section-{{id}}">
+  {{#readOnly}}
+    <p class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      {{label}}
+    </p>
+    <p id="{{id}}-hint" class="govuk-hint">
+      {{#hint}}{{hint}}{{/hint}}
+    </p>
+    <pre class="preformatted-paragraph" id="{{id}}" data-name="{{id}}">{{value}}</pre>
+  {{/readOnly}}
+  {{^readOnly}}
+    <label class="govuk-label govuk-label--m" for="{{id}}">
+      {{label}}
+    </label>
+    <span id="{{id}}-hint" class="govuk-hint">
+      {{#hint}}{{hint}}{{/hint}}
+    </span>
+    <textarea class="govuk-textarea" id="{{id}}" name="{{id}}" rows="5" aria-describedby="{{id}}-hint">{{value}}</textarea>
+  {{/readOnly}}
+</div>
