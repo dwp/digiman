@@ -3,6 +3,6 @@ const prod = require('./webpack.prod.js');
 
 module.exports = merge(prod, {
   entry: {
-    digiman: './app/digiman-unstyled.index.ts'
+    'digiman-unstyled': './app/digiman-unstyled.index.ts'
   }
 });

@@ -6,9 +6,9 @@ const favicon = require('express-favicon');
 
 require('./config')(app);
 
-app.use(favicon(path.join(__dirname, '../build', 'assets', 'images', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '../dist', 'assets', 'images', 'favicon.ico')));
 
 // Middleware to serve static assets
-app.use('/', express.static(path.join(__dirname, '../build')));
+app.use('/', express.static(path.join(__dirname, '../dist')));
 
 app.listen(PORT);

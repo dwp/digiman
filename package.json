@@ -1,23 +1,25 @@
 {
   "name": "digiman",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "app/digiman.index.ts",
   "repository": "",
   "license": "MIT",
   "private": true,
   "description": "Dynamic HTML form generator",
   "engines": {
-    "node": ">=10.16.3 && <=12.6.0",
+    "node": ">=10.16.3 && <=12.13.0",
     "npm": ">=6.0.0"
   },
   "engineStrict": true,
   "scripts": {
     "start": "webpack-dev-server --mode=development --hot --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "build": "webpack --config webpack.prod.js && webpack --config webpack.unstyled.js",
+    "build:styled": "webpack --config webpack.prod.js",
     "build:unstyled": "webpack --config webpack.unstyled.js",
     "test:dev": "karma start karma.conf.js",
     "test": "karma start karma.conf.js --single-run --environment production",
-    "server": "node server/server.js"
+    "server": "node server/server.js",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "dependencies": {
     "@babel/core": "7.4.0",
@@ -75,7 +77,8 @@
     "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "3.2.1",
-    "webpack-bundle-analyzer": "3.6.0"
+    "auto-changelog": "1.16.2",
+    "webpack-bundle-analyzer": "3.6.0",
+    "webpack-dev-server": "3.2.1"
   }
 }

@@ -8,10 +8,10 @@ module.exports = merge(common, {
   mode: 'development',
   output: {
     filename: '[name].js',
-    path: path.resolve('./', 'build/')
+    path: path.resolve('./', 'dist/')
   },
   devServer: {
-    contentBase: path.join(__dirname, 'build'),
+    contentBase: path.join(__dirname, 'dist'),
     publicPath: '/',
     compress: true,
     port: 3000,
