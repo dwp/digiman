@@ -1,6 +1,6 @@
 {
   "name": "digiman",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "app/digiman.index.ts",
   "repository": "",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "build:styled": "webpack --config webpack.prod.js",
     "build:unstyled": "webpack --config webpack.unstyled.js",
     "test:dev": "karma start karma.conf.js",
-    "test": "karma start karma.conf.js --single-run --environment production",
+    "test": "karma start karma.conf.js --single-run --reporters=coverage --environment production",
     "server": "node server/server.js",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
@@ -59,6 +59,7 @@
     "karma-coverage": "1.1.2",
     "karma-jasmine": "2.0.1",
     "karma-json-fixtures-preprocessor": "0.0.6",
+    "karma-spec-reporter": "0.0.32",
     "karma-webpack": "4.0.2",
     "mini-css-extract-plugin": "0.8.2",
     "mustache": "3.1.0",

@@ -7,7 +7,9 @@ module.exports = function(config) {
       'karma-webpack',
       'karma-jasmine',
       'karma-chrome-launcher',
-      'karma-json-fixtures-preprocessor'
+      'karma-json-fixtures-preprocessor',
+      'karma-spec-reporter',
+      'karma-coverage'
     ],
     files: [
       'node_modules/isomorphic-fetch/',
@@ -52,7 +54,7 @@ module.exports = function(config) {
       //use babel-loader from webpack to compile es2015 features in .js files
       //add webpack as preprocessor
       './app/**/*.js': ['webpack'],
-      './test/**/*.spec.js': ['webpack'],
+      './test/**/*.spec.js': ['webpack', 'coverage'],
       './test/definitions/*.json': ['json_fixtures']
     },
     webpackMiddleware: {
@@ -73,9 +75,23 @@ module.exports = function(config) {
       logLevel: "warn"
     },
     webpack: webpackConfigDigiman,
-    // Junit reports
-    junitReporter: {
-      outputFile: '../build/test-results/javascript/uk.gov.dwp.Digiman.ES6Test.xml'
+    reporters: ['spec', 'coverage'],
+    specReporter: {
+        maxLogLines: 10,            // limit number of lines logged per test
+        suppressErrorSummary: true, // do not print error summary
+        suppressFailed: false,      // do not print information about failed tests
+        suppressPassed: false,      // do not print information about passed tests
+        suppressSkipped: true,      // do not print information about skipped tests
+        showSpecTiming: false,      // print the time elapsed for each spec
+        failFast: true              // test would finish with error when a first fail occurs.
+    },
+    coverageReporter: {
+        includeAllSources: true,
+        dir: 'test-reports/',
+        reporters: [
+            { type: 'html', subdir: 'coverage' },
+            { type: 'text-summary' }
+        ]
     }
   });
 };
