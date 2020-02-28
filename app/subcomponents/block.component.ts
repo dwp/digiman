@@ -2,23 +2,23 @@ import { BlockType } from '../enums/block-type.enum';
 
 export abstract class Block {
   private _type: BlockType;
-  private _html: string;
+  private _htmlNode: HTMLElement;
 
   constructor(type: BlockType) {
     if (this.constructor.name === 'Block') {
       throw new TypeError('Abstract class "Block" cannot be instantiated directly.');
     }
 
-    this._html = null;
+    this._htmlNode = null;
     this._type = type;
   }
 
-  get html(): string {
-    return this._html;
+  get htmlNode(): HTMLElement {
+    return this._htmlNode;
   }
 
-  set html(newHtml: string) {
-    this._html = newHtml;
+  set htmlNode(newHtml: HTMLElement) {
+    this._htmlNode = newHtml;
   }
 
   get type(): BlockType {

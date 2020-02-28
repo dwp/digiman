@@ -250,10 +250,6 @@ describe('Digiman', () => {
       expect(digimanComponent.csrfToken.value).toBe('1234');
     });
 
-    it('And DONE_STATE is defined', () => {
-      expect(digimanComponent.DONE_STATE).toBe('done');
-    });
-
     it('And questionSections is defined', () => {
       expect(digimanComponent.questionSections).toEqual([]);
     });
@@ -488,8 +484,8 @@ describe('Digiman', () => {
           expect(digimanComponent.getQuestionSectionById('qb-start-id').decisionBlock.nextSection).toBe('qb-question-id');
         });
 
-        it('And object html is updated', () => {
-          expect(digimanComponent.getQuestionSectionById('qb-start-id').html.includes(`data-next-state="qb-question-id"`)).toBe(true);
+        it('And object html is updated with correct next state', () => {
+          expect(digimanComponent.getQuestionSectionById('qb-start-id').htmlNode.dataset.nextState).toBe('qb-question-id');
         });
 
         it('And html is updated', () => {

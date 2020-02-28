@@ -64,6 +64,6 @@ export class OptionBlock extends FormBlock {
   }
 
   updateView() {
-    this.html = blockBuilder(this as OptionBlock);
+    this.htmlNode = blockBuilder(this as OptionBlock);
   }
 }

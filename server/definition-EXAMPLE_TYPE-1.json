@@ -148,8 +148,93 @@
      {
       "type": "PARAGRAPH",
       "content": "Follow to the end block"
-     }
-    ]
-   }
+     },
+      {
+       "type": "HEADING",
+       "content": "Heading"
+      },
+      {
+       "type": "PARAGRAPH",
+       "content": "Normal paragraph"
+      },
+      {
+       "type": "IMPORTANT",
+       "content": "Important paragraph"
+      },
+      {
+       "type": "HINT",
+       "content": "Hint paragraph"
+      },
+      {
+       "type": "LIST",
+       "content": [
+        "List item 1",
+        "List item 2",
+        "List item 3"
+       ]
+      },
+      {
+       "type": "LIST_ORDERED",
+       "content": [
+        "Ordered list item 1",
+        "Ordered list item 2",
+        "Ordered list item 3"
+       ]
+      },
+      {
+       "type": "TEXT_INPUT",
+       "id": "qb-start-id_input-box-label_t7zvl3vu232",
+       "label": "Input box label",
+       "hint": "Input box hint"
+      },
+      {
+       "type": "TEXTAREA",
+       "id": "qb-start-id_textarea-label_rolwxjc87f2",
+       "label": "Textarea label",
+       "hint": "Textarea hint"
+      },
+      {
+       "type": "DATE",
+       "id": "qb-start-id_date-label_uh7op7uusg2",
+       "label": "Date label",
+       "hint": ""
+      },
+      {
+       "type": "CHECKBOX",
+       "id": "qb-start-id_checkbox-label_0miprh7apb2",
+       "label": "Checkbox label",
+       "hint": "Checkbox hint",
+       "options": [
+        {
+         "value": "qb-start-id_checkbox-label_0miprh7apb_option-1_02",
+         "text": "Option 1"
+        },
+        {
+         "value": "qb-start-id_checkbox-label_0miprh7apb_option-2_12",
+         "text": "Option 2"
+        }
+       ]
+      },
+      {
+       "type": "RADIO",
+       "id": "qb-start-id_radio-label_vvm6h04guf2",
+       "label": "Radio label",
+       "hint": "Radio hint",
+       "options": [
+        {
+         "value": "qb-start-id_radio-label_vvm6h04guf_option-1_02",
+         "text": "Option 1"
+        },
+        {
+         "value": "qb-start-id_radio-label_vvm6h04guf_option-2_12",
+         "text": "Option 2"
+        }
+       ]
+      },
+      {
+       "type": "BREAK"
+      }
+     ]
+    }
   ]
- }
+}

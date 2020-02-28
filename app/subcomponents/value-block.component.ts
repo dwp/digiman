@@ -34,6 +34,6 @@ export class ValueBlock extends FormBlock {
   }
 
   updateView() {
-    this.html = blockBuilder(this as ValueBlock);
+    this.htmlNode = blockBuilder(this as ValueBlock);
   }
 }

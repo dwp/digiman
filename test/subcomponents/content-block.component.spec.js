@@ -33,7 +33,7 @@ describe('ContentBlock', () => {
     });
 
     it('Then object html is correct', () => {
-      expect(block.html).toBe('<p class="govuk-body text">PARAGRAPH Text</p>');
+      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-body text">PARAGRAPH Text</p>');
     });
 
     it('And type is PARAGRAPH', () => {
@@ -51,7 +51,7 @@ describe('ContentBlock', () => {
     });
 
     it('Then object html is correct', () => {
-      expect(block.html).toBe('<p class="govuk-hint text">HINT Text</p>');
+      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-hint text">HINT Text</p>');
     });
 
     it('And type is HINT', () => {
@@ -68,11 +68,16 @@ describe('ContentBlock', () => {
       block = new ContentBlock(listData);
     });
 
-    it('Then object html is correct', () => {
-      expect(block.html).toBe(`<ul class="govuk-list govuk-list--bullet text">
-    <li>List item 1</li>
-    <li>List item 2</li>
-</ul>`);
+    it('Then object html is correct for ul', () => {
+      expect(block.htmlNode.outerHTML.includes(`<ul class="govuk-list govuk-list--bullet text">`)).toBe(true);
+    });
+
+    it('And object html is correct for first list item', () => {
+      expect(block.htmlNode.outerHTML.includes(`<li class="govuk-body">List item 1</li>`)).toBe(true);
+    });
+
+    it('Then object html is correct for second list item', () => {
+      expect(block.htmlNode.outerHTML.includes(`<li class="govuk-body">List item 2</li>`)).toBe(true);
     });
 
     it('And type is LIST', () => {
@@ -90,7 +95,7 @@ describe('ContentBlock', () => {
     });
 
     it('Then object html is correct', () => {
-      expect(block.html).toBe('<br />');
+      expect(block.htmlNode.outerHTML).toBe('<br>');
     });
 
     it('And type is BREAK', () => {
@@ -108,7 +113,7 @@ describe('ContentBlock', () => {
     });
 
     it('Then object html is correct', () => {
-      expect(block.html).toBe('<p class="govuk-inset-text text">IMPORTANT Text</p>');
+      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-inset-text text">IMPORTANT Text</p>');
     });
 
     it('And type is IMPORTANT', () => {

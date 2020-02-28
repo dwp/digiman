@@ -26,7 +26,7 @@ describe('DateBlock', () => {
     });
 
     it('Then html object contains defined label', () => {
-      expect(block.html.includes(`Select any date`)).toBe(true);
+      expect(block.htmlNode.querySelector('legend.govuk-fieldset__legend.govuk-fieldset__legend--m.text').innerHTML.trim()).toEqual('Select any date');
     });
 
     it('And hint is set to default', () => {

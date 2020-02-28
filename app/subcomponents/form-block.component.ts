@@ -25,6 +25,10 @@ export abstract class FormBlock extends Block {
     return this._readOnly;
   }
 
+  set readOnly(readOnly: boolean) {
+    this._readOnly = readOnly;
+  }
+
   get id(): string {
     return this._id;
   }

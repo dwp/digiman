@@ -34,7 +34,7 @@ describe('OptionBlock', () => {
     });
 
     it('Then html object contains defined label', () => {
-      expect(block.html.includes(`Select any option`)).toBe(true);
+      expect(block.htmlNode.querySelector('.govuk-fieldset__legend.govuk-fieldset__legend--m.text').innerHTML.trim()).toEqual('Select any option');
     });
 
     it('And hint is as defined', () => {
@@ -82,7 +82,7 @@ describe('OptionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(true);
+        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(true);
       });
     });
 
@@ -104,7 +104,7 @@ describe('OptionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(false);
+        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(false);
       });
     });
 
@@ -122,7 +122,7 @@ describe('OptionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(false);
+        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(false);
       });
     });
   });

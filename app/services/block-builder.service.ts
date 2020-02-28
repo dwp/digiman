@@ -16,6 +16,7 @@ import { OptionBlock } from '../subcomponents/option-block.component';
 import { ContentBlock } from '../subcomponents/content-block.component';
 import { DecisionBlock } from '../subcomponents/decision-block.component';
 import { DateBlock } from '../subcomponents/date-block.component';
+import { createElement } from '../vendor/utils/index.utils';
 
 export default function blockBuilder(block: (ValueBlock | OptionBlock | ContentBlock | DecisionBlock | DateBlock)) {
 
@@ -62,5 +63,5 @@ export default function blockBuilder(block: (ValueBlock | OptionBlock | ContentB
       component = null;
   }
 
-  return component;
+  return createElement(component);
 }

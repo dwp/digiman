@@ -9,7 +9,7 @@
       </p>
       {{#options}}
         {{#selected}}
-          <p id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+          <p class="govuk-body text" id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
               data-name="{{id}}"
               {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
           >

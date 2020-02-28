@@ -16,10 +16,10 @@ import { StateFormBlock } from '../interfaces/state-form-block.interface';
 import { DigimanMode } from '../enums/digiman-mode.enum';
 import { BlockType } from '../enums/block-type.enum';
 import { DigimanDate } from '../enums/digiman-date.enum';
+import { DigimanState } from '../enums/digiman-state.enum';
 import { DateFieldsComponent } from '../vendor/components/date-fields.component';
 
 export class Digiman {
-  private DONE_STATE: string = 'done';
   private START_STATE: string = 'qb-start-id';
   private questionSections: QuestionSection[] = [];
   private state: StateQuestionBlock[] = [];
@@ -28,6 +28,7 @@ export class Digiman {
   private QUESTION_BLOCK_DATA: StateQuestionBlock[] = [];
   private IS_READ_ONLY: boolean;
   private IS_LOAD_ON_CLICK: boolean;
+  private AUTO_SAVE_ON_COMPLETION: boolean; 
   private STATE_ENDPOINT: string;
   private POST_STATE_ENDPOINT: string;
   private GENERAL_ERROR: string;
@@ -41,6 +42,7 @@ export class Digiman {
 
     this.IS_READ_ONLY = this.container.dataset.readOnly === "true";
     this.IS_LOAD_ON_CLICK = this.container.dataset.loadOnClick === "true";
+    this.AUTO_SAVE_ON_COMPLETION = this.container.dataset.autoSaveOnCompletion === "true";
     this.STATE_ENDPOINT = this.container.dataset.stateEndpoint;
     this.POST_STATE_ENDPOINT = this.container.dataset.postStateEndpoint;
     this.GENERAL_ERROR = this.container.dataset.generalError;
@@ -113,7 +115,7 @@ export class Digiman {
   renderQuestionSections(sections: StateQuestionBlock[]) {
     //display starting point
     if (!sections || sections.length === 0) {
-      this.renderSection(this.getQuestionSectionById(this.START_STATE as string).html as string);
+      this.renderSection(this.getQuestionSectionById(this.START_STATE as string).htmlNode);
     } else if (sections && sections.length > 0) {
       let startingSection = sections.find(section => section.questionBlockId === this.START_STATE);
 
@@ -136,13 +138,17 @@ export class Digiman {
 
     qs.updateView();
 
-    this.renderSection(qs.html as string);
+    this.renderSection(qs.htmlNode);
 
     let nextSection = this.getNextSection(nextSectionId as string, sections as StateQuestionBlock[]);
     if (nextSection) {
       this.renderQuestionSection(nextSection, this.removeSectionItem(currentSectionId as string, sections as StateQuestionBlock[]));
-    } else if (nextSectionId !== this.DONE_STATE) {
-      this.renderSection(this.getQuestionSectionById(nextSectionId as string).html as string);
+    } else if (nextSectionId !== DigimanState.DONE) {
+      this.renderSection(this.getQuestionSectionById(nextSectionId as string).htmlNode);
+    } else if (nextSectionId === DigimanState.DONE) {
+      if (this.AUTO_SAVE_ON_COMPLETION) {
+        //TODO allow constant saves
+      }
     }
   }
 
@@ -234,6 +240,7 @@ export class Digiman {
     const newOptionId: string = target.dataset.optionId;
     const oldNextStateId: string = qsNode.dataset.nextState;
     const oldOptionId: string = qsNode.dataset.selectedOptionId;
+    const isEndState: boolean = newNextStateId === DigimanState.DONE;
     const isSameFlow: boolean = this.isSameFlow(
       {
         newNextStateId: newNextStateId,
@@ -254,8 +261,15 @@ export class Digiman {
           isChecked: target.checked,
           optionId: newOptionId
         } as DigimanStateProgress);
-      }
 
+        if (this.AUTO_SAVE_ON_COMPLETION) {
+          if (isEndState && target.checked) {
+            //TODO allow constant saves
+          } else if (isEndState && !target.checked) {
+            //TODO disable constant saves
+          }
+        }
+      }
     } else {
       this.updateFormBlockState(target as HTMLInputElement, qsNode.dataset.currentState as string);
     }
@@ -293,7 +307,6 @@ export class Digiman {
     let nextOptionId: string = (optionId) ? `${nextSectionId}-${optionId}` : `${nextSectionId}`;
 
     qs.decisionBlock.setState(nextOptionId, isChecked);
-    qs.updateView();
 
     //isChecked ensures that decisionBlock of type CHECKBOX is not rendering next question block
     if (isChecked) {
@@ -303,9 +316,9 @@ export class Digiman {
         qsNode.setAttribute('data-selected-option-id', optionId);
       }
 
-      if (nextSectionId !== this.DONE_STATE) {
+      if (nextSectionId !== DigimanState.DONE) {
         if (nextSectionId && nextSectionId.trim().length > 0) {
-          this.renderSection(this.getQuestionSectionById(nextSectionId).html);
+          this.renderSection(this.getQuestionSectionById(nextSectionId).htmlNode);
         }
       }
     } else {
@@ -408,10 +421,12 @@ export class Digiman {
     dateBlock.year = value;
   }
 
-  renderSection(section: string) {
-    let sectionNode: HTMLElement = createElement(section as string);
+  renderSection(sectionNode: HTMLElement) {
     this.container.append(sectionNode);
+    this.initialiseDatePicker(sectionNode);
+  }
 
+  initialiseDatePicker(sectionNode: HTMLElement) {
     //only run if datepicker component is injected to the page
     let selector = '.govuk-date-input';
     let dateFields = sectionNode.querySelectorAll(selector);

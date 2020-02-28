@@ -2,16 +2,19 @@ import blockBuilder from '../services/block-builder.service';
 import { OptionBlock } from './option-block.component';
 import { OptionInterface } from '../interfaces/option.interface';
 import { DecisionBlockInterface } from '../interfaces/decision-block.interface';
+import { DigimanState } from '../enums/digiman-state.enum';
 
 export class DecisionBlock extends OptionBlock {
   private _nextSection: string;
   private _selectedOptionId: string;
+  private _isLastQuestion: boolean;
 
   constructor(data: DecisionBlockInterface) {
     super(data as DecisionBlockInterface);
 
     this._nextSection = '';
     this._selectedOptionId = '';
+    this._isLastQuestion = data.options.find( option => option.questionBlockId === DigimanState.DONE) ? true : false;
 
     this.updateView();
   }
@@ -30,6 +33,10 @@ export class DecisionBlock extends OptionBlock {
 
   set selectedOptionId(optionId: string) {
     this._selectedOptionId = optionId;
+  }
+
+  get isLastQuestion(): boolean {
+    return this._isLastQuestion;
   }
 
   setState(value: string, isChecked: boolean) {
@@ -61,6 +68,6 @@ export class DecisionBlock extends OptionBlock {
   }
 
   updateView() {
-    this.html = blockBuilder(this as DecisionBlock);
+    this.htmlNode = blockBuilder(this as DecisionBlock);
   }
 }

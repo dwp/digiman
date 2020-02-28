@@ -19,6 +19,6 @@ export class ContentBlock extends Block {
   }
 
   updateView() {
-    this.html = blockBuilder(this as ContentBlock);
+    this.htmlNode = blockBuilder(this as ContentBlock);
   }
 }

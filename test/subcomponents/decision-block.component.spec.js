@@ -40,7 +40,7 @@ describe('DecisionBlock', () => {
     });
 
     it('Then html object contains data-next-section-id', () => {
-      expect(block.html.includes(`data-next-section-id`)).toBe(true);
+      expect(block.htmlNode.querySelector('#checkbox-id-HIT').dataset.nextSectionId).toEqual('HIT');
     });
 
     it('And type is CHECKBOX', () => {
@@ -49,6 +49,10 @@ describe('DecisionBlock', () => {
 
     it('And readOnly is set to false', () => {
       expect(block.readOnly).toBe(false);
+    });
+
+    it('And isLastQuestion is set to false', () => {
+      expect(block.isLastQuestion).toBe(false);
     });
 
     it('And options are as defined', () => {
@@ -84,7 +88,7 @@ describe('DecisionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(true);
+        expect(block.htmlNode.querySelector('#checkbox-id-HIT').checked).toBe(true);
       });
     });
 
@@ -110,7 +114,7 @@ describe('DecisionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(false);
+        expect(block.htmlNode.querySelector('#checkbox-id-HIT').checked).toBe(false);
       });
     });
   });
@@ -121,7 +125,7 @@ describe('DecisionBlock', () => {
     });
 
     it('Then html object contains data-next-section-id', () => {
-      expect(block.html.includes(`data-next-section-id`)).toBe(true);
+      expect(block.htmlNode.querySelector('#radio-id-ONE-radio-one').dataset.nextSectionId).toEqual('ONE');
     });
 
     it('And type is RADIO', () => {
@@ -157,7 +161,7 @@ describe('DecisionBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`checked`)).toBe(true);
+        expect(block.htmlNode.querySelector('#radio-id-ONE-radio-one').checked).toBe(true);
       });
     });
 

@@ -6,7 +6,7 @@
     <p id="{{id}}-hint" class="govuk-hint text">
       {{#hint}}{{hint}}{{/hint}}
     </p>
-    <p id="{{id}}" data-name="{{id}}">{{#value}}{{day}}/{{month}}/{{year}}{{/value}}</p>
+    <p class="govuk-body text" id="{{id}}" data-name="{{id}}">{{#value}}{{day}}/{{month}}/{{year}}{{/value}}</p>
   {{/readOnly}}
   {{^readOnly}}
     <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint" role="group">

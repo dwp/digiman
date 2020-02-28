@@ -1,0 +1,114 @@
+$spinner-size: 26px;
+$spinner-radius: $spinner-size / 2;
+$spinner-petal-width: $spinner-size / 10;
+$spinner-petal-height: $spinner-radius * 0.45;
+$spinner-number-petals: 12; /* must match the actual number of .spinner__petal children elements */
+$spinner-animation-duration: 1.08;
+$spinner-start-angle: 90;
+$spinner-animation-step: $spinner-animation-duration / $spinner-number-petals;
+$white: #fff;
+
+.spinner__icon {
+  position: relative;
+  display: inline-block;
+  width: $spinner-size;
+  height: $spinner-size;
+  color: #aaa;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.spinner__petal {
+  display: block;
+  transform-origin: $spinner-radius $spinner-radius;
+  animation: spinner__icon #{$spinner-animation-duration}s linear infinite;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: $spinner-radius - $spinner-petal-width / 2;
+    width: $spinner-petal-width;
+    height: $spinner-petal-height;
+    border-radius: 20%;
+    background: #000;
+    content: "";
+
+    .spinner__icon--white & {
+      background: $white;
+    }
+  }
+}
+
+@for $i from 1 through $spinner-number-petals {
+  .spinner__petal:nth-child(#{$i}) {
+    transform: rotate(#{360 / $spinner-number-petals * $i + $spinner-start-angle}deg);
+    opacity: #{$spinner-animation-step};
+    animation-delay: -#{$spinner-animation-step * ($spinner-number-petals - $i)}s;
+  }
+}
+
+@keyframes spinner__icon {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.spinner__text {
+  display: inline;
+}
+
+
+
+$loader-icon-size: 26px;
+$loader-icon-radius: $loader-icon-size / 2;
+$loader-icon-petal-width: $loader-icon-size / 10;
+$loader-icon-petal-height: $loader-icon-radius * 0.45;
+$loader-icon-number-petals: 12; /* must match the actual number of .loader-icon__petal children elements */
+$loader-icon-animation-duration: 1.08;
+$loader-icon-start-angle: 90;
+$loader-icon-animation-step: $loader-icon-animation-duration / $loader-icon-number-petals;
+
+.loader-icon {
+  position: relative;
+  display: inline-block;
+  width: $loader-icon-size;
+  height: $loader-icon-size;
+  color: #aaa;
+}
+
+.loader-icon__petal {
+  display: block;
+  transform-origin: $loader-icon-radius $loader-icon-radius;
+  animation: loader-icon #{$loader-icon-animation-duration}s linear infinite;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: $loader-icon-radius - $loader-icon-petal-width / 2;
+    width: $loader-icon-petal-width;
+    height: $loader-icon-petal-height;
+    border-radius: 20%;
+    background: #000;
+    content: "";
+  }
+}
+
+@for $i from 1 through $loader-icon-number-petals {
+  .loader-icon__petal:nth-child(#{$i}) {
+    transform: rotate(#{360 / $loader-icon-number-petals * $i + $loader-icon-start-angle}deg);
+    opacity: #{$loader-icon-animation-step};
+    animation-delay: -#{$loader-icon-animation-step * ($loader-icon-number-petals - $i)}s;
+  }
+}
+
+@keyframes loader-icon {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}

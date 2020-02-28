@@ -88,6 +88,6 @@ export class DateBlock extends FormBlock {
   }
 
   updateView() {
-    this.html = blockBuilder(this as DateBlock);
+    this.htmlNode = blockBuilder(this as DateBlock);
   }
 }

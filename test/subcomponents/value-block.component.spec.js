@@ -34,11 +34,11 @@ describe('ValueBlock', () => {
     });
 
     it('Then object html contains defined label', () => {
-      expect(block.html.includes('Input Label')).toBe(true);
+      expect(block.htmlNode.querySelector('#input-id')).not.toBe(null);
     });
 
     it('And object html contains defined hint', () => {
-      expect(block.html.includes('Input hint text')).toBe(true);
+      expect(block.htmlNode.querySelector('#input-id-hint')).not.toBe(null);
     });
 
     it('And readOnly is set to false', () => {
@@ -46,7 +46,7 @@ describe('ValueBlock', () => {
     });
 
     it('And object html contains textarea HTML', () => {
-      expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="" aria-describedby="input-id-hint">`)).toBe(true);
+      expect(block.htmlNode.querySelector('#input-id')).not.toBe(null);
     });
 
     it('And hint is as defined', () => {
@@ -83,7 +83,7 @@ describe('ValueBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="NEW_VALUE" aria-describedby="input-id-hint">`)).toBe(true);
+        expect(block.htmlNode.querySelector('#input-id').value).toEqual('NEW_VALUE');
       });
     });
 
@@ -98,7 +98,7 @@ describe('ValueBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="" aria-describedby="input-id-hint">`)).toBe(true);
+        expect(block.htmlNode.querySelector('#input-id').value).toEqual('');
       });
     });
   });
@@ -109,11 +109,11 @@ describe('ValueBlock', () => {
     });
 
     it('Then object html contains defined label', () => {
-      expect(block.html.includes(`Textarea Label`)).toBe(true);
+      expect(block.htmlNode.querySelector('label.govuk-label')).not.toBe(null);
     });
 
-    it('And object html contains textarea HTML', () => {
-      expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint"></textarea>`)).toBe(true);
+    it('And object html contains textarea', () => {
+      expect(block.htmlNode.querySelector('textarea.govuk-textarea')).not.toBe(null);
     });
 
     it('And hint is undefined', () => {
@@ -149,8 +149,8 @@ describe('ValueBlock', () => {
         expect(block.value).toBe('NEW_VALUE');
       });
 
-      it('And html should be updated', () => {
-        expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint">NEW_VALUE</textarea>`)).toBe(true);
+      it('And html should be updated with new textarea value', () => {
+        expect(block.htmlNode.querySelector('textarea.govuk-textarea').value).toEqual('NEW_VALUE');
       });
     });
 
@@ -165,7 +165,7 @@ describe('ValueBlock', () => {
       });
 
       it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint"></textarea>`)).toBe(true);
+        expect(block.htmlNode.querySelector('textarea.govuk-textarea').value).toEqual('');
       });
     });
   });

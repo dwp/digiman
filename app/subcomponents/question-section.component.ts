@@ -10,32 +10,39 @@ import { OptionBlockInterface } from '../interfaces/option-block.interface';
 import { ValueBlockInterface } from '../interfaces/value-block.interface';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { QuestionSectionInterface } from '../interfaces/question-section.interface';
-import { BlockType } from '../enums/block-type.enum';
+import { BlockFactory } from '../factories/block.factory';
+import { createElement } from '../vendor/utils/index.utils';
 
 export class QuestionSection {
 
   private _contentBlocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock)[] = [];
   private _decisionBlock: DecisionBlock;
-  private _html: string;
   private _readOnly: boolean;
   private _id: string;
   private _digimanId: string;
+  private _htmlNode: HTMLElement;
+  private _blockFactory: BlockFactory;
 
   constructor(data: QuestionSectionInterface) {
-    this._html = null;
+    this._htmlNode = null;
     this._readOnly = data.readOnly;
     this._id = data.id;
     this._digimanId = data.digimanId;
+    this._blockFactory = new BlockFactory();
 
     this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], data.question as DecisionBlockInterface);
   }
 
-  get html(): string {
-    return this._html;
+  get htmlNode(): HTMLElement {
+    return this._htmlNode;
   }
 
   get readOnly(): boolean {
     return this._readOnly;
+  }
+
+  set readOnly(readOnly: boolean) {
+    this._readOnly = readOnly;
   }
 
   get decisionBlock(): DecisionBlock {
@@ -63,7 +70,7 @@ export class QuestionSection {
   * Builds the HTML for the question section object out of content blocks and decision block
   **/
   updateView() {
-    this._html = this._createView();
+    this._htmlNode = this._createView();
   }
 
   resetAllFormBlocksState() {
@@ -78,69 +85,39 @@ export class QuestionSection {
 
   _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], questions: DecisionBlockInterface) {
     // create block for each object in content[]
-    this._createContentBlocks(content as (ValueBlock | ContentBlock | OptionBlock | DateBlock)[]);
+    this._createContentBlocks(content);
 
     // create one decision block for object (radio)
     if (questions) {
-      this._createDecisionBlock(questions as DecisionBlockInterface);
+      this._createDecisionBlock(questions);
     }
 
-    // create HTML string
     this.updateView();
   }
 
-  _createDecisionBlock(blockData: DecisionBlockInterface) {
-    blockData.readOnly = this.readOnly;
-    this._decisionBlock = new DecisionBlock(blockData);
+  _createDecisionBlock(block: DecisionBlockInterface) {
+    this._decisionBlock = this._blockFactory.createDecisionBlock(block, this.readOnly);
   }
 
-  _createContentBlocks(blocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock)[]) {
+  _createContentBlocks(blocks: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[]) {
     for (let block of blocks) {
-      if (block.type === BlockType.TEXT_INPUT || block.type === BlockType.TEXTAREA) {
-        this._createValueBlock(block as ValueBlockInterface);
-      } else if (block.type === BlockType.CHECKBOX || block.type === BlockType.RADIO) {
-        this._createOptionBlock(block as OptionBlockInterface);
-      } else if (block.type === BlockType.DATE) {
-        this._createDateBlock(block as DateBlockInterface);
-      } else {
-        this._createContentBlock(block as ContentBlockInterface);
-      }
+      this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly));
     }
   }
 
-  _createValueBlock(block: ValueBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new ValueBlock(block as ValueBlockInterface));
-  }
-
-  _createDateBlock(block: DateBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new DateBlock(block as DateBlockInterface));
-  }
-
-  _createOptionBlock(block: OptionBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new OptionBlock(block as OptionBlockInterface));
-  }
-
-  _createContentBlock(block: ContentBlockInterface) {
-    this._contentBlocks.push(new ContentBlock(block as ContentBlockInterface));
-  }
-
-  _createView(): string {
-    let startHtml = `<div class="question-section" id="${this._digimanId}__${this.id}" data-current-state="${this.id}" data-next-state="${this.decisionBlock.nextSection}" data-selected-option-id="${this.decisionBlock.selectedOptionId}">`;
-    let endHtml = '</div>'
+  _createView(): HTMLElement {
+    let questionNode = createElement(`<div class="question-section" id="${this._digimanId}__${this.id}" data-current-state="${this.id}" data-next-state="${this.decisionBlock.nextSection}" data-selected-option-id="${this.decisionBlock.selectedOptionId}"></div>`);
 
     //create html per each block
-    this.contentBlocks.forEach((block) => {
-      startHtml += block.html;
-    });
-
-    //add html for decisions
-    if (this.decisionBlock && this.decisionBlock.html) {
-      startHtml += this.decisionBlock.html;
+    for (let block of this.contentBlocks) {
+      questionNode.append(block.htmlNode);
     }
 
-    return startHtml + endHtml;
+    //add html for decisions
+    if (this.decisionBlock && this.decisionBlock.htmlNode) {
+      questionNode.append(this.decisionBlock.htmlNode);
+    }
+
+    return questionNode;
   }
 }
