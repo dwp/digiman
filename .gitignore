@@ -2,3 +2,4 @@ node_modules
 dist
 .idea
 test-reports
+.DS_Store

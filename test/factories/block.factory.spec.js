@@ -374,8 +374,8 @@ describe('Block Factory', () => {
             expect(block._DEFAULT_HINT_TEXT).toEqual('For example, 31 3 2018');
         });
 
-        it('And object does not have _value property', () => {
-            expect(block._value).toBe(undefined);
+        it('And _value property is null', () => {
+            expect(block._value).toBe(null);
         });
 
         it('And object have declared but assigned _day property', () => {

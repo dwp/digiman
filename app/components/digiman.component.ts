@@ -14,10 +14,10 @@ import { DigimanStateCheck } from '../interfaces/digiman-state-check.interface';
 import { DigimanStateProgress } from '../interfaces/digiman-state-progress.interface';
 import { StateFormBlock } from '../interfaces/state-form-block.interface';
 import { DigimanMode } from '../enums/digiman-mode.enum';
-import { BlockType } from '../enums/block-type.enum';
-import { DigimanDate } from '../enums/digiman-date.enum';
 import { DigimanState } from '../enums/digiman-state.enum';
 import { DateFieldsComponent } from '../vendor/components/date-fields.component';
+import debounce from '../utils/debounce.utils';
+import { BlockType } from '../enums/block-type.enum';
 
 export class Digiman {
   private START_STATE: string = 'qb-start-id';
@@ -29,6 +29,7 @@ export class Digiman {
   private IS_READ_ONLY: boolean;
   private IS_LOAD_ON_CLICK: boolean;
   private AUTO_SAVE_ON_COMPLETION: boolean; 
+  private AUTO_SAVE_ON_COMPLETION_ENABLED: boolean; 
   private STATE_ENDPOINT: string;
   private POST_STATE_ENDPOINT: string;
   private GENERAL_ERROR: string;
@@ -36,6 +37,10 @@ export class Digiman {
   private spinner?: HTMLElement;
   private errorNode: HTMLElement;
   private container: HTMLElement;
+  private debouncedSendState: Function;
+  private formElement: HTMLFormElement;
+  private statusCallInProgress: boolean = false;
+  private completionQuery: string = '?postCompletionState=true';
 
   constructor(element: HTMLElement) {
     this.container = element;
@@ -48,12 +53,17 @@ export class Digiman {
     this.GENERAL_ERROR = this.container.dataset.generalError;
     this.csrfToken = this.container.querySelector('[name="csrfToken"]');
     this.spinner = (this.container.querySelector('.spinner__template')) ? createElement(this.container.querySelector('.spinner__template').innerHTML) : null;
+    this.debouncedSendState = debounce(this.sendState.bind(this, this.postCompletionQuery), 300);
 
     if (!this.IS_LOAD_ON_CLICK) {
       this.init();
     } else {
       this.bindLoadEvents();
     }
+  }
+
+  get postCompletionQuery() {
+    return (this.AUTO_SAVE_ON_COMPLETION_ENABLED) ? this.completionQuery : '';
   }
 
   init() {
@@ -147,7 +157,7 @@ export class Digiman {
       this.renderSection(this.getQuestionSectionById(nextSectionId as string).htmlNode);
     } else if (nextSectionId === DigimanState.DONE) {
       if (this.AUTO_SAVE_ON_COMPLETION) {
-        //TODO allow constant saves
+        this.AUTO_SAVE_ON_COMPLETION_ENABLED = true;
       }
     }
   }
@@ -172,6 +182,10 @@ export class Digiman {
     delegateEvent(this.container, 'blur', 'textarea, input[type="text"], input[type="tel"]', this.handleBlur.bind(this), { useCapture: true });
     delegateEvent(this.container, 'click', '.date-picker__link', this.handleDatePickerClick.bind(this));
     delegateEvent(this.container, 'input', 'input[type="tel"]', this.handleNumericInput.bind(this));
+
+    if (this.AUTO_SAVE_ON_COMPLETION) {
+      delegateEvent(document.querySelector('body'), 'submit', 'form', this.handleFormSubmit.bind(this));
+    }
   }
 
   bindLoadEvents() {
@@ -200,25 +214,51 @@ export class Digiman {
     if (qsNode && qsNode.dataset.currentState) {
       const qs: QuestionSection = this.getQuestionSectionById(qsNode.dataset.currentState as string);
       const dateBlock: DateBlock = qs.getContentBlockById(dateFieldsId) as DateBlock;
+      const oldValue: number = dateBlock.value;
 
       const day: HTMLInputElement = this.container.querySelector(`#id-section-${dateFieldsId} .day`);
       const month: HTMLInputElement = this.container.querySelector(`#id-section-${dateFieldsId} .month`);
       const year: HTMLInputElement = this.container.querySelector(`#id-section-${dateFieldsId} .year`);
 
-      this.updateDateBlockDay(dateBlock, day.value);
-      this.updateDateBlockMonth(dateBlock, month.value);
-      this.updateDateBlockYear(dateBlock, year.value);
+      dateBlock.day = day.value;
+      dateBlock.month = month.value;
+      dateBlock.year = year.value;
 
       dateBlock.updateValue();
+
+      if (this.AUTO_SAVE_ON_COMPLETION_ENABLED && dateBlock.value !== oldValue) {
+        this.state = stateService(this.questionSections as QuestionSection[]);
+        this.debouncedSendState(this.postCompletionQuery);
+      }
     }
   }
 
   handleBlur(e: Event) {
-    const target = e.target;
+    const target = e.target as HTMLInputElement;
     let qsNode = returnAncestorWithClass(target, 'question-section');
-
+    
     if (qsNode && qsNode.dataset.currentState) {
-      this.updateFormBlockState(target as HTMLInputElement, qsNode.dataset.currentState as string);
+      let formBlock = this.findFormBlock(qsNode.dataset.currentState as string, target.name as string) as ValueBlock | DateBlock;
+      const currentValue = (formBlock instanceof DateBlock) ? formBlock.getDateBlockState(target.dataset.type) : formBlock.value;
+
+      if (currentValue !== target.value) {
+        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+        this.saveState();
+      }
+    }
+  }
+
+  findFormBlock(questionSectionId: string, contentBlockId: string) {
+    const qs: QuestionSection = this.getQuestionSectionById(questionSectionId);
+    return qs.getContentBlockById(contentBlockId) as ValueBlock | OptionBlock | DateBlock;
+  }
+
+  saveState() {
+    if (this.AUTO_SAVE_ON_COMPLETION_ENABLED) {
+      //set statusCallInProgress to true before debounce delay is applied
+      this.statusCallInProgress = true;
+      this.state = stateService(this.questionSections as QuestionSection[]);
+      this.debouncedSendState(this.postCompletionQuery);
     }
   }
 
@@ -262,16 +302,30 @@ export class Digiman {
           optionId: newOptionId
         } as DigimanStateProgress);
 
-        if (this.AUTO_SAVE_ON_COMPLETION) {
-          if (isEndState && target.checked) {
-            //TODO allow constant saves
-          } else if (isEndState && !target.checked) {
-            //TODO disable constant saves
-          }
+        if (this.AUTO_SAVE_ON_COMPLETION && isEndState) {
+          this.AUTO_SAVE_ON_COMPLETION_ENABLED = target.checked;
+        } else if (this.AUTO_SAVE_ON_COMPLETION && !isEndState) {
+          this.AUTO_SAVE_ON_COMPLETION_ENABLED = false;
         }
       }
     } else {
-      this.updateFormBlockState(target as HTMLInputElement, qsNode.dataset.currentState as string);
+      let qs: QuestionSection = this.getQuestionSectionById(qsNode.dataset.currentState as string);
+      let formBlock = qs.getContentBlockById(target.name as string) as OptionBlock;
+
+      if (formBlock.type === BlockType.CHECKBOX) {
+        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+        this.saveState();
+      } else if (formBlock.type === BlockType.RADIO) {
+        let selectedOption: any = formBlock.options.find((option) => {
+          return option.selected
+        });
+
+        if (selectedOption === undefined || selectedOption.value !== target.value) {
+          this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+          this.saveState();
+        }
+      }
+      
     }
   }
 
@@ -290,7 +344,7 @@ export class Digiman {
     this.state = stateService(this.questionSections as QuestionSection[]);
 
     //make a call to send state
-    this.sendState();
+    this.debouncedSendState(this.postCompletionQuery);
   }
 
   /**
@@ -366,59 +420,31 @@ export class Digiman {
     return this.questionSections.find(section => section.id === sectionId);
   }
 
+  /**
+   * Update the form block on the load from the state data
+   * @param qs 
+   * @param formFields 
+   */
   updateFormChoices(qs: QuestionSection, formFields: StateFormBlock[]) {
     formFields.forEach((field) => {
       let formBlock = qs.getContentBlockById(field.id as string) as ValueBlock | OptionBlock | DateBlock;
-      
-      if (formBlock.type === BlockType.DATE) {
-        this.setDateFormBlockState(formBlock as DateBlock, field.value as number);
-      } else {
-        this.setFormBlockState(formBlock as OptionBlock, field.value as string, true);
-      }
+      this.updateFormBlockState(formBlock, field.value, null, true);
     });
   }
 
-  setDateFormBlockState(formBlock: DateBlock, value: number) {
-    formBlock.setState(value as number);
-  }
-
-  setFormBlockState(formBlock: OptionBlock, value: string, checked: boolean) {
-    formBlock.setState(value as string, checked);
-  }
-
-  updateFormBlockState(target: HTMLInputElement, qsId: string) {
-    let qs: QuestionSection = this.getQuestionSectionById(qsId as string);
-    let formBlock = qs.getContentBlockById(target.name as string) as ValueBlock | OptionBlock | DateBlock;
-
-    if (formBlock.type === BlockType.DATE) {
-      this.updateDateBlockState(formBlock as DateBlock, target);
+  /**
+   * Update of form block
+   * @param target 
+   * @param formBlock 
+   */
+  updateFormBlockState(formBlock: ValueBlock | OptionBlock | DateBlock, value: string | number, type?: string, isChecked?: boolean) {
+    if (formBlock instanceof DateBlock) {
+      formBlock.setState(value, type);
+    } else if (formBlock instanceof ValueBlock) {
+      formBlock.setState(value as string);
     } else {
-      this.setFormBlockState(formBlock as OptionBlock, target.value as string, target.checked as boolean);
+      formBlock.setState(value as string, isChecked);
     }
-  }
-
-  updateDateBlockState(dateBlock: DateBlock, target: HTMLInputElement) {
-    if (target.dataset.type === DigimanDate.DAY) {
-      this.updateDateBlockDay(dateBlock, target.value);
-    } else if (target.dataset.type === DigimanDate.MONTH) {
-      this.updateDateBlockMonth(dateBlock, target.value);
-    } else if (target.dataset.type === DigimanDate.YEAR) {
-      this.updateDateBlockYear(dateBlock, target.value);
-    }
-
-    dateBlock.updateValue();
-  }
-
-  updateDateBlockDay(dateBlock: DateBlock, value: string) {
-    dateBlock.day = value;
-  }
-
-  updateDateBlockMonth(dateBlock: DateBlock, value: string) {
-    dateBlock.month = value;
-  }
-
-  updateDateBlockYear(dateBlock: DateBlock, value: string) {
-    dateBlock.year = value;
   }
 
   renderSection(sectionNode: HTMLElement) {
@@ -488,7 +514,7 @@ export class Digiman {
     });
   }
 
-  sendState() {
+  sendState(thisArg: any, [...queryParameters]: string[]) {
     let stateData = {
       'definitionType': this.json_meta.definitionType,
       'definitionVersion': this.json_meta.definitionVersion,
@@ -499,13 +525,26 @@ export class Digiman {
     FetchService.fetchData(
       {
         type: 'POST',
-        url: this.POST_STATE_ENDPOINT,
+        url: this.POST_STATE_ENDPOINT + queryParameters,
         body: JSON.stringify(stateData),
         csrfToken: this.csrfToken.value,
         contentType: 'application/json',
         acceptHeader: '*/*'
       }
-    );
+    ).then(() => {
+      this.statusCallInProgress = false;
+      if (this.AUTO_SAVE_ON_COMPLETION_ENABLED && this.formElement) {  
+        this.formElement.submit();
+      }
+    });
+  }
+
+  handleFormSubmit(e: Event) {
+    if (this.AUTO_SAVE_ON_COMPLETION_ENABLED && this.statusCallInProgress) {
+      e.preventDefault();
+
+      this.formElement = e.target as HTMLFormElement;
+    }
   }
 
   handleModelSuccessResponse(json: DefinitionMeta) {

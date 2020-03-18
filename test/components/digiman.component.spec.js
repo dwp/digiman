@@ -14,6 +14,61 @@ describe('Digiman', () => {
         "digimanId": "verify_bank-1.0-edit",
         "contents" : [
           {
+            "type": "TEXT_INPUT",
+            "id": "text-input-test",
+            "label": "Input box label",
+            "hint": "Input box hint",
+            "readOnly": false
+          },
+          {
+            "type": "TEXTAREA",
+            "id": "textarea-test",
+            "label": "Textarea label",
+            "hint": "Textarea hint",
+            "readOnly": false
+          },
+          {
+            "type": "DATE",
+            "id": "date-input-test",
+            "label": "Date label",
+            "hint": "",
+            "readOnly": false
+          },
+          {
+            "type": "CHECKBOX",
+            "id": "checkbox-input-test",
+            "label": "Checkbox label",
+            "hint": "Checkbox hint",
+            "readOnly": false,
+            "options": [
+             {
+              "value": "checkbox-input-test-1_0",
+              "text": "Option 1"
+             },
+             {
+              "value": "checkbox-input-test-2_1",
+              "text": "Option 2"
+             }
+            ]
+          },
+          {
+            "type": "RADIO",
+            "id": "radio-input-test",
+            "label": "Radio label",
+            "hint": "Radio hint",
+            "readOnly": false,
+            "options": [
+              {
+              "value": "radio-input-test-1_0",
+              "text": "Option 1"
+              },
+              {
+              "value": "radio-input-test-2_1",
+              "text": "Option 2"
+              }
+            ]
+          },
+          {
             "type": "HINT",
             "content": "Paragraph of page level hint."
           },
@@ -205,6 +260,9 @@ describe('Digiman', () => {
   const editFixture = `<div class="panel digiman" id="digiman-test" data-read-only="false" data-state-endpoint="test-endpoint.com" data-general-error="Error">
     ${fixture}
   </div>`;
+  const editWithAutosaveFixture = `<div class="panel digiman" id="digiman-test-autosave" data-auto-save-on-completion="true" data-read-only="false" data-state-endpoint="test-endpoint.com" data-general-error="Error">
+    ${fixture}
+  </div>`;
   const readFixture = `<div class="panel digiman" id="digiman-test-read" data-read-only="true" data-state-endpoint="test-endpoint.com" data-general-error="Error">
     ${fixture}
   </div>`;
@@ -256,6 +314,10 @@ describe('Digiman', () => {
 
     it('And state is defined', () => {
       expect(digimanComponent.state).toEqual([]);
+    });
+
+    it('And postCompletionQuery to be empty string', () => {
+      expect(digimanComponent.postCompletionQuery).toEqual('');
     });
 
     describe('When Digiman model is loaded', () => {
@@ -387,17 +449,13 @@ describe('Digiman', () => {
       });
 
       describe('When updateFormBlockState is called', () => {
+        let inputBlock, dateBlock;
         beforeEach(() => {
-          const target = { name: 'qb-question-id_input-id', value: 'TestValue' };
-          const targetDay = { name: 'qb-question-id_date-id', value: '01', dataset: { type: 'day' } };
-          const targetMonth = { name: 'qb-question-id_date-id', value: '10', dataset: { type: 'month' } };
-          const invalidTargetYear = { name: 'qb-question-id_date-id', value: 'qwer', dataset: { type: 'year' } };
-          const qsId = 'qb-question-id';
+          inputBlock = digimanComponent.questionSections[1].getContentBlockById('qb-question-id_input-id');
+          dateBlock = digimanComponent.questionSections[1].getContentBlockById('qb-question-id_date-id');
 
-          digimanComponent.updateFormBlockState(target, qsId);
-          digimanComponent.updateFormBlockState(targetDay, qsId);
-          digimanComponent.updateFormBlockState(targetMonth, qsId);
-          digimanComponent.updateFormBlockState(invalidTargetYear, qsId);
+          digimanComponent.updateFormBlockState(inputBlock, 'TestValue');
+          digimanComponent.updateFormBlockState(dateBlock, 20001001);
         });
 
         it('Then value is updated to TestValue', () => {
@@ -409,17 +467,14 @@ describe('Digiman', () => {
         });
       });
 
-      describe('When updateDateBlockState is called', () => {
+      describe('When updateFormBlockState for DATE block is called', () => {
         let dateBlock;
         beforeEach(() => {
-          const targetDay = { name: 'date-id', value: '01', dataset: { type: 'day' } };
-          const targetMonth = { name: 'qdate-id', value: '12', dataset: { type: 'month' } };
-          const targetYear = { name: 'date-id', value: '1999', dataset: { type: 'year' } };
           dateBlock = new DateBlock({id: 'qb-question-id_date-id', type: 'DATE', label: 'Date Label', hint: null, readOnly: false});
 
-          digimanComponent.updateDateBlockState(dateBlock, targetDay);
-          digimanComponent.updateDateBlockState(dateBlock, targetMonth);
-          digimanComponent.updateDateBlockState(dateBlock, targetYear);
+          digimanComponent.updateFormBlockState(dateBlock, '01', 'day');
+          digimanComponent.updateFormBlockState(dateBlock, '12', 'month');
+          digimanComponent.updateFormBlockState(dateBlock, '1999', 'year');
         });
 
         afterEach(() => {
@@ -440,33 +495,6 @@ describe('Digiman', () => {
 
         it('Then value of date component is updated to 19991201', () => {
           expect(dateBlock.value).toBe(19991201);
-        });
-      });
-
-      describe('When updateDateBlock is called', () => {
-        let dateBlock;
-        beforeEach(() => {
-          dateBlock = new DateBlock({id: 'qb-question-id_date-id', type: 'DATE', label: 'Date Label', hint: null, readOnly: false});
-
-          digimanComponent.updateDateBlockDay(dateBlock, '01');
-          digimanComponent.updateDateBlockMonth(dateBlock, '02');
-          digimanComponent.updateDateBlockYear(dateBlock, '1899');
-        });
-
-        afterEach(() => {
-          dateBlock = null;
-        });
-
-        it('Then day is set to 01', () => {
-          expect(dateBlock.day).toBe('01');
-        });
-
-        it('And month is set to 02', () => {
-          expect(dateBlock.month).toBe('02');
-        });
-
-        it('And year is set to 1899', () => {
-          expect(dateBlock.year).toBe('1899');
         });
       });
 
@@ -691,7 +719,7 @@ describe('Digiman', () => {
         let optionBlock;
         beforeEach(() => {
           optionBlock = digimanComponent.getQuestionSectionById('qb-question-id').getContentBlockById('qb-question-id_checkbox-id');
-          digimanComponent.setFormBlockState(optionBlock, 'letter', true);
+          optionBlock.setState('letter', true);
         });
 
         it('Then qb-question-id_checkbox-id CHECKBOX is selected', () => {
@@ -700,8 +728,8 @@ describe('Digiman', () => {
 
         describe('When another state is set for Option Block', () => {
           beforeEach(() => {
-            digimanComponent.setFormBlockState(optionBlock, 'letter', true);
-            digimanComponent.setFormBlockState(optionBlock, 'letter', false);
+            optionBlock.setState('letter', true);
+            optionBlock.setState('letter', false);
           });
 
           it('And the qb-question-id_checkbox-id CHECKBOX is unselected', () => {
@@ -723,7 +751,7 @@ describe('Digiman', () => {
 
           spyOn(digimanComponent, 'resetStateTree');
           spyOn(digimanComponent, 'setNextState');
-          spyOn(digimanComponent, 'sendState');
+          spyOn(digimanComponent, 'debouncedSendState');
 
           digimanComponent.handleDecisionBlockClick(options);
         });
@@ -736,8 +764,8 @@ describe('Digiman', () => {
           expect(digimanComponent.setNextState).toHaveBeenCalled();
         });
 
-        it('And sendState is called', () => {
-          expect(digimanComponent.sendState).toHaveBeenCalled();
+        it('And debouncedSendState is called', () => {
+          expect(digimanComponent.debouncedSendState).toHaveBeenCalled();
         });
 
         it('And state is updated', () => {
@@ -769,7 +797,7 @@ describe('Digiman', () => {
 
           spyOn(digimanComponent, 'resetStateTree');
           spyOn(digimanComponent, 'setNextState');
-          spyOn(digimanComponent, 'sendState');
+          spyOn(digimanComponent, 'debouncedSendState');
 
           digimanComponent.handleDecisionBlockClick(options);
         });
@@ -782,8 +810,168 @@ describe('Digiman', () => {
           expect(digimanComponent.setNextState).toHaveBeenCalled();
         });
 
-        it('And sendState is called', () => {
-          expect(digimanComponent.sendState).toHaveBeenCalled();
+        it('And debouncedSendState is called', () => {
+          expect(digimanComponent.debouncedSendState).toHaveBeenCalled();
+        });
+      });
+
+      describe('When Digiman first decision block is selected', () => {
+        beforeEach(() => {
+          let node = document.getElementById('qb-start-id_decision-qb-end-yes-end-id');
+          node.checked = true;
+  
+          const event = {
+            target: node
+          };
+          digimanComponent.handleClick(event); 
+        });
+  
+        describe('When content blocks are modified', () => {
+  
+          beforeEach(() => {
+            //Text input
+            let inputBox = element.querySelector('#text-input-test');
+            inputBox.value = 'changing state text input';
+  
+            const inputEvent = {
+              target: inputBox
+            };
+            
+            digimanComponent.handleBlur(inputEvent);
+  
+            //Textarea
+            let textArea = element.querySelector('#textarea-test');
+            textArea.value = 'changing state textarea';
+  
+            const textAreaEvent = {
+              target: textArea
+            };
+            
+            digimanComponent.handleBlur(textAreaEvent);
+  
+            //Date inputs
+            let dateDay = element.querySelector('#id-section-date-input-test .day');
+            let dateMonth = element.querySelector('#id-section-date-input-test .month');
+            let dateYear = element.querySelector('#id-section-date-input-test .year');
+            dateDay.value = '10';
+            dateMonth.value = '10';
+            dateYear.value = '2010';
+  
+            const dateEvent = {
+              target: dateYear
+            };
+            
+            digimanComponent.handleBlur(dateEvent);
+  
+            //Radio options
+            let radioOption = element.querySelector('#radio-input-test-radio-input-test-1_0');
+            radioOption.checked = true;
+  
+            const radioEvent = {
+              target: radioOption
+            };
+            
+            digimanComponent.handleClick(radioEvent);
+  
+            //Checkbox options
+            let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-1_0');
+            checkboxOption.checked = true;
+  
+            const checkboxEvent = {
+              target: checkboxOption
+            };
+            
+            digimanComponent.handleClick(checkboxEvent);
+          });
+  
+          it('Then state is not updated', () => {
+            expect(digimanComponent.state[0].data).toEqual(undefined);
+          });
+        });
+  
+        describe('When Digiman state is loaded with partially completed state', () => {
+          it('Then postCompletionQuery is an empty string', () => {
+            expect(digimanComponent.postCompletionQuery).toEqual('');
+          });
+        });
+  
+        describe('When DONE checkbox is clicked', () => {
+          beforeEach(() => {
+            let endNode = document.getElementById('qb-end-yes-action-question-id_decision-done');
+            endNode.checked = true;
+  
+            const event = {
+              target: endNode
+            };
+            digimanComponent.handleClick(event);
+          });
+  
+          it('Then postCompletionQuery is set to empty string', () => {
+            expect(digimanComponent.postCompletionQuery).toEqual('');
+          });
+  
+          describe('When a content blocks are modified', () => {
+  
+            beforeEach(() => {
+              //Text input
+              let inputBox = element.querySelector('#text-input-test');
+              inputBox.value = 'changing state text input 2';
+    
+              const inputEvent = {
+                target: inputBox
+              };
+              
+              digimanComponent.handleBlur(inputEvent);
+    
+              //Textarea
+              let textArea = element.querySelector('#textarea-test');
+              textArea.value = 'changing state textarea 2';
+    
+              const textAreaEvent = {
+                target: textArea
+              };
+              
+              digimanComponent.handleBlur(textAreaEvent);
+    
+              //Date inputs
+              let dateDay = element.querySelector('#id-section-date-input-test .day');
+              let dateMonth = element.querySelector('#id-section-date-input-test .month');
+              let dateYear = element.querySelector('#id-section-date-input-test .year');
+              dateDay.value = '11';
+              dateMonth.value = '11';
+              dateYear.value = '2011';
+    
+              const dateEvent = {
+                target: dateYear
+              };
+              
+              digimanComponent.handleBlur(dateEvent);
+    
+              //Radio options
+              let radioOption = element.querySelector('#radio-input-test-radio-input-test-2_1');
+              radioOption.checked = true;
+    
+              const radioEvent = {
+                target: radioOption
+              };
+              
+              digimanComponent.handleClick(radioEvent);
+    
+              //Checkbox options
+              let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-2_1');
+              checkboxOption.checked = true;
+    
+              const checkboxEvent = {
+                target: checkboxOption
+              };
+              
+              digimanComponent.handleClick(checkboxEvent);
+            });
+  
+            it('Then state is updated', () => {
+              expect(digimanComponent.state[0].data).toEqual(undefined);
+            });
+          });
         });
       });
     });
@@ -941,6 +1129,188 @@ describe('Digiman', () => {
 
     it('And error message contains refresh link', () => {
       expect(digimanComponent.errorNode.innerHTML.indexOf('digiman__refresh-button') > 0).toBe(true);
+    });
+  });
+
+  describe('When Digiman Component is initialised with auto save', () => {
+
+    beforeEach(() => {
+      body.insertAdjacentHTML('beforeend', editWithAutosaveFixture);
+      element = document.getElementById('digiman-test-autosave');
+      digimanComponent = new Digiman(element);
+    });
+
+    describe('When Digiman model and state is loaded', () => {
+      beforeEach(() => {
+        let modelJsonTemplate = JSON.parse(JSON.stringify(modelJSON));
+        let stateJsonTemplate = JSON.parse(JSON.stringify(stateJSON));
+
+        spyOn(digimanComponent, 'fetchModel').and.callFake(() => {
+          digimanComponent.handleModelSuccessResponse(modelJsonTemplate);
+        });
+
+        digimanComponent.handleStateSuccessResponse(stateJsonTemplate);
+
+        let node = document.getElementById('qb-start-id_decision-qb-end-yes-end-id');
+        node.checked = true;
+
+        const event = {
+          target: node
+        };
+        digimanComponent.handleClick(event); 
+      });
+
+      describe('When content blocks are modified', () => {
+
+        beforeEach(() => {
+          //Text input
+          let inputBox = element.querySelector('#text-input-test');
+          inputBox.value = 'changing state text input';
+
+          const inputEvent = {
+            target: inputBox
+          };
+          
+          digimanComponent.handleBlur(inputEvent);
+
+          //Textarea
+          let textArea = element.querySelector('#textarea-test');
+          textArea.value = 'changing state textarea';
+
+          const textAreaEvent = {
+            target: textArea
+          };
+          
+          digimanComponent.handleBlur(textAreaEvent);
+
+          //Date inputs
+          let dateDay = element.querySelector('#id-section-date-input-test .day');
+          let dateMonth = element.querySelector('#id-section-date-input-test .month');
+          let dateYear = element.querySelector('#id-section-date-input-test .year');
+          dateDay.value = '10';
+          dateMonth.value = '10';
+          dateYear.value = '2010';
+
+          const dateEvent = {
+            target: dateYear
+          };
+          
+          digimanComponent.handleBlur(dateEvent);
+
+          //Radio options
+          let radioOption = element.querySelector('#radio-input-test-radio-input-test-1_0');
+          radioOption.checked = true;
+
+          const radioEvent = {
+            target: radioOption
+          };
+          
+          digimanComponent.handleClick(radioEvent);
+
+          //Checkbox options
+          let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-1_0');
+          checkboxOption.checked = true;
+
+          const checkboxEvent = {
+            target: checkboxOption
+          };
+          
+          digimanComponent.handleClick(checkboxEvent);
+        });
+
+        it('Then state is not updated', () => {
+          expect(digimanComponent.state[0].data).toEqual(undefined);
+        });
+      });
+
+      describe('When Digiman state is loaded with partially completed state', () => {
+        it('Then postCompletionQuery is an empty string', () => {
+          expect(digimanComponent.postCompletionQuery).toEqual('');
+        });
+      });
+
+      describe('When DONE checkbox is clicked', () => {
+        beforeEach(() => {
+          let endNode = document.getElementById('qb-end-yes-action-question-id_decision-done');
+          endNode.checked = true;
+
+          const event = {
+            target: endNode
+          };
+          digimanComponent.handleClick(event);
+        });
+
+        it('Then postCompletionQuery is set to ?postCompletionState=true', () => {
+          expect(digimanComponent.postCompletionQuery).toEqual('?postCompletionState=true');
+        });
+
+        describe('When a content blocks are modified', () => {
+
+          beforeEach(() => {
+            //Text input
+            let inputBox = element.querySelector('#text-input-test');
+            inputBox.value = 'changing state text input 2';
+  
+            const inputEvent = {
+              target: inputBox
+            };
+            
+            digimanComponent.handleBlur(inputEvent);
+  
+            //Textarea
+            let textArea = element.querySelector('#textarea-test');
+            textArea.value = 'changing state textarea 2';
+  
+            const textAreaEvent = {
+              target: textArea
+            };
+            
+            digimanComponent.handleBlur(textAreaEvent);
+  
+            //Date inputs
+            let dateDay = element.querySelector('#id-section-date-input-test .day');
+            let dateMonth = element.querySelector('#id-section-date-input-test .month');
+            let dateYear = element.querySelector('#id-section-date-input-test .year');
+            dateDay.value = '11';
+            dateMonth.value = '11';
+            dateYear.value = '2011';
+  
+            const dateEvent = {
+              target: dateYear
+            };
+            
+            digimanComponent.handleBlur(dateEvent);
+  
+            //Radio options
+            let radioOption = element.querySelector('#radio-input-test-radio-input-test-2_1');
+            radioOption.checked = true;
+  
+            const radioEvent = {
+              target: radioOption
+            };
+            
+            digimanComponent.handleClick(radioEvent);
+  
+            //Checkbox options
+            let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-2_1');
+            checkboxOption.checked = true;
+  
+            const checkboxEvent = {
+              target: checkboxOption
+            };
+            
+            digimanComponent.handleClick(checkboxEvent);
+          });
+
+          it('Then state is updated', () => {
+            expect(digimanComponent.state[0].data).toEqual([
+              {id: 'text-input-test', value: 'changing state text input 2'}, 
+              {id: 'textarea-test', value: 'changing state textarea 2'}, 
+              {id: 'checkbox-input-test', value: 'checkbox-input-test-2_1'}, 
+              {id: 'radio-input-test', value: 'radio-input-test-2_1'}]);
+          });
+        });
+      });
     });
   });
 });
