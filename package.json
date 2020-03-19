@@ -19,13 +19,7 @@
     "test:dev": "karma start karma.conf.js",
     "test": "karma start karma.conf.js --single-run --environment production",
     "server": "node server/server.js",
-    "version": "auto-changelog -p"
-  },
-  "auto-changelog": {
-    "output": "CHANGELOG.md",
-    "template": "keepachangelog",
-    "unreleased": true,
-    "commitLimit": false
+    "version": "auto-changelog -p -t keepachangelog -o CHANGELOG.md -l false --sort-commits date"
   },
   "dependencies": {
     "@babel/core": "7.4.0",
