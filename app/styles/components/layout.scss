@@ -19,7 +19,7 @@ ol, ul {
     visibility: hidden;
 }
 
-.visually-hidden {
+.visuallyhidden {
     position: absolute;
     left: -9999em;
     top: auto;
@@ -28,10 +28,10 @@ ol, ul {
     overflow: hidden;
 }
 
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:active,
-.visually-hidden.focusable:focus {
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
     clip: auto;
     height: auto;
     margin: 0;

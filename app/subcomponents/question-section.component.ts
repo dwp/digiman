@@ -22,10 +22,14 @@ export class QuestionSection {
   private _digimanId: string;
   private _htmlNode: HTMLElement;
   private _blockFactory: BlockFactory;
+  private _hasIntroductionHeading: boolean;
+  private _isSectionWithIntroductionHeading: boolean;
 
   constructor(data: QuestionSectionInterface) {
     this._htmlNode = null;
     this._readOnly = data.readOnly;
+    this._hasIntroductionHeading = data.hasIntroductionHeading;
+    this._isSectionWithIntroductionHeading = false;
     this._id = data.id;
     this._digimanId = data.digimanId;
     this._blockFactory = new BlockFactory();
@@ -35,6 +39,10 @@ export class QuestionSection {
 
   get htmlNode(): HTMLElement {
     return this._htmlNode;
+  }
+
+  get hasIntroductionHeading(): boolean {
+    return this._hasIntroductionHeading;
   }
 
   get readOnly(): boolean {
@@ -83,7 +91,7 @@ export class QuestionSection {
     });
   }
 
-  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], questions: DecisionBlockInterface) {
+  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], questions: DecisionBlockInterface) {    
     // create block for each object in content[]
     this._createContentBlocks(content);
 
@@ -100,9 +108,10 @@ export class QuestionSection {
   }
 
   _createContentBlocks(blocks: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[]) {
-    for (let block of blocks) {
-      this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly));
-    }
+    blocks.forEach((block, index) => {
+      this._isSectionWithIntroductionHeading = this._hasIntroductionHeading && this._id === 'qb-start-id' && index === 0;
+      this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly, this._hasIntroductionHeading, this._isSectionWithIntroductionHeading));
+    });
   }
 
   _createView(): HTMLElement {

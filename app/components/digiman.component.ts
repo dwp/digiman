@@ -41,6 +41,7 @@ export class Digiman {
   private formElement: HTMLFormElement;
   private statusCallInProgress: boolean = false;
   private completionQuery: string = '?postCompletionState=true';
+  private _hasIntroductionHeading: boolean = false;
 
   constructor(element: HTMLElement) {
     this.container = element;
@@ -112,7 +113,16 @@ export class Digiman {
 
   createQuestionSection(qs: QuestionSectionInterface) {
     qs.readOnly = this.IS_READ_ONLY;
+    qs.hasIntroductionHeading = this._hasIntroductionHeading;
     this.questionSections.push(new QuestionSection(qs as QuestionSectionInterface));
+  }
+
+  hasIntroductionHeading(sections: QuestionSectionInterface[]) {
+    const firstSection = sections.find(section => section.id === this.START_STATE);
+
+    if (firstSection.contents && firstSection.contents[0] && firstSection.contents[0].type === BlockType.HEADING) {
+      this._hasIntroductionHeading = true;
+    }
   }
 
   buildQuestionSections(sections: QuestionSectionInterface[]) {
@@ -550,6 +560,7 @@ export class Digiman {
   handleModelSuccessResponse(json: DefinitionMeta) {
     if (json) {
       this.container.setAttribute('aria-busy', 'false');
+      this.hasIntroductionHeading(json.questionBlocks as QuestionSectionInterface[]);
       this.buildQuestionSections(json.questionBlocks as QuestionSectionInterface[]);
 
       this.clearContainer();

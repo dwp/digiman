@@ -10,9 +10,16 @@ describe('Digiman', () => {
       {
         "id" : "qb-start-id",
         "title": "Title",
+        "hasIntroductionHeading": true,
         "readOnly": false,
         "digimanId": "verify_bank-1.0-edit",
         "contents" : [
+          {
+            "type": "HEADING",
+            "content": "Heading of text.",
+            "hasIntroductionHeading": true,
+            "isSectionWithIntroductionHeading": true
+          },
           {
             "type": "TEXT_INPUT",
             "id": "text-input-test",
@@ -77,6 +84,12 @@ describe('Digiman', () => {
             "content": "Paragraph of text."
           },
           {
+            "type": "HEADING",
+            "content": "Heading of text.",
+            "hasIntroductionHeading": true,
+            "isSectionWithIntroductionHeading": false
+          },
+          {
             "type": "IMPORTANT",
             "content": "Important information paragraph."
           }
@@ -95,6 +108,7 @@ describe('Digiman', () => {
       {
         "id" : "qb-question-id",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
         "contents" : [
           {
@@ -159,6 +173,7 @@ describe('Digiman', () => {
       {
         "id" : "qb-end-yes",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
         "contents" : [],
         "question" : {
@@ -176,6 +191,7 @@ describe('Digiman', () => {
       {
         "id" : "qb-end-no",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
         "contents" : [
           {
