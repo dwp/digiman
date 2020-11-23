@@ -33,6 +33,10 @@ export abstract class FormBlock extends Block {
     return this._id;
   }
 
+  set id(newId: string) {
+    this._id = newId;
+  }
+
   get hint(): string {
     return this._hint;
   }
@@ -43,5 +47,9 @@ export abstract class FormBlock extends Block {
 
   get label(): string {
     return this._label;
+  }
+
+  set label(labelText: string) {
+    this._label = labelText;
   }
 }

@@ -3,6 +3,7 @@ import * as dateUtils from '../utils/date.utils';
 import { FormBlock } from './form-block.component';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { DigimanDate } from '../enums/digiman-date.enum';
+import { ValueInterface } from '../interfaces/value.interface';
 
 export class DateBlock extends FormBlock {
   private _day: string;
@@ -66,7 +67,7 @@ export class DateBlock extends FormBlock {
     return stringValue.length === 8;
   }
 
-  setState(value: number | string, type?: string) {
+  setState(value: number | string | Array<Array<ValueInterface>>, type?: string) {
     if (type) {
       this._updateDateBlockState(value as string, type);
     } else {

@@ -30,6 +30,28 @@
       "content": "Heading"
      },
      {
+      "type": "ADD_MORE",
+      "id": "qb-start-id_add-more",
+      "blocks": [
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more1",
+        "label": "First"
+        },
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more2",
+        "label": "Second"
+        },
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more3",
+        "label": "Third",
+        "hint": "Hint"
+        }
+      ]
+     },
+     {
       "type": "PARAGRAPH",
       "content": "Normal paragraph"
      },
@@ -127,7 +149,30 @@
      ],
      "type": "CHECKBOX"
     },
-    "contents": []
+    "contents": [
+      {
+        "type": "ADD_MORE",
+        "id": "qb-end_add-more",
+        "blocks": [
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more1",
+          "label": "First"
+          },
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more2",
+          "label": "Second"
+          },
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more3",
+          "label": "Third",
+          "hint": "Hint"
+          }
+        ]
+       }
+    ]
    },
    {
     "id": "qb-another",

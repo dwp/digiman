@@ -6,6 +6,8 @@ import { QuestionSection } from '../subcomponents/question-section.component';
 import { OptionInterface } from '../interfaces/option.interface';
 import { StateFormBlock } from '../interfaces/state-form-block.interface';
 import { StateQuestionBlock } from '../interfaces/state-question-block.interface';
+import { AddMoreBlock } from '../subcomponents/add-more-block.component';
+import { ValueInterface } from '../interfaces/value.interface';
 
 /**
  * @method stateService
@@ -58,10 +60,10 @@ export default function stateService(questionSections: QuestionSection[]): State
  */
 export function buildDataState(qs: QuestionSection): StateFormBlock[] {
   let dataState: StateFormBlock[] = [];
-  let contentBlocks: (OptionBlock|ValueBlock|ContentBlock|DateBlock)[] = qs.contentBlocks;
+  let contentBlocks: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock)[] = qs.contentBlocks;
 
   for (let i=0; i<contentBlocks.length; i++) {
-    let contentBlock: (OptionBlock|ValueBlock|ContentBlock|DateBlock) = contentBlocks[i];
+    let contentBlock: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock) = contentBlocks[i];
 
     if (contentBlock instanceof OptionBlock) {
       let options: OptionInterface[] = contentBlock.options;
@@ -83,6 +85,9 @@ export function buildDataState(qs: QuestionSection): StateFormBlock[] {
         dataState.push(buildFormBlockState(contentBlock.id as string, contentBlock.value as string));
       }
     }
+    else if (contentBlock instanceof AddMoreBlock) {
+      dataState.push(buildFormBlockState(contentBlock.id as string, contentBlock.value as Array<Array<ValueInterface>>));
+    }
   }
   
   return dataState;
@@ -95,7 +100,7 @@ export function buildDataState(qs: QuestionSection): StateFormBlock[] {
  *
  * Build an obj of each form input's id and value
  */
-export function buildFormBlockState(blockId: string, blockValue: string | number) {
+export function buildFormBlockState(blockId: string, blockValue: string | number | Array<Array<ValueInterface>>) {
   return {
     id: blockId,
     value: blockValue

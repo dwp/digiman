@@ -12,10 +12,12 @@ import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { QuestionSectionInterface } from '../interfaces/question-section.interface';
 import { BlockFactory } from '../factories/block.factory';
 import { createElement } from '../vendor/utils/index.utils';
+import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
+import { AddMoreBlock } from './add-more-block.component';
 
 export class QuestionSection {
 
-  private _contentBlocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock)[] = [];
+  private _contentBlocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock)[] = [];
   private _decisionBlock: DecisionBlock;
   private _readOnly: boolean;
   private _id: string;
@@ -34,7 +36,7 @@ export class QuestionSection {
     this._digimanId = data.digimanId;
     this._blockFactory = new BlockFactory();
 
-    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], data.question as DecisionBlockInterface);
+    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)[], data.question as DecisionBlockInterface);
   }
 
   get htmlNode(): HTMLElement {
@@ -57,7 +59,7 @@ export class QuestionSection {
     return this._decisionBlock;
   }
 
-  get contentBlocks(): (ValueBlock | ContentBlock | OptionBlock | DateBlock)[] {
+  get contentBlocks(): (ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock)[] {
     return this._contentBlocks;
   }
 
@@ -65,12 +67,22 @@ export class QuestionSection {
     return this._id;
   }
 
-  getContentBlockById(id: String): ValueBlock | ContentBlock | OptionBlock | DateBlock {
-    return this.contentBlocks.find(block => {
-      if (block instanceof FormBlock) {
+  getContentBlockById(id: String): ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock {
+    let contentBlock = this.contentBlocks.find(block => {
+      if (block instanceof FormBlock || block instanceof AddMoreBlock) {
         return block.id === id;
       }
     });
+
+    if (!contentBlock) {
+      contentBlock = this.contentBlocks
+        .filter(block => block.type === "ADD_MORE")
+        .find((addMoreBlock: AddMoreBlock) => addMoreBlock.blocks
+          .find((childrenBlocks: ValueBlock[]) => childrenBlocks
+            .find((child: ValueBlock) => child.id === id)))
+    }
+
+    return contentBlock;
   }
 
   /**
@@ -85,13 +97,13 @@ export class QuestionSection {
     this.decisionBlock.resetState();
 
     this.contentBlocks.forEach(formBlock => {
-      if (formBlock instanceof FormBlock) {
+      if (formBlock instanceof FormBlock || formBlock instanceof AddMoreBlock) {
         formBlock.resetState();
       }
     });
   }
 
-  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], questions: DecisionBlockInterface) {    
+  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)[], questions: DecisionBlockInterface) {    
     // create block for each object in content[]
     this._createContentBlocks(content);
 
@@ -107,7 +119,7 @@ export class QuestionSection {
     this._decisionBlock = this._blockFactory.createDecisionBlock(block, this.readOnly);
   }
 
-  _createContentBlocks(blocks: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[]) {
+  _createContentBlocks(blocks: Array<(ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)>) {
     blocks.forEach((block, index) => {
       this._isSectionWithIntroductionHeading = this._hasIntroductionHeading && this._id === 'qb-start-id' && index === 0;
       this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly, this._hasIntroductionHeading, this._isSectionWithIntroductionHeading));

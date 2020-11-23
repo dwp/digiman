@@ -67,3 +67,57 @@ ol, ul {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
 }
+
+.link-style {
+    color: #005ea5;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    padding: 0;
+    margin-bottom: 10px;
+
+    &:hover {
+        color: #073873;
+        cursor: pointer;
+    }
+}
+
+.button-secondary {
+    background-color: #dee0e2;
+    position: relative;
+    display: -moz-inline-stack;
+    display: inline-block;
+    padding: 0.526315em 0.789473em 0.263157em;
+    border: none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 2px 0 #b5babe;
+    -moz-box-shadow: 0 2px 0 #b5babe;
+    box-shadow: 0 2px 0 #b5babe;
+    font-size: 1em;
+    line-height: 1.25;
+    text-decoration: none;
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+    color: #0b0c0c;
+    -webkit-box-shadow: 0 2px 0 #0b0c0c;
+    -moz-box-shadow: 0 2px 0 #0b0c0c;
+    box-shadow: 0 2px 0 #0b0c0c;
+    padding: 0.525em 0.75em 0.275em 0.75em;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.add-more__remove-button {
+    margin-bottom: 30px;
+}
+
+.digiman__add-more-fieldset {
+    &:nth-child(n+2) {
+        border-top: 1px solid #b5babe;
+        padding-top: 15px;
+    }
+}

@@ -36,6 +36,28 @@ describe('QuestionSection', () => {
           "type": "TEXT_INPUT",
           "label": "Input Label",
           "help": "Input hint text"
+        },
+        {
+          "type": "ADD_MORE",
+          "id": "qb-start-id_add-more",
+          "blocks": [
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more1",
+              "label": "First"
+            },
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more2",
+              "label": "Second"
+            },
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more3",
+              "label": "Third",
+              "hint": "Hint"
+            }
+          ]
         }
       ],
       "question" : {
@@ -61,8 +83,8 @@ describe('QuestionSection', () => {
       qs = new QuestionSection(data(EDITABLE));
     });
 
-    it('Then 4 content blocks are defined', () => {
-      expect(qs.contentBlocks.length).toBe(5);
+    it('Then 6 content blocks are defined', () => {
+      expect(qs.contentBlocks.length).toBe(6);
     });
 
     it('And decision block is defined', () => {
@@ -103,6 +125,10 @@ describe('QuestionSection', () => {
 
     it('And html of question section contains important information block html', () => {
       expect(qs.htmlNode.querySelector('.govuk-inset-text.text')).not.toBe(null);
+    });
+
+    it('And html of question section contains add more block html', () => {
+      expect(qs.htmlNode.querySelector('#id-add-more-qb-start-id_add-more')).not.toBe(null);
     });
 
     describe('When getContentBlockById is called with existing ID:qb-start-id_input-id', () => {

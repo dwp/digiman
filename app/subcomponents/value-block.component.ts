@@ -10,7 +10,7 @@ export class ValueBlock extends FormBlock {
 
     this._value = '';
 
-    this.updateView();
+    this.htmlNode = blockBuilder(this as ValueBlock);
   }
 
   get value(): string {
@@ -23,17 +23,21 @@ export class ValueBlock extends FormBlock {
 
   setState(value: string) {
     this.value = value;
-
     this.updateView();
   }
 
   resetState() {
     this.value = '';
-
     this.updateView();
   }
 
   updateView() {
-    this.htmlNode = blockBuilder(this as ValueBlock);
+    if (this.readOnly) {
+      const paragraph: HTMLElement = this.htmlNode.querySelector('.digiman__value-input--read-only');
+      paragraph.innerHTML = this.value;
+    } else {
+      const input: HTMLInputElement = this.htmlNode.querySelector('.digiman__value-input');
+      input.value = this.value;
+    }
   }
 }

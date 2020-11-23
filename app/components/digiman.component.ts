@@ -18,6 +18,8 @@ import { DigimanState } from '../enums/digiman-state.enum';
 import { DateFieldsComponent } from '../vendor/components/date-fields.component';
 import debounce from '../utils/debounce.utils';
 import { BlockType } from '../enums/block-type.enum';
+import { AddMoreBlock } from '../subcomponents/add-more-block.component';
+import { ValueInterface } from '../interfaces/value.interface';
 
 export class Digiman {
   private START_STATE: string = 'qb-start-id';
@@ -248,11 +250,16 @@ export class Digiman {
     let qsNode = returnAncestorWithClass(target, 'question-section');
     
     if (qsNode && qsNode.dataset.currentState) {
-      let formBlock = this.findFormBlock(qsNode.dataset.currentState as string, target.name as string) as ValueBlock | DateBlock;
+      let childId = null;
+      let formBlock = this.findFormBlock(qsNode.dataset.currentState as string, target.name as string) as ValueBlock | DateBlock | AddMoreBlock;
       const currentValue = (formBlock instanceof DateBlock) ? formBlock.getDateBlockState(target.dataset.type) : formBlock.value;
 
+      if (formBlock instanceof AddMoreBlock) {
+        childId = target.id;
+      }
+
       if (currentValue !== target.value) {
-        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, childId);
         this.saveState();
       }
     }
@@ -260,7 +267,7 @@ export class Digiman {
 
   findFormBlock(questionSectionId: string, contentBlockId: string) {
     const qs: QuestionSection = this.getQuestionSectionById(questionSectionId);
-    return qs.getContentBlockById(contentBlockId) as ValueBlock | OptionBlock | DateBlock;
+    return qs.getContentBlockById(contentBlockId) as ValueBlock | OptionBlock | DateBlock | AddMoreBlock;
   }
 
   saveState() {
@@ -323,7 +330,7 @@ export class Digiman {
       let formBlock = qs.getContentBlockById(target.name as string) as OptionBlock;
 
       if (formBlock.type === BlockType.CHECKBOX) {
-        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+        this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, null);
         this.saveState();
       } else if (formBlock.type === BlockType.RADIO) {
         let selectedOption: any = formBlock.options.find((option) => {
@@ -331,7 +338,7 @@ export class Digiman {
         });
 
         if (selectedOption === undefined || selectedOption.value !== target.value) {
-          this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked);
+          this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, null);
           this.saveState();
         }
       }
@@ -437,8 +444,9 @@ export class Digiman {
    */
   updateFormChoices(qs: QuestionSection, formFields: StateFormBlock[]) {
     formFields.forEach((field) => {
-      let formBlock = qs.getContentBlockById(field.id as string) as ValueBlock | OptionBlock | DateBlock;
-      this.updateFormBlockState(formBlock, field.value, null, true);
+      let formBlock = qs.getContentBlockById(field.id as string) as ValueBlock | OptionBlock | DateBlock | AddMoreBlock;
+    
+      this.updateFormBlockState(formBlock, field.value, null, true, null);
     });
   }
 
@@ -447,11 +455,17 @@ export class Digiman {
    * @param target 
    * @param formBlock 
    */
-  updateFormBlockState(formBlock: ValueBlock | OptionBlock | DateBlock, value: string | number, type?: string, isChecked?: boolean) {
+  updateFormBlockState(formBlock: ValueBlock | OptionBlock | DateBlock | AddMoreBlock, value: string | number | Array<Array<ValueInterface>>, type: string, isChecked: boolean, childId: string) {
     if (formBlock instanceof DateBlock) {
       formBlock.setState(value, type);
     } else if (formBlock instanceof ValueBlock) {
       formBlock.setState(value as string);
+    } else if (formBlock instanceof AddMoreBlock) {
+      if (childId) {
+        formBlock.setChildState(value as string, childId);
+      } else {
+        formBlock.setState(value as Array<Array<ValueInterface>>);
+      }
     } else {
       formBlock.setState(value as string, isChecked);
     }

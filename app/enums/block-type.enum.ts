@@ -10,5 +10,6 @@ export enum BlockType {
     LIST_ORDERED ="LIST_ORDERED",
     PARAGRAPH = "PARAGRAPH",
     HEADING = "HEADING",
-    DATE = "DATE"
+    DATE = "DATE",
+    ADD_MORE = "ADD_MORE"
 }

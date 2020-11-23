@@ -6,7 +6,7 @@
     <p id="{{id}}-hint" class="govuk-hint">
       {{#hint}}{{hint}}{{/hint}}
     </p>
-    <pre class="preformatted-paragraph govuk-body text" id="{{id}}" data-name="{{id}}">{{value}}</pre>
+    <pre class="preformatted-paragraph govuk-body text digiman__value-input--read-only" id="{{id}}" data-name="{{id}}">{{value}}</pre>
   {{/readOnly}}
   {{^readOnly}}
     <label class="govuk-label govuk-label--m" for="{{id}}">
@@ -15,6 +15,6 @@
     <span id="{{id}}-hint" class="govuk-hint">
       {{#hint}}{{hint}}{{/hint}}
     </span>
-    <textarea class="govuk-textarea" id="{{id}}" name="{{id}}" rows="5" aria-describedby="{{id}}-hint">{{value}}</textarea>
+    <textarea class="govuk-textarea digiman__value-input" id="{{id}}" name="{{id}}" rows="5" aria-describedby="{{id}}-hint">{{value}}</textarea>
   {{/readOnly}}
 </div>

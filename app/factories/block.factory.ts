@@ -11,11 +11,13 @@ import { ValueBlockInterface } from '../interfaces/value-block.interface';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { ContentHeadingBlockInterface } from '../interfaces/content-heading-block.interface';
 import { ContentHeadingBlock } from '../subcomponents/content-heading-block.component';
+import { AddMoreBlock } from '../subcomponents/add-more-block.component';
+import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
 
 export class BlockFactory {
 
-  createContentBlock(blockData: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface), isReadOnly: boolean, hasIntroductionHeading: boolean, isSectionWithIntroductionHeading: boolean) {
-    let block: (ValueBlock | OptionBlock | ContentBlock | DateBlock);
+  createContentBlock(blockData: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface), isReadOnly: boolean, hasIntroductionHeading: boolean, isSectionWithIntroductionHeading: boolean) {
+    let block: (ValueBlock | OptionBlock | ContentBlock | DateBlock | AddMoreBlock);
 
     if (blockData.type === BlockType.TEXT_INPUT || blockData.type === BlockType.TEXTAREA) {
       block = this._createValueBlock(blockData as ValueBlockInterface, isReadOnly as boolean);
@@ -25,6 +27,8 @@ export class BlockFactory {
       block = this._createDateBlock(blockData as DateBlockInterface, isReadOnly as boolean);
     } else if (blockData.type === BlockType.HEADING) {
       block = this._createContentHeadingBlock(blockData as ContentHeadingBlockInterface, hasIntroductionHeading, isSectionWithIntroductionHeading);
+    } else if (blockData.type === BlockType.ADD_MORE) {
+      block = this._createAddMoreBlock(blockData as AddMoreBlockInterface, isReadOnly as boolean);
     } else {
       block = this._createContentBlock(blockData as ContentBlockInterface);
     }
@@ -35,6 +39,11 @@ export class BlockFactory {
   createDecisionBlock(block: DecisionBlockInterface, isReadOnly: boolean) {
     block.readOnly = isReadOnly;
     return new DecisionBlock(block);
+  }
+
+  _createAddMoreBlock(block: AddMoreBlockInterface, isReadOnly: boolean) {
+    block.readOnly = isReadOnly;
+    return new AddMoreBlock(block as AddMoreBlockInterface);
   }
 
   _createValueBlock(block: ValueBlockInterface, isReadOnly: boolean) {
