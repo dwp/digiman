@@ -1,6 +1,7 @@
 import blockBuilder from '../services/block-builder.service';
 import { FormBlock } from './form-block.component';
 import { ValueBlockInterface } from '../interfaces/value-block.interface';
+import { BlockType } from '../enums/block-type.enum';
 
 export class ValueBlock extends FormBlock {
   private _value: string;
@@ -38,6 +39,10 @@ export class ValueBlock extends FormBlock {
     } else {
       const input: HTMLInputElement = this.htmlNode.querySelector('.digiman__value-input');
       input.value = this.value;
+
+      if (this.type === BlockType.TEXTAREA) {
+        input.innerHTML = this.value;
+      }
     }
   }
 }
