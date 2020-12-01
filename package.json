@@ -1,6 +1,6 @@
 {
   "name": "digiman",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "app/digiman.index.ts",
   "repository": "",
   "license": "MIT",
