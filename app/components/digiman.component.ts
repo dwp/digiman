@@ -20,6 +20,9 @@ import debounce from '../utils/debounce.utils';
 import { BlockType } from '../enums/block-type.enum';
 import { AddMoreBlock } from '../subcomponents/add-more-block.component';
 import { ValueInterface } from '../interfaces/value.interface';
+import { SelectBlock } from '../subcomponents/select-block.component';
+import { CheckboxBlock } from '../subcomponents/checkbox-block.component';
+import { RadioBlock } from '../subcomponents/radio-block.component';
 
 export class Digiman {
   private START_STATE: string = 'qb-start-id';
@@ -190,7 +193,9 @@ export class Digiman {
   }
 
   bindEvents() {
-    delegateEvent(this.container, 'click', 'input[type="radio"], input[type="checkbox"]', this.handleClick.bind(this));
+    delegateEvent(this.container, 'click', 'input[type="radio"].digiman__radio--decision-block, input[type="checkbox"].digiman__checkbox--decision-block', this.handleDecisionClick.bind(this));
+    delegateEvent(this.container, 'click', 'input[type="radio"].digiman__radio--content-block, input[type="checkbox"].digiman__checkbox--content-block', this.handleClick.bind(this));
+    delegateEvent(this.container, 'change', 'select.digiman__select', this.handleChange.bind(this));
     delegateEvent(this.container, 'blur', 'textarea, input[type="text"], input[type="tel"]', this.handleBlur.bind(this), { useCapture: true });
     delegateEvent(this.container, 'click', '.date-picker__link', this.handleDatePickerClick.bind(this));
     delegateEvent(this.container, 'input', 'input[type="tel"]', this.handleNumericInput.bind(this));
@@ -290,7 +295,18 @@ export class Digiman {
     return isSameState;
   }
 
-  handleClick(e: Event) {
+  handleChange(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const qsNode: HTMLElement = returnAncestorWithClass(target, 'question-section');
+
+    let qs: QuestionSection = this.getQuestionSectionById(qsNode.dataset.currentState as string);
+    let formBlock = qs.getContentBlockById(target.name as string) as RadioBlock | CheckboxBlock;
+
+    this.updateFormBlockState(formBlock, target.value, target.dataset.type, true, null);
+    this.saveState();
+  }
+
+  handleDecisionClick(e: Event) {
     const target = e.target as HTMLInputElement;
     const qsNode: HTMLElement = returnAncestorWithClass(target, 'question-section');
     const newNextStateId: string = target.dataset.nextSectionId;
@@ -307,42 +323,43 @@ export class Digiman {
       } as DigimanStateCheck
     );
 
-    //if target is a decision block
-    if (newNextStateId) {
-      //only update when target is a checkbox OR radio and current state and next state are not the same
-      if (target.type === 'checkbox' || (target.type === 'radio' && !isSameFlow)) {
-        this.handleDecisionBlockClick({
-          newNextStateId: newNextStateId,
-          oldNextStateId: oldNextStateId,
-          qsNode: qsNode,
-          isChecked: target.checked,
-          optionId: newOptionId
-        } as DigimanStateProgress);
+    //only update when target is a checkbox OR radio and current state and next state are not the same
+    if (target.type === 'checkbox' || (target.type === 'radio' && !isSameFlow)) {
+      this.handleDecisionBlockClick({
+        newNextStateId: newNextStateId,
+        oldNextStateId: oldNextStateId,
+        qsNode: qsNode,
+        isChecked: target.checked,
+        optionId: newOptionId
+      } as DigimanStateProgress);
 
-        if (this.AUTO_SAVE_ON_COMPLETION && isEndState) {
-          this.AUTO_SAVE_ON_COMPLETION_ENABLED = target.checked;
-        } else if (this.AUTO_SAVE_ON_COMPLETION && !isEndState) {
-          this.AUTO_SAVE_ON_COMPLETION_ENABLED = false;
-        }
+      if (this.AUTO_SAVE_ON_COMPLETION && isEndState) {
+        this.AUTO_SAVE_ON_COMPLETION_ENABLED = target.checked;
+      } else if (this.AUTO_SAVE_ON_COMPLETION && !isEndState) {
+        this.AUTO_SAVE_ON_COMPLETION_ENABLED = false;
       }
-    } else {
-      let qs: QuestionSection = this.getQuestionSectionById(qsNode.dataset.currentState as string);
-      let formBlock = qs.getContentBlockById(target.name as string) as OptionBlock;
+    }
+  }
 
-      if (formBlock.type === BlockType.CHECKBOX) {
+  handleClick(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const qsNode: HTMLElement = returnAncestorWithClass(target, 'question-section');
+
+    let qs: QuestionSection = this.getQuestionSectionById(qsNode.dataset.currentState as string);
+    let formBlock = qs.getContentBlockById(target.name as string) as RadioBlock | CheckboxBlock;
+
+    if (formBlock.type === BlockType.CHECKBOX) {
+      this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, null);
+      this.saveState();
+    } else if (formBlock.type === BlockType.RADIO) {
+      let selectedOption: any = formBlock.options.find((option) => {
+        return option.selected
+      });
+
+      if (selectedOption === undefined || selectedOption.value !== target.value) {
         this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, null);
         this.saveState();
-      } else if (formBlock.type === BlockType.RADIO) {
-        let selectedOption: any = formBlock.options.find((option) => {
-          return option.selected
-        });
-
-        if (selectedOption === undefined || selectedOption.value !== target.value) {
-          this.updateFormBlockState(formBlock, target.value, target.dataset.type, target.checked, null);
-          this.saveState();
-        }
       }
-      
     }
   }
 
@@ -444,7 +461,7 @@ export class Digiman {
    */
   updateFormChoices(qs: QuestionSection, formFields: StateFormBlock[]) {
     formFields.forEach((field) => {
-      let formBlock = qs.getContentBlockById(field.id as string) as ValueBlock | OptionBlock | DateBlock | AddMoreBlock;
+      let formBlock = qs.getContentBlockById(field.id as string) as ValueBlock | CheckboxBlock | RadioBlock | SelectBlock | DateBlock | AddMoreBlock;
     
       this.updateFormBlockState(formBlock, field.value, null, true, null);
     });
@@ -455,7 +472,7 @@ export class Digiman {
    * @param target 
    * @param formBlock 
    */
-  updateFormBlockState(formBlock: ValueBlock | OptionBlock | DateBlock | AddMoreBlock, value: string | number | Array<Array<ValueInterface>>, type: string, isChecked: boolean, childId: string) {
+  updateFormBlockState(formBlock: ValueBlock | DateBlock | CheckboxBlock | RadioBlock | SelectBlock | AddMoreBlock, value: string | number | Array<Array<ValueInterface>>, type: string, isChecked: boolean, childId: string) {
     if (formBlock instanceof DateBlock) {
       formBlock.setState(value, type);
     } else if (formBlock instanceof ValueBlock) {
@@ -466,6 +483,8 @@ export class Digiman {
       } else {
         formBlock.setState(value as Array<Array<ValueInterface>>);
       }
+    } else if (formBlock instanceof SelectBlock) {
+      formBlock.setState(value as string);
     } else {
       formBlock.setState(value as string, isChecked);
     }

@@ -29,8 +29,8 @@ describe('Block Factory', () => {
     };
 
     const contentBreak = {
-        "type": "BREAK"    
-    };  
+        "type": "BREAK"
+    };
 
     const contentUnoderedList = {
         "type": "LIST",
@@ -70,7 +70,7 @@ describe('Block Factory', () => {
         "label": "Date label",
         "hint": ""
     };
-        
+
     const contentCheckbox = {
         "type": "CHECKBOX",
         "id": "qb-start-id_checkbox-label_0miprh7apb",
@@ -87,7 +87,7 @@ describe('Block Factory', () => {
             }
         ]
     };
-            
+
     const contentRadio = {
         "type": "RADIO",
         "id": "qb-start-id_radio-label_vvm6h04guf",
@@ -118,7 +118,7 @@ describe('Block Factory', () => {
         ],
         "type": "CHECKBOX"
     };
-    
+
     describe('When HEADING block is created', () => {
         beforeEach(() => {
             block = factory.createContentBlock(contentHeading, false);
@@ -425,7 +425,7 @@ describe('Block Factory', () => {
         });
 
         it('And object has defined _options property', () => {
-            expect(block._options).toEqual([{ value: 'qb-start-id_checkbox-label_0miprh7apb_option-1_0', text: 'Option 1' },{ value: 'qb-start-id_checkbox-label_0miprh7apb_option-2_1', text: 'Option 2' }]);
+            expect(block._options).toEqual([{ value: 'qb-start-id_checkbox-label_0miprh7apb_option-1_0', text: 'Option 1' }, { value: 'qb-start-id_checkbox-label_0miprh7apb_option-2_1', text: 'Option 2' }]);
         });
 
         it('And object has defined _id property', () => {
@@ -463,7 +463,7 @@ describe('Block Factory', () => {
         });
 
         it('And object has defined _options property', () => {
-            expect(block._options).toEqual([{ value: 'qb-start-id_radio-label_vvm6h04guf_option-1_0', text: 'Option 1' },{ value: 'qb-start-id_radio-label_vvm6h04guf_option-2_1', text: 'Option 2' }]);
+            expect(block._options).toEqual([{ value: 'qb-start-id_radio-label_vvm6h04guf_option-1_0', text: 'Option 1' }, { value: 'qb-start-id_radio-label_vvm6h04guf_option-2_1', text: 'Option 2' }]);
         });
 
         it('And object has defined _id property', () => {
@@ -500,10 +500,6 @@ describe('Block Factory', () => {
             expect(block._hint).toEqual(null);
         });
 
-        it('And object has defined _hasTwoOptions property', () => {
-            expect(block._hasTwoOptions).toEqual(false);
-        });
-
         it('And object has defined _nextSection property', () => {
             expect(block._nextSection).toEqual('');
         });
@@ -519,7 +515,7 @@ describe('Block Factory', () => {
         it('And object has defined _options property', () => {
             expect(block._options).toEqual([{ text: 'Done', questionBlockId: 'done', optionId: 'done' }]);
         });
-        
+
         it('And object has defined _id property', () => {
             expect(block._id).toEqual('qb-end_question');
         });

@@ -11,5 +11,6 @@ export enum BlockType {
     PARAGRAPH = "PARAGRAPH",
     HEADING = "HEADING",
     DATE = "DATE",
-    ADD_MORE = "ADD_MORE"
+    ADD_MORE = "ADD_MORE",
+    SELECT = "SELECT"
 }

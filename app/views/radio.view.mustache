@@ -32,7 +32,7 @@
         <div class="govuk-radios__item">
           <input
               {{#selected}}checked{{/selected}}
-              class="govuk-radios__input"
+              class="govuk-radios__input digiman__radio {{^questionBlockId}}digiman__radio--content-block{{/questionBlockId}}{{#questionBlockId}}digiman__radio--decision-block{{/questionBlockId}}"
               id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
               name="{{id}}"
               type="radio"

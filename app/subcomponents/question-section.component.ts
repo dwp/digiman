@@ -1,5 +1,3 @@
-import { DecisionBlock } from './decision-block.component';
-import { OptionBlock } from './option-block.component';
 import { ValueBlock } from './value-block.component';
 import { FormBlock } from './form-block.component';
 import { DateBlock } from './date-block.component';
@@ -14,11 +12,16 @@ import { BlockFactory } from '../factories/block.factory';
 import { createElement } from '../vendor/utils/index.utils';
 import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
 import { AddMoreBlock } from './add-more-block.component';
+import { SelectBlock } from './select-block.component';
+import { RadioBlock } from './radio-block.component';
+import { CheckboxBlock } from './checkbox-block.component';
+import { DecisionCheckboxBlock } from './decision-checkbox-block.component';
+import { DecisionRadioBlock } from './decision-radio-block.component';
 
 export class QuestionSection {
 
-  private _contentBlocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock)[] = [];
-  private _decisionBlock: DecisionBlock;
+  private _contentBlocks: (ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock)[] = [];
+  private _decisionBlock: DecisionCheckboxBlock | DecisionRadioBlock;
   private _readOnly: boolean;
   private _id: string;
   private _digimanId: string;
@@ -55,11 +58,11 @@ export class QuestionSection {
     this._readOnly = readOnly;
   }
 
-  get decisionBlock(): DecisionBlock {
+  get decisionBlock(): DecisionRadioBlock | DecisionCheckboxBlock {
     return this._decisionBlock;
   }
 
-  get contentBlocks(): (ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock)[] {
+  get contentBlocks() {
     return this._contentBlocks;
   }
 
@@ -67,7 +70,7 @@ export class QuestionSection {
     return this._id;
   }
 
-  getContentBlockById(id: String): ValueBlock | ContentBlock | OptionBlock | DateBlock | AddMoreBlock {
+  getContentBlockById(id: String): ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock {
     let contentBlock = this.contentBlocks.find(block => {
       if (block instanceof FormBlock || block instanceof AddMoreBlock) {
         return block.id === id;

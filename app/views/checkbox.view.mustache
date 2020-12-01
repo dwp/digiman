@@ -33,12 +33,12 @@
         {{#options}}
           <div class="govuk-checkboxes__item">
             <input
-                    class="govuk-checkboxes__input"
-                    id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
-                    name="{{id}}"
-                    type="checkbox"
-                    {{#optionId}}data-option-id="{{optionId}}"{{/optionId}}
-                    value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                class="govuk-checkboxes__input digiman__checkbox {{^questionBlockId}}digiman__checkbox--content-block{{/questionBlockId}}{{#questionBlockId}}digiman__checkbox--decision-block{{/questionBlockId}}"
+                id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                name="{{id}}"
+                type="checkbox"
+                {{#optionId}}data-option-id="{{optionId}}"{{/optionId}}
+                value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
               {{#selected}}checked{{/selected}}
               {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
             >

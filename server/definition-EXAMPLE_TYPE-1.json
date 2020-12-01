@@ -30,6 +30,26 @@
       "content": "Heading"
      },
      {
+      "type": "SELECT",
+      "id": "qb-start-id_select-label_vvm6h04guf",
+      "label": "Select label",
+      "hint": "Select hint",
+      "options": [
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-1_0",
+        "text": "Option 1"
+       },
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-2_1",
+        "text": "Option 2"
+       },
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-3_2",
+        "text": "Select option 3"
+       }
+      ]
+     },
+     {
       "type": "ADD_MORE",
       "id": "qb-start-id_add-more",
       "blocks": [

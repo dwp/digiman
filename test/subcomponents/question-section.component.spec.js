@@ -1,7 +1,7 @@
 import { QuestionSection } from '../../app/subcomponents/question-section.component';
 import { FormBlock } from '../../app/subcomponents/form-block.component';
-import { DecisionBlock } from '../../app/subcomponents/decision-block.component';
 import { ContentBlock } from '../../app/subcomponents/content-block.component';
+import { DecisionRadioBlock } from '../../app/subcomponents/decision-radio-block.component';
 
 describe('QuestionSection', () => {
   let qs, contentBlock, view;
@@ -9,10 +9,10 @@ describe('QuestionSection', () => {
   const EDITABLE = false;
   let data = (readOnly) => {
     return {
-      "id" : "qb-start-id",
+      "id": "qb-start-id",
       "title": "Title",
       "readOnly": readOnly,
-      "contents" : [
+      "contents": [
         {
           "type": "HINT",
           "content": "Paragraph of page level hint."
@@ -27,12 +27,12 @@ describe('QuestionSection', () => {
         },
         {
           "type": "DATE",
-          "id" : "qb-start-id_date-id",
+          "id": "qb-start-id_date-id",
           "label": "Date Label",
           "help": "Date hint text"
         },
         {
-          "id" : "qb-start-id_input-id",
+          "id": "qb-start-id_input-id",
           "type": "TEXT_INPUT",
           "label": "Input Label",
           "help": "Input hint text"
@@ -58,13 +58,34 @@ describe('QuestionSection', () => {
               "hint": "Hint"
             }
           ]
+        },
+        {
+          "type": "SELECT",
+          "readOnly": false,
+          "id": "qb-start-id_select-label_vvm6h04guf",
+          "label": "Select label",
+          "hint": "Select hint",
+          "options": [
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-1_0",
+              "text": "Option 1"
+            },
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-2_1",
+              "text": "Option 2"
+            },
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-3_2",
+              "text": "Select option 3"
+            }
+          ]
         }
       ],
-      "question" : {
+      "question": {
         "id": "qb-start-id_decision",
-        "type" : "RADIO",
-        "label" : "Where would you like to go?",
-        "options" : [
+        "type": "RADIO",
+        "label": "Where would you like to go?",
+        "options": [
           { "questionBlockId": "qb-question-id", "text": "Next question", "optionId": "next-id" },
           { "questionBlockId": "qb-end-no", "text": "End", "optionId": "end-id" }
         ]
@@ -83,12 +104,12 @@ describe('QuestionSection', () => {
       qs = new QuestionSection(data(EDITABLE));
     });
 
-    it('Then 6 content blocks are defined', () => {
-      expect(qs.contentBlocks.length).toBe(6);
+    it('Then 7 content blocks are defined', () => {
+      expect(qs.contentBlocks.length).toBe(7);
     });
 
     it('And decision block is defined', () => {
-      expect(qs.decisionBlock instanceof DecisionBlock).toBe(true);
+      expect(qs.decisionBlock instanceof DecisionRadioBlock).toBe(true);
     });
 
     it('And id of question section is qb-start-id', () => {
@@ -141,7 +162,7 @@ describe('QuestionSection', () => {
       });
 
       it('And block is of type FormBlock', () => {
-        expect(contentBlock  instanceof FormBlock).toBe(true);
+        expect(contentBlock instanceof FormBlock).toBe(true);
       });
     });
 
@@ -182,7 +203,7 @@ describe('QuestionSection', () => {
           label: 'string',
           readOnly: false,
           type: "CHECKBOX",
-          updateView: () => {}
+          updateView: () => { }
         });
       });
 
@@ -277,21 +298,21 @@ describe('QuestionSection', () => {
     describe('When _createDecisionBlock is called', () => {
       beforeEach(() => {
         qs._createDecisionBlock({
-                                  id: 'test-id',
-                                  nextSection: 'string',
-                                  selectedOptionId: 'string',
-                                  options: [
-                                    {
-                                      text: 'string',
-                                      questionBlockId: 'test',
-                                    }
-                                  ],
-                                  hint: 'string',
-                                  label: 'string',
-                                  readOnly: false,
-                                  type: "CHECKBOX",
-                                  updateView: () => {}
-                                });
+          id: 'test-id',
+          nextSection: 'string',
+          selectedOptionId: 'string',
+          options: [
+            {
+              text: 'string',
+              questionBlockId: 'test',
+            }
+          ],
+          hint: 'string',
+          label: 'string',
+          readOnly: false,
+          type: "CHECKBOX",
+          updateView: () => { }
+        });
       });
 
       it('Then decision block is defined', () => {

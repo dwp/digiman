@@ -1,20 +1,17 @@
 import blockBuilder from '../services/block-builder.service';
-import { OptionBlock } from './option-block.component';
 import { OptionInterface } from '../interfaces/option.interface';
 import { DecisionBlockInterface } from '../interfaces/decision-block.interface';
-import { DigimanState } from '../enums/digiman-state.enum';
+import { RadioBlock } from './radio-block.component';
 
-export class DecisionBlock extends OptionBlock {
+export class DecisionRadioBlock extends RadioBlock {
   private _nextSection: string;
   private _selectedOptionId: string;
-  private _isLastQuestion: boolean;
 
   constructor(data: DecisionBlockInterface) {
     super(data as DecisionBlockInterface);
 
     this._nextSection = '';
     this._selectedOptionId = '';
-    this._isLastQuestion = data.options.find( option => option.questionBlockId === DigimanState.DONE) ? true : false;
 
     this.updateView();
   }
@@ -35,12 +32,8 @@ export class DecisionBlock extends OptionBlock {
     this._selectedOptionId = optionId;
   }
 
-  get isLastQuestion(): boolean {
-    return this._isLastQuestion;
-  }
-
-  setState(value: string, isChecked: boolean) {
-    super.setState(value, isChecked);
+  setState(value: string) {
+    super.setState(value);
 
     let option = this.getOptionById(value as string) as OptionInterface;
 
@@ -68,6 +61,6 @@ export class DecisionBlock extends OptionBlock {
   }
 
   updateView() {
-    this.htmlNode = blockBuilder(this as DecisionBlock);
+    this.htmlNode = blockBuilder(this as DecisionRadioBlock);
   }
 }
