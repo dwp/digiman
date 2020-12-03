@@ -24,6 +24,16 @@ describe('CheckboxBlock', () => {
     }
   };
 
+  let singleCheckboxData = {
+    id: "checkbox-single-id",
+    label: "",
+    type: "CHECKBOX",
+    readOnly: false,
+    options: [
+      { "text": "Confirm", "value": "done" }
+    ]
+  };
+
   afterEach(() => {
     block = null;
   });
@@ -43,6 +53,10 @@ describe('CheckboxBlock', () => {
 
     it('And label is as defined', () => {
       expect(block.label).toBe('Select any option');
+    });
+
+    it('And isSingleOptionWithoutLegend is set to false', () => {
+      expect(block.isSingleOptionWithoutLegend).toBeFalse();
     });
 
     it('And id is as defined', () => {
@@ -124,6 +138,16 @@ describe('CheckboxBlock', () => {
       it('And html is updated to reflect that change', () => {
         expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(false);
       });
+    });
+  });
+
+  describe('When single CHECKBOX block without lgend is created', () => {
+    beforeEach(() => {
+      block = new CheckboxBlock(singleCheckboxData);
+    });
+
+    it('And isSingleOptionWithoutLegend is set to true', () => {
+      expect(block.isSingleOptionWithoutLegend).toBeTruthy();
     });
   });
 

@@ -22,6 +22,7 @@
     </div>
   {{/readOnly}}
   {{^readOnly}}
+    {{^isSingleOptionWithoutLegend}}
     <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m text">
         {{label}}
@@ -29,6 +30,7 @@
       <span id="{{id}}-hint" class="govuk-hint text">
         {{#hint}}{{hint}}{{/hint}}
       </span>
+      {{/isSingleOptionWithoutLegend}}
       <div class="govuk-checkboxes">
         {{#options}}
           <div class="govuk-checkboxes__item">
@@ -50,6 +52,6 @@
           </div>
         {{/options}}
       </div>
-    </fieldset>
+    {{^isSingleOptionWithoutLegend}}</fieldset>{{/isSingleOptionWithoutLegend}}
   {{/readOnly}}
 </div>
