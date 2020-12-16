@@ -60,7 +60,7 @@ export class DecisionCheckboxBlock extends CheckboxBlock implements DecisionBloc
   }
 
   resetState() {
-    super.resetState();
+    super.unSelectAllOptions();
 
     this.nextSection = '';
 

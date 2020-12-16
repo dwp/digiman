@@ -53,7 +53,7 @@ export class DecisionRadioBlock extends RadioBlock {
   }
 
   resetState() {
-    super.resetState();
+    super.unSelectAllOptions();
 
     this.nextSection = '';
 

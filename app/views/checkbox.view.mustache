@@ -23,14 +23,15 @@
   {{/readOnly}}
   {{^readOnly}}
     {{^isSingleOptionWithoutLegend}}
-    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint">
+    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint {{id}}-error">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m text">
         {{label}}
       </legend>
+      {{/isSingleOptionWithoutLegend}}
       <span id="{{id}}-hint" class="govuk-hint text">
         {{#hint}}{{hint}}{{/hint}}
       </span>
-      {{/isSingleOptionWithoutLegend}}
+      <span data-validation-error="" id="{{id}}-error" class="govuk-error-message form-error text"></span>
       <div class="govuk-checkboxes">
         {{#options}}
           <div class="govuk-checkboxes__item">
@@ -43,6 +44,7 @@
                 value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
               {{#selected}}checked{{/selected}}
               {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
+              {{#isSingleOptionWithoutLegend}}aria-describedby="{{id}}-hint {{id}}-error"{{/isSingleOptionWithoutLegend}}
             >
             <label class="govuk-label govuk-checkboxes__label"
                    for="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"

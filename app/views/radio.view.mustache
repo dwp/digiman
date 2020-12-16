@@ -20,13 +20,14 @@
     </div>
   {{/readOnly}}
   {{^readOnly}}
-    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint">
+    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint {{id}}-error">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m text">
           {{label}}
       </legend>
       <span id="{{id}}-hint" class="govuk-hint text">
         {{#hint}}{{hint}}{{/hint}}
       </span>
+      <span data-validation-error="" id="{{id}}-error" class="govuk-error-message form-error text"></span>
       <div class="govuk-radios {{#hasTwoOptions}}govuk-radios--inline{{/hasTwoOptions}}">
         {{#options}}
         <div class="govuk-radios__item">
