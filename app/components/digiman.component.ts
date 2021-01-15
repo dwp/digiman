@@ -333,12 +333,27 @@ export class Digiman {
         optionId: newOptionId
       } as DigimanStateProgress);
 
+      document.body.dispatchEvent(new CustomEvent('digiman-decision-block-click'));
+      this.removeErrorsFromHiddenDecisionBlocks();
+
       if (this.AUTO_SAVE_ON_COMPLETION && isEndState) {
         this.AUTO_SAVE_ON_COMPLETION_ENABLED = target.checked;
       } else if (this.AUTO_SAVE_ON_COMPLETION && !isEndState) {
         this.AUTO_SAVE_ON_COMPLETION_ENABLED = false;
       }
     }
+  }
+
+  // on any decision click, clear out the errors that are not 
+  removeErrorsFromHiddenDecisionBlocks() {
+    this.questionSections.forEach(qs => {
+      const decisionBlock = qs.decisionBlock;
+      const decisionBlockNode = decisionBlock.htmlNode;
+      if (decisionBlock.nextSection.trim() === '' && decisionBlockNode.classList.contains('has-errors')) {
+        decisionBlockNode.classList.remove('has-errors');
+        decisionBlockNode.querySelector('.govuk-error-message').innerHTML = '';
+      }
+    });
   }
 
   handleClick(e: Event) {
