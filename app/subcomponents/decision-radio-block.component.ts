@@ -60,6 +60,13 @@ export class DecisionRadioBlock extends RadioBlock {
     this.updateView();
   }
 
+  removeErrors() {
+    if (this.nextSection.trim() === '' && this.htmlNode.classList.contains('has-errors')) {
+      this.htmlNode.classList.remove('has-errors');
+      this.htmlNode.querySelector('.govuk-error-message').innerHTML = '';
+    }
+  }
+
   updateView() {
     this.htmlNode = blockBuilder(this as DecisionRadioBlock);
   }

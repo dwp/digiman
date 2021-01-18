@@ -348,11 +348,7 @@ export class Digiman {
   removeErrorsFromHiddenDecisionBlocks() {
     this.questionSections.forEach(qs => {
       const decisionBlock = qs.decisionBlock;
-      const decisionBlockNode = decisionBlock.htmlNode;
-      if (decisionBlock.nextSection.trim() === '' && decisionBlockNode.classList.contains('has-errors')) {
-        decisionBlockNode.classList.remove('has-errors');
-        decisionBlockNode.querySelector('.govuk-error-message').innerHTML = '';
-      }
+      decisionBlock.removeErrors();
     });
   }
 
@@ -442,10 +438,8 @@ export class Digiman {
     let nextQuestionSectionNode: HTMLElement;
 
     //while loop checks:
-    //question section can be null for the Last Block with "done" questionBlockId
-    //nextSection can be undefined for uncompleted question sections
-    //nextSection can be an empty string for modified question sections
-    while (qs && qs.decisionBlock.nextSection && qs.decisionBlock.nextSection.trim().length > 0) {
+    //question section will only be null for the Last Block with "done" questionBlockId or empty nextState
+    while (qs) {
       nextState = qs.decisionBlock.nextSection;
 
       //don't reset form blocks for the clicked question section
@@ -461,7 +455,6 @@ export class Digiman {
       }
 
       qs = this.getQuestionSectionById(nextState);
-
     }
   }
 
