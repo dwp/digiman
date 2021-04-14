@@ -41,7 +41,7 @@
     "classlist-polyfill": "1.2.0",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
-    "css-loader": "3.4.0",
+    "css-loader": "5.0.0",
     "domify": "1.4.0",
     "element-closest": "2.0.1",
     "element.prototype.matches": "0.1.1",
