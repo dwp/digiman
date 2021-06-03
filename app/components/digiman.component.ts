@@ -587,6 +587,12 @@ export class Digiman {
       if (this.AUTO_SAVE_ON_COMPLETION_ENABLED && this.formElement) {  
         this.formElement.submit();
       }
+
+      if (this.state.find(qb => qb.answerId === 'done')) {
+        this.container.classList.add('digiman--completed');
+      } else {
+        this.container.classList.remove('digiman--completed');
+      }
     });
   }
 
@@ -606,6 +612,11 @@ export class Digiman {
 
       this.clearContainer();
       this.renderQuestionSections(this.QUESTION_BLOCK_DATA as StateQuestionBlock[]);
+      this.state = stateService(this.questionSections as QuestionSection[]);
+
+      if (this.state.find(qb => qb.answerId === 'done')) {
+        this.container.classList.add('digiman--completed');
+      }
     } else {
       this.handleError();
     }

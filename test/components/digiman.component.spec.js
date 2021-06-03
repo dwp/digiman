@@ -1120,6 +1120,10 @@ describe('Digiman', () => {
         expect(digimanComponent.questionSections[0].readOnly).toBe(true);
       });
 
+      it('And container does not have class "digiman--completed"', () => {
+        expect(digimanComponent.container.classList.contains('digiman--completed')).toBe(false);
+      });
+
       describe('When createUniqueId is called', () => {
         beforeEach(() => {
           let modelJsonTemplate = JSON.parse(JSON.stringify(modelJSON));
