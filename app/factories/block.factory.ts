@@ -16,11 +16,13 @@ import { CheckboxBlock } from '../subcomponents/checkbox-block.component';
 import { RadioBlock } from '../subcomponents/radio-block.component';
 import { DecisionCheckboxBlock } from '../subcomponents/decision-checkbox-block.component';
 import { DecisionRadioBlock } from '../subcomponents/decision-radio-block.component';
+import { LinkBlockInterface } from '../interfaces/link-block.interface';
+import { LinkBlock } from '../subcomponents/link-block.component';
 
 export class BlockFactory {
 
-  createContentBlock(blockData: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface), isReadOnly: boolean, hasIntroductionHeading: boolean, isSectionWithIntroductionHeading: boolean) {
-    let block: (ValueBlock | SelectBlock | RadioBlock | CheckboxBlock | ContentBlock | DateBlock | AddMoreBlock);
+  createContentBlock(blockData: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface), isReadOnly: boolean, hasIntroductionHeading: boolean, isSectionWithIntroductionHeading: boolean) {
+    let block: (ValueBlock | SelectBlock | RadioBlock | CheckboxBlock | ContentBlock | DateBlock | AddMoreBlock | LinkBlock);
 
     if (blockData.type === BlockType.TEXT_INPUT || blockData.type === BlockType.TEXTAREA) {
       block = this._createValueBlock(blockData as ValueBlockInterface, isReadOnly as boolean);
@@ -36,6 +38,8 @@ export class BlockFactory {
       block = this._createAddMoreBlock(blockData as AddMoreBlockInterface, isReadOnly as boolean);
     } else if (blockData.type === BlockType.SELECT) {
       block = this._createSelectBlock(blockData as OptionBlockInterface, isReadOnly as boolean);
+    } else if (blockData.type === BlockType.LINK) {
+      block = this._createLinkBlock(blockData as LinkBlockInterface);
     } else {
       block = this._createContentBlock(blockData as ContentBlockInterface);
     }
@@ -91,5 +95,9 @@ export class BlockFactory {
 
   _createContentBlock(block: ContentBlockInterface) {
     return new ContentBlock(block as ContentBlockInterface);
+  }
+
+  _createLinkBlock(block: LinkBlockInterface) {
+    return new LinkBlock(block);
   }
 }

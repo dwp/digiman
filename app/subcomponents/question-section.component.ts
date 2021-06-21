@@ -17,10 +17,12 @@ import { RadioBlock } from './radio-block.component';
 import { CheckboxBlock } from './checkbox-block.component';
 import { DecisionCheckboxBlock } from './decision-checkbox-block.component';
 import { DecisionRadioBlock } from './decision-radio-block.component';
+import { LinkBlockInterface } from '../interfaces/link-block.interface';
+import { LinkBlock } from './link-block.component';
 
 export class QuestionSection {
 
-  private _contentBlocks: (ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock)[] = [];
+  private _contentBlocks: (ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock | LinkBlock)[] = [];
   private _decisionBlock: DecisionCheckboxBlock | DecisionRadioBlock;
   private _readOnly: boolean;
   private _id: string;
@@ -39,7 +41,7 @@ export class QuestionSection {
     this._digimanId = data.digimanId;
     this._blockFactory = new BlockFactory();
 
-    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)[], data.question as DecisionBlockInterface);
+    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)[], data.question as DecisionBlockInterface);
   }
 
   get htmlNode(): HTMLElement {
@@ -70,7 +72,7 @@ export class QuestionSection {
     return this._id;
   }
 
-  getContentBlockById(id: String): ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock {
+  getContentBlockById(id: String): ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock | LinkBlock {
     let contentBlock = this.contentBlocks.find(block => {
       if (block instanceof FormBlock || block instanceof AddMoreBlock) {
         return block.id === id;
@@ -106,7 +108,7 @@ export class QuestionSection {
     });
   }
 
-  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)[], questions: DecisionBlockInterface) {    
+  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)[], questions: DecisionBlockInterface) {    
     // create block for each object in content[]
     this._createContentBlocks(content);
 
@@ -122,7 +124,7 @@ export class QuestionSection {
     this._decisionBlock = this._blockFactory.createDecisionBlock(block, this.readOnly);
   }
 
-  _createContentBlocks(blocks: Array<(ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface)>) {
+  _createContentBlocks(blocks: Array<(ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)>) {
     blocks.forEach((block, index) => {
       this._isSectionWithIntroductionHeading = this._hasIntroductionHeading && this._id === 'qb-start-id' && index === 0;
       this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly, this._hasIntroductionHeading, this._isSectionWithIntroductionHeading));

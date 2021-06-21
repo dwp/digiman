@@ -134,6 +134,11 @@
       ]
      },
      {
+      "type": "LINK",
+      "text": "Link text",
+      "url": "mailto:example@example.com?subject=Email subject&body=2%20Monthly%20Earnings%20Dispute%0A%0AClaimant%20surname%20and%20first%20initial%3A%0A%0AContract%20ID%3A%0A%0AAP%3A%0A%0AUC%20earnings%20used%0A%0AEmployer%3A%0A%0APlease%20ensure%20you%20populate%20all%20of%20the%20fields%20above%20before%20sending%20this%20email.%0A%0AE_M_A_I_L_B_L_O_C_K"
+     },
+     {
       "type": "RADIO",
       "id": "qb-start-id_radio-label_vvm6h04guf",
       "label": "Radio label",

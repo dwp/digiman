@@ -8,6 +8,7 @@ import { StateFormBlock } from '../interfaces/state-form-block.interface';
 import { StateQuestionBlock } from '../interfaces/state-question-block.interface';
 import { AddMoreBlock } from '../subcomponents/add-more-block.component';
 import { ValueInterface } from '../interfaces/value.interface';
+import { LinkBlock } from '../subcomponents/link-block.component';
 
 /**
  * @method stateService
@@ -60,10 +61,10 @@ export default function stateService(questionSections: QuestionSection[]): State
  */
 export function buildDataState(qs: QuestionSection): StateFormBlock[] {
   let dataState: StateFormBlock[] = [];
-  let contentBlocks: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock)[] = qs.contentBlocks;
+  let contentBlocks: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock|LinkBlock)[] = qs.contentBlocks;
 
   for (let i=0; i<contentBlocks.length; i++) {
-    let contentBlock: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock) = contentBlocks[i];
+    let contentBlock: (OptionBlock|ValueBlock|ContentBlock|DateBlock|AddMoreBlock|LinkBlock) = contentBlocks[i];
 
     if (contentBlock instanceof OptionBlock) {
       let options: OptionInterface[] = contentBlock.options;

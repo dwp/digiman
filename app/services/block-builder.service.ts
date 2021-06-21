@@ -11,6 +11,7 @@ import important from '../views/important.view.mustache';
 import paragraph from '../views/paragraph.view.mustache';
 import heading from '../views/heading.view.mustache';
 import select from '../views/select.view.mustache';
+import link from '../views/link.view.mustache';
 import { BlockType } from '../enums/block-type.enum';
 import { ValueBlock } from '../subcomponents/value-block.component';
 import { ContentBlock } from '../subcomponents/content-block.component';
@@ -21,8 +22,9 @@ import { CheckboxBlock } from '../subcomponents/checkbox-block.component';
 import { RadioBlock } from '../subcomponents/radio-block.component';
 import { DecisionRadioBlock } from '../subcomponents/decision-radio-block.component';
 import { DecisionCheckboxBlock } from '../subcomponents/decision-checkbox-block.component';
+import { LinkBlock } from '../subcomponents/link-block.component';
 
-export default function blockBuilder(block: (ValueBlock | CheckboxBlock | RadioBlock | ContentBlock | DecisionRadioBlock | DecisionCheckboxBlock | DateBlock | SelectBlock)) {
+export default function blockBuilder(block: (ValueBlock | CheckboxBlock | RadioBlock | ContentBlock | DecisionRadioBlock | DecisionCheckboxBlock | DateBlock | SelectBlock | LinkBlock)) {
 
   let component: string;
 
@@ -65,6 +67,10 @@ export default function blockBuilder(block: (ValueBlock | CheckboxBlock | RadioB
       break;
     case BlockType.SELECT:
       component = template(select, block);
+      break;
+    case BlockType.LINK:
+      console.log(block);
+      component = template(link, block);
       break;
     default:
       component = null;
