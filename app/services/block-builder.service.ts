@@ -69,7 +69,6 @@ export default function blockBuilder(block: (ValueBlock | CheckboxBlock | RadioB
       component = template(select, block);
       break;
     case BlockType.LINK:
-      console.log(block);
       component = template(link, block);
       break;
     default:
