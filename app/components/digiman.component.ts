@@ -284,7 +284,6 @@ export class Digiman {
       //set statusCallInProgress to true before debounce delay is applied
       this.statusCallInProgress = true;
       this.state = stateService(this.questionSections as QuestionSection[]);
-      console.log(this.state);
       this.debouncedSendState(this.postCompletionQuery);
     }
   }
