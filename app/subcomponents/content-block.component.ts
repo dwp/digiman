@@ -10,15 +10,9 @@ export class ContentBlock extends Block {
     super(data.type as BlockType);
 
     this._content = data.content;
-
-    this.updateView();
   }
 
   get content(): string | string[] {
     return this._content;
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as ContentBlock);
   }
 }

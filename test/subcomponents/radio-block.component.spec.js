@@ -33,10 +33,6 @@ describe('RadioBlock', () => {
       block = new RadioBlock(checkboxData(EDITABLE));
     });
 
-    it('Then html object contains defined label', () => {
-      expect(block.htmlNode.querySelector('.govuk-fieldset__legend.govuk-fieldset__legend--m.text').innerHTML.trim()).toEqual('Select any option');
-    });
-
     it('And hint is as defined', () => {
       expect(block.hint).toBe(undefined);
     });
@@ -80,10 +76,6 @@ describe('RadioBlock', () => {
         });
         expect(atmOption.selected).toBe(true);
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#radio-id-ATM').checked).toBe(true);
-      });
     });
 
     describe('When RADIO state is set to ATM second time', () => {
@@ -102,10 +94,6 @@ describe('RadioBlock', () => {
         });
         expect(atmOption.selected).toBe(true);
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#radio-id-ATM').checked).toBe(true);
-      });
     });
 
     describe('When RADIO state is reset', () => {
@@ -119,10 +107,6 @@ describe('RadioBlock', () => {
           return option.value === 'ATM';
         });
         expect(atmOption.selected).toBe(false);
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#radio-id-ATM').checked).toBe(false);
       });
     });
   });

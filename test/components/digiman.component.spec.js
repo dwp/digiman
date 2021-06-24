@@ -572,10 +572,6 @@ describe('Digiman', () => {
           expect(digimanComponent.getQuestionSectionById('qb-start-id').decisionBlock.nextSection).toBe('qb-question-id');
         });
 
-        it('And object html is updated with correct next state', () => {
-          expect(digimanComponent.getQuestionSectionById('qb-start-id').htmlNode.dataset.nextState).toBe('qb-question-id');
-        });
-
         it('And html is updated', () => {
           expect(document.getElementById('verify_bank-1.0-edit__qb-start-id').dataset.nextState).toBe('qb-question-id');
         });

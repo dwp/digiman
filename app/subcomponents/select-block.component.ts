@@ -9,8 +9,6 @@ export class SelectBlock extends OptionBlock {
 
   constructor(data: OptionBlockInterface) {
     super(data as OptionBlockInterface);
-
-    this.updateView();
   }
 
   set value(newValue: string) {
@@ -34,13 +32,10 @@ export class SelectBlock extends OptionBlock {
 
     this._unSelectAllOptions();
     this._selectOption(option);
-
-    this.updateView();
   }
 
   resetState() {
     this._unSelectAllOptions();
-    this.updateView();
   }
 
   _selectOption(option: OptionInterface) {
@@ -55,9 +50,5 @@ export class SelectBlock extends OptionBlock {
     this.options.forEach((option: OptionInterface) => {
       option.selected = false;
     });
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as SelectBlock);
   }
 }

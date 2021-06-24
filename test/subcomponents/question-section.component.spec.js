@@ -120,38 +120,6 @@ describe('QuestionSection', () => {
       expect(qs.readOnly).toBe(false);
     });
 
-    it('And html of question section contains decision block html', () => {
-      expect(qs.htmlNode.querySelector('#id-section-qb-start-id_decision')).not.toBe(null);
-    });
-
-    it('And html of question section contains paragraph block html', () => {
-      expect(qs.htmlNode.querySelector('.govuk-body.text')).not.toBe(null);
-    });
-
-    it('And html of question section contains day input for date block html', () => {
-      expect(qs.htmlNode.querySelector(`[id="qb-start-id_date-id.day"]`)).not.toBe(null);
-    });
-
-    it('And html of question section contains month input for date block html', () => {
-      expect(qs.htmlNode.querySelector(`[id="qb-start-id_date-id.month"]`)).not.toBe(null);
-    });
-
-    it('And html of question section contains year input for date block html', () => {
-      expect(qs.htmlNode.querySelector(`[id="qb-start-id_date-id.year"]`)).not.toBe(null);
-    });
-
-    it('And html of question section contains hint block html', () => {
-      expect(qs.htmlNode.querySelector('.govuk-hint.text')).not.toBe(null);
-    });
-
-    it('And html of question section contains important information block html', () => {
-      expect(qs.htmlNode.querySelector('.govuk-inset-text.text')).not.toBe(null);
-    });
-
-    it('And html of question section contains add more block html', () => {
-      expect(qs.htmlNode.querySelector('#id-add-more-qb-start-id_add-more')).not.toBe(null);
-    });
-
     describe('When getContentBlockById is called with existing ID:qb-start-id_input-id', () => {
       beforeEach(() => {
         contentBlock = qs.getContentBlockById('qb-start-id_input-id');
@@ -240,48 +208,6 @@ describe('QuestionSection', () => {
 
       it('And second content block of type ContentBlock does not have readOnly property', () => {
         expect(qs.contentBlocks[1].readOnly).toBe(undefined);
-      });
-    });
-
-    describe('When _createView is called', () => {
-      beforeEach(() => {
-        qs._contentBlocks = [];
-        qs._createContentBlocks([{ id: 'test-id', type: 'TEXT_INPUT' }, { content: 'test', type: 'PARAGRAPH' }]);
-        qs._digimanId = 'test-id';
-        view = qs._createView();
-      });
-
-      it('Then _createView returns question section', () => {
-        expect(view.classList.contains('question-section')).toBe(true);
-      });
-
-      it('And updated html does not match the old html', () => {
-        expect(view).not.toEqual(qs.htmlNode);
-      });
-
-      it('And updated html does contain new paragraph text', () => {
-        expect(view.querySelector('.govuk-body.text').innerHTML).toEqual('test');
-      });
-    });
-
-    describe('When updateView is called', () => {
-      beforeEach(() => {
-        qs._contentBlocks = [];
-        qs._createContentBlocks([{ id: 'test-id', type: 'TEXT_INPUT' }, { content: 'test', type: 'PARAGRAPH' }]);
-        qs._digimanId = 'test-id';
-        qs.updateView();
-      });
-
-      it('Then question section id is updated', () => {
-        expect(qs.htmlNode.id).toEqual('test-id__qb-start-id');
-      });
-
-      it('And updated html does contain new paragraph text', () => {
-        expect(qs.htmlNode.querySelector('.govuk-body.text').innerHTML).toEqual('test');
-      });
-
-      it('And updated html does contain new input', () => {
-        expect(qs.htmlNode.querySelector('#test-id')).not.toBe(null);
       });
     });
   });

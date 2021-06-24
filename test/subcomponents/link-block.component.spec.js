@@ -5,7 +5,7 @@ describe('LinkBlock', () => {
 
   const data = {
     type: "LINK",
-    text: "link text",
+    content: "link text",
     url: "http://www.example.url.com"
   };
 
@@ -13,23 +13,17 @@ describe('LinkBlock', () => {
     block = null;
   });
 
-  describe('When PARAGRAPH block is created', () => {
+  describe('When LINK block is created', () => {
     beforeEach(() => {
       block = new LinkBlock(data);
-    });
-
-    it('Then object html is correct', () => {
-      expect(block.htmlNode.outerHTML).toBe(`<div class="govuk-body text">
-  <a href="http://www.example.url.com" class="govuk-link" target="_blank" rel="external noopener noreferrer">link text</a>
-</div>`);
     });
 
     it('And type is LINK', () => {
       expect(block.type).toBe('LINK');
     });
 
-    it('And text is defined', () => {
-      expect(block.text).toBe('link text');
+    it('And content is defined', () => {
+      expect(block.content).toBe('link text');
     });
 
     it('And url is defined', () => {

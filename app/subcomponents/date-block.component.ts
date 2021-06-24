@@ -21,8 +21,6 @@ export class DateBlock extends FormBlock {
     this._value = null;
 
     this.hint = (this.hint && this.hint.length > 0) ? this.hint : this._DEFAULT_HINT_TEXT;
-
-    this.updateView();
   }
 
   get value(): number {
@@ -79,8 +77,6 @@ export class DateBlock extends FormBlock {
         this.day = dateUtils.getDay(stringValue);
         this.month = dateUtils.getMonth(stringValue);
         this.year = dateUtils.getYear(stringValue);
-
-        this.updateView();
       }
     }
   }
@@ -90,8 +86,6 @@ export class DateBlock extends FormBlock {
     this.day = '';
     this.month = '';
     this.year = '';
-    
-    this.updateView();
   }
 
   getDateBlockState(type: string) {
@@ -114,9 +108,5 @@ export class DateBlock extends FormBlock {
     }
 
     this.updateValue();
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as DateBlock);
   }
 }

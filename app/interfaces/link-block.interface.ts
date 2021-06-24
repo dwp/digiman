@@ -1,6 +1,5 @@
-import { BlockInterface } from './block.interface';
+import { ContentBlockInterface } from './content-block.interface';
 
-export interface LinkBlockInterface extends BlockInterface {
-  text: string,
+export interface LinkBlockInterface extends ContentBlockInterface {
   url: string
 }

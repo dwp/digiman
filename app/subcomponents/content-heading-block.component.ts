@@ -11,8 +11,6 @@ export class ContentHeadingBlock extends ContentBlock {
 
     this._hasIntroductionHeading = data.hasIntroductionHeading;
     this._isSectionWithIntroductionHeading = data.isSectionWithIntroductionHeading;
-
-    this.updateView();
   }
 
   get hasIntroductionHeading(): boolean {
@@ -21,9 +19,5 @@ export class ContentHeadingBlock extends ContentBlock {
 
   get isSectionWithIntroductionHeading(): boolean {
     return this._isSectionWithIntroductionHeading;
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as ContentHeadingBlock);
   }
 }

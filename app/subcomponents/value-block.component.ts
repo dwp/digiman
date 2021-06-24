@@ -10,8 +10,6 @@ export class ValueBlock extends FormBlock {
     super(data as ValueBlockInterface);
 
     this._value = '';
-
-    this.htmlNode = blockBuilder(this as ValueBlock);
   }
 
   get value(): string {
@@ -24,25 +22,9 @@ export class ValueBlock extends FormBlock {
 
   setState(value: string) {
     this.value = value;
-    this.updateView();
   }
 
   resetState() {
     this.value = '';
-    this.updateView();
-  }
-
-  updateView() {
-    if (this.readOnly) {
-      const paragraph: HTMLElement = this.htmlNode.querySelector('.digiman__value-input--read-only');
-      paragraph.innerHTML = this.value;
-    } else {
-      const input: HTMLInputElement = this.htmlNode.querySelector('.digiman__value-input');
-      input.value = this.value;
-
-      if (this.type === BlockType.TEXTAREA) {
-        input.innerHTML = this.value;
-      }
-    }
   }
 }

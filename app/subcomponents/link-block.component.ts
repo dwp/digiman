@@ -2,29 +2,19 @@ import blockBuilder from '../services/block-builder.service';
 import { LinkBlockInterface } from '../interfaces/link-block.interface';
 import { Block } from './block.component';
 import { BlockType } from '../enums/block-type.enum';
+import { ContentBlock } from './content-block.component';
+import { ContentBlockInterface } from '../interfaces/content-block.interface';
 
-export class LinkBlock extends Block {
+export class LinkBlock extends ContentBlock {
   private _url: string;
-  private _text: any;
 
   constructor(data: LinkBlockInterface) {
-    super(data.type as BlockType);
+    super({type: data.type, content: data.content} as ContentBlockInterface);
 
     this._url = data.url;
-    this._text = data.text;
-    
-    this.updateView();
   }
 
   get url(): string {
     return this._url;
-  }
-
-  get text(): string {
-    return this._text;
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as LinkBlock);
   }
 }

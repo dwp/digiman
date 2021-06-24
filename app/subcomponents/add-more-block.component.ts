@@ -2,9 +2,11 @@ import { Block } from './block.component';
 import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
 import { ValueBlock } from './value-block.component';
 import { BlockType } from '../enums/block-type.enum';
-import { createElement, delegateEvent } from '../vendor/utils/index.utils';
+import { delegateEvent } from '../vendor/utils/index.utils';
 import { ValueBlockInterface } from '../interfaces/value-block.interface';
 import { ValueInterface } from '../interfaces/value.interface';
+import blockBuilder from '../services/block-builder.service';
+import { AddMoreBlockView } from '../components/add-more-block-view.component';
 
 
 export class AddMoreBlock extends Block {
@@ -13,7 +15,9 @@ export class AddMoreBlock extends Block {
   private _id: string;
   private _readOnly: boolean;
   private _itemsCount: number;
-  private addMoreButton: HTMLElement;
+  private _addMoreButton: HTMLElement;
+  private _htmlNode: HTMLElement;
+  private addMoreBlockView: AddMoreBlockView = new AddMoreBlockView();
 
   constructor(data: AddMoreBlockInterface) {
     super(data.type as BlockType);
@@ -29,9 +33,6 @@ export class AddMoreBlock extends Block {
 
     this.handleRemoveClick = this.handleRemoveClick.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
-    this.htmlNode = this._createView();
-    this.addEvents();
   }
 
   get id(): string {
@@ -60,6 +61,18 @@ export class AddMoreBlock extends Block {
 
   get itemsCount() {
     return this._itemsCount;
+  }
+
+  get addMoreButton() {
+    return this._addMoreButton;
+  }
+
+  get htmlNode() {
+    return this._htmlNode;
+  }
+
+  set htmlNode(htmlNode: HTMLElement) {
+    this._htmlNode = htmlNode;
   }
 
   get value(): Array<Array<ValueInterface>> {
@@ -101,27 +114,29 @@ export class AddMoreBlock extends Block {
 
   addAnotherItem() {
     this.itemsCount++;
-    const parent = this.addMoreButton.parentNode;
+    const parent = this._addMoreButton.parentNode;
     const newBlocks = this._createBlocks(this.blocksData);
 
-    this.blocks.push(newBlocks);
+    this._blocks.push(newBlocks);
 
-    const fieldsetNode = createElement(`<fieldset id="id-add-more-${this.id}-${this.itemsCount}" class="govuk-fieldset digiman__add-more-fieldset"></fieldset>`);
+    const fieldsetNode = this.addMoreBlockView.createFieldset(this.id, this.itemsCount);
     for (let block of newBlocks) {
-      fieldsetNode.append(block.htmlNode);
+      fieldsetNode.append(blockBuilder(block));
     }
-    const removeButtonNode = createElement(`<button class="govuk-body link-style add-more__remove-button" 
-                                                    type="button"
-                                                    aria-controls="id-add-more-${this.id}-${this.itemsCount}" 
-                                                    data-remove-number="${this.itemsCount}">Remove <span class="visuallyhidden">set of inputs ${this.itemsCount}</span>
-                                            </button>`);
+
+    const removeButtonNode = this.createRemoveButton(this.id, this.itemsCount);
+    
     fieldsetNode.append(removeButtonNode);
 
-    parent.insertBefore(fieldsetNode, this.addMoreButton);
+    parent.insertBefore(fieldsetNode, this._addMoreButton);
+  }
+
+  createRemoveButton(id: string, index: number) {
+     return this.addMoreBlockView.createRemoveButton(id, index);
   }
 
   addEvents() {
-    this.addMoreButton.addEventListener('click', this.handleClick);
+    this._addMoreButton.addEventListener('click', this.handleClick);
     delegateEvent(this.htmlNode, 'click', '.add-more__remove-button', this.handleRemoveClick);
   }
 
@@ -130,42 +145,46 @@ export class AddMoreBlock extends Block {
     const target = e.target as HTMLElement;
     const number = parseInt(target.dataset.removeNumber);
     const fieldsetIndex = number-1;
+    const blockLength = this.blocks.length;
     const fieldset = this.htmlNode.querySelector(`#id-add-more-${this.id}-${number}`);
     fieldset.remove();
     this.itemsCount--;
 
     if (fieldsetIndex < this.itemsCount) {
-      this.blocks.splice(fieldsetIndex, 1);
-
-      this.blocks.forEach((valueArray: Array<ValueBlock>, index: number) => {
-        const fieldsetNode: HTMLElement = this.htmlNode.querySelector(`#id-add-more-${this.id}-${index+2}`);
+      for (let i=0; i<blockLength; i++) {
+        const fieldsetNode: HTMLElement = this.htmlNode.querySelector(`#id-add-more-${this.id}-${i+1}`);
         if (fieldsetNode) {
           fieldsetNode.remove();
         }
+      }
+
+      this.blocks.splice(fieldsetIndex, 1);
+
+      this.blocks.forEach((valueArray: Array<ValueBlock>, index: number) => {
         if (index >= fieldsetIndex) {
           valueArray.forEach((childValue, inputIndex) => {
             childValue.id = `${this.id}${inputIndex+1}--${index+1}`;
             childValue.label = childValue.label.replace(/\((.*)\)/, `(${index+1})`);
           });
-        } 
+        }
       });
 
       const value = JSON.parse(JSON.stringify(this.value));
 
-      this.blocks.length = 1;
-      this.itemsCount = 1;
-
       this.setState(value);
 
+      const allFieldsets = this.addMoreBlockView.createFieldsets(this);
+      allFieldsets.forEach(fieldset => this._htmlNode.insertBefore(fieldset, this._addMoreButton));
+      
       this.focusFirstInputOfSet(number);
     } else {
       this.blocks.pop();
-      this.addMoreButton.focus();
+      this._addMoreButton.focus();
     }
   }
 
   cacheElements() {
-    this.addMoreButton = createElement(`<input type="button" value="Add another" class="button button-secondary add-more__add-button" data-add-more-id="${this.id}" />`);
+    this._addMoreButton = this.addMoreBlockView.createAddMoreButton(this.id);
   }
   
   setChildState(value: string, id: string) {
@@ -184,10 +203,13 @@ export class AddMoreBlock extends Block {
   }
 
   setState(value: Array<Array<ValueInterface>>) {
-    //update all from state on page load
-    for(let i=1;i<value.length;i++) {
-      this.addAnotherItem();
-    }
+    this._blocks = [];
+    this.itemsCount = 0;
+
+    value.forEach((v) => {
+      this.itemsCount++;
+      this._blocks.push(this._createBlocks(this.blocksData)); 
+    });
 
     const groupArray = value as Array<Array<ValueInterface>>;
     groupArray.forEach((valueArray: Array<ValueInterface>) => {
@@ -202,7 +224,6 @@ export class AddMoreBlock extends Block {
     this.blocks = [];
     this.itemsCount = 1;
     this.blocks.push(this._createBlocks(this.blocksData));
-    this.htmlNode = this._createView();
   }
 
   _createBlocks(blocks: Array<ValueBlockInterface>): Array<ValueBlock> {
@@ -217,22 +238,5 @@ export class AddMoreBlock extends Block {
     });
 
     return blockArray;
-  }
-
-  _createView(): HTMLElement {
-    let elementNode = createElement(`<div id="id-add-more-${this.id}"></div>`);
-
-    const fieldsetNode = createElement(`<fieldset id="id-add-more-${this.id}-1" class="govuk-fieldset digiman__add-more-fieldset"></fieldset>`);
-    for (let block of this.blocks) {
-      block.forEach(valueBlock => {
-        fieldsetNode.append(valueBlock.htmlNode);
-      });
-    }
-
-    elementNode.append(fieldsetNode);
-    
-    elementNode.append(this.addMoreButton);
-
-    return elementNode;
   }
 }

@@ -3,7 +3,7 @@ import { OptionInterface } from '../interfaces/option.interface';
 import { DecisionBlockInterface } from '../interfaces/decision-block.interface';
 import { RadioBlock } from './radio-block.component';
 
-export class DecisionRadioBlock extends RadioBlock {
+export class DecisionRadioBlock extends RadioBlock implements DecisionBlockInterface {
   private _nextSection: string;
   private _selectedOptionId: string;
 
@@ -12,8 +12,6 @@ export class DecisionRadioBlock extends RadioBlock {
 
     this._nextSection = '';
     this._selectedOptionId = '';
-
-    this.updateView();
   }
 
   get nextSection(): string {
@@ -39,8 +37,6 @@ export class DecisionRadioBlock extends RadioBlock {
 
     this.nextSection = (option.selected) ? option.questionBlockId : '';
     this.selectedOptionId = (option.selected && option.optionId) ? option.optionId : '';
-
-    this.updateView();
   }
 
   getOptionById(value: string): OptionInterface {
@@ -56,18 +52,5 @@ export class DecisionRadioBlock extends RadioBlock {
     super.unSelectAllOptions();
 
     this.nextSection = '';
-
-    this.updateView();
-  }
-
-  removeErrors() {
-    if (this.nextSection.trim() === '' && this.htmlNode.classList.contains('has-errors')) {
-      this.htmlNode.classList.remove('has-errors');
-      this.htmlNode.querySelector('.govuk-error-message').innerHTML = '';
-    }
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as DecisionRadioBlock);
   }
 }
