@@ -23,6 +23,7 @@ import { ValueInterface } from '../interfaces/value.interface';
 import { SelectBlock } from '../subcomponents/select-block.component';
 import { CheckboxBlock } from '../subcomponents/checkbox-block.component';
 import { RadioBlock } from '../subcomponents/radio-block.component';
+import { QuestionSectionViewFactory } from './question-section-view-factory.component';
 
 export class Digiman {
   private START_STATE: string = 'qb-start-id';
@@ -47,6 +48,7 @@ export class Digiman {
   private statusCallInProgress: boolean = false;
   private completionQuery: string = '?postCompletionState=true';
   private _hasIntroductionHeading: boolean = false;
+  private questionSectionViewFactory: QuestionSectionViewFactory = new QuestionSectionViewFactory();
 
   constructor(element: HTMLElement) {
     this.container = element;
@@ -140,7 +142,8 @@ export class Digiman {
   renderQuestionSections(sections: StateQuestionBlock[]) {
     //display starting point
     if (!sections || sections.length === 0) {
-      this.renderSection(this.getQuestionSectionById(this.START_STATE as string).htmlNode);
+      const qsView = this.questionSectionViewFactory.createView(this.getQuestionSectionById(this.START_STATE as string));
+      this.renderSection(qsView);
     } else if (sections && sections.length > 0) {
       let startingSection = sections.find(section => section.questionBlockId === this.START_STATE);
 
@@ -161,15 +164,16 @@ export class Digiman {
       this.updateFormChoices(qs as QuestionSection, section.data as StateFormBlock[]);
     }
 
-    qs.updateView();
+    const qsView = this.questionSectionViewFactory.createView(qs);
 
-    this.renderSection(qs.htmlNode);
+    this.renderSection(qsView);
 
     let nextSection = this.getNextSection(nextSectionId as string, sections as StateQuestionBlock[]);
     if (nextSection) {
       this.renderQuestionSection(nextSection, this.removeSectionItem(currentSectionId as string, sections as StateQuestionBlock[]));
     } else if (nextSectionId !== DigimanState.DONE) {
-      this.renderSection(this.getQuestionSectionById(nextSectionId as string).htmlNode);
+      const qsView = this.questionSectionViewFactory.createView(this.getQuestionSectionById(nextSectionId as string));
+      this.renderSection(qsView);
     } else if (nextSectionId === DigimanState.DONE) {
       if (this.AUTO_SAVE_ON_COMPLETION) {
         this.AUTO_SAVE_ON_COMPLETION_ENABLED = true;
@@ -280,6 +284,7 @@ export class Digiman {
       //set statusCallInProgress to true before debounce delay is applied
       this.statusCallInProgress = true;
       this.state = stateService(this.questionSections as QuestionSection[]);
+      console.log(this.state);
       this.debouncedSendState(this.postCompletionQuery);
     }
   }
@@ -344,11 +349,15 @@ export class Digiman {
     }
   }
 
-  // on any decision click, clear out the errors that are not 
+  // on any decision click, clear out the errors
   removeErrorsFromHiddenDecisionBlocks() {
     this.questionSections.forEach(qs => {
       const decisionBlock = qs.decisionBlock;
-      decisionBlock.removeErrors();
+      /*
+      if (this.nextSection.trim() === '' && this.htmlNode.classList.contains('has-errors')) {
+        this.htmlNode.classList.remove('has-errors');
+        this.htmlNode.querySelector('.govuk-error-message').innerHTML = '';
+      }*/
     });
   }
 
@@ -417,7 +426,8 @@ export class Digiman {
 
       if (nextSectionId !== DigimanState.DONE) {
         if (nextSectionId && nextSectionId.trim().length > 0) {
-          this.renderSection(this.getQuestionSectionById(nextSectionId).htmlNode);
+          const qsView = this.questionSectionViewFactory.createView(this.getQuestionSectionById(nextSectionId));
+          this.renderSection(qsView);
         }
       }
     } else {
@@ -445,7 +455,6 @@ export class Digiman {
       //don't reset form blocks for the clicked question section
       if (currentQsId !== qs.id) {
         qs.resetAllFormBlocksState();
-        qs.updateView();
       }
 
       nextQuestionSectionNode = this.container.querySelector(`[data-current-state="${nextState}"]`);

@@ -1,4 +1,5 @@
 import { AddMoreBlock } from '../../app/subcomponents/add-more-block.component';
+import { AddMoreBlockView } from '../../app/components/add-more-block-view.component';
 
 describe('AddMoreBlock', () => {
   let block;
@@ -27,7 +28,7 @@ describe('AddMoreBlock', () => {
           label: "Third"
         }
       ]
-     }
+    }
   };
 
   afterEach(() => {
@@ -37,6 +38,8 @@ describe('AddMoreBlock', () => {
   describe('When ADD_MORE block is created with 3 inputs', () => {
     beforeEach(() => {
       block = new AddMoreBlock(addMoredata(EDITABLE));
+      const addMoreBlockView = new AddMoreBlockView();
+      addMoreBlockView.createView(block);
     });
 
     it('Then object html contains 3 inputs', () => {
@@ -75,29 +78,22 @@ describe('AddMoreBlock', () => {
 
     describe('When ADD_MORE state is set on page load', () => {
       beforeEach(() => {
-        block.setState([[{ id: 'qb-end_add-more1--1', value: 'qwe' },{ id: 'qb-end_add-more2--1', value: 'asd' },{ id: 'qb-end_add-more3--1', value: 'zxc' }]]);
+        block.setState([[{ id: 'qb-end_add-more1--1', value: 'qwe' }, { id: 'qb-end_add-more2--1', value: 'asd' }, { id: 'qb-end_add-more3--1', value: 'zxc' }]]);
       });
 
       it('Then value is set to NEW_VALUE', () => {
-        expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: 'qwe' },{ id: 'qb-end_add-more2--1', value: 'asd' },{ id: 'qb-end_add-more3--1', value: 'zxc' }]]);
-      });
-
-      it('And html is updated to reflect that change', () => {
-        const blocks = block.htmlNode.querySelectorAll('.digiman__value-input');
-        expect(blocks[0].value).toEqual('qwe');
-        expect(blocks[1].value).toEqual('asd');
-        expect(blocks[2].value).toEqual('zxc');
+        expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: 'qwe' }, { id: 'qb-end_add-more2--1', value: 'asd' }, { id: 'qb-end_add-more3--1', value: 'zxc' }]]);
       });
 
       describe('When ADD_MORE state is reset', () => {
         beforeEach(() => {
           block.resetState();
         });
-  
+
         it('Then value is reset to empty', () => {
-          expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}]]);
+          expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }]]);
         });
-  
+
         it('And html is updated to reflect that change', () => {
           const blocks = block.htmlNode.querySelectorAll('.digiman__value-input');
           expect(blocks[0].value).toEqual('');
@@ -113,12 +109,7 @@ describe('AddMoreBlock', () => {
       });
 
       it('Then value is set to NEW_VALUE', () => {
-        expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: 'NEW_VALUE'},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}]]);
-      });
-
-      it('And html is updated to reflect that change', () => {
-        const blocks = block.htmlNode.querySelectorAll('.digiman__value-input');
-        expect(blocks[0].value).toEqual('NEW_VALUE');
+        expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: 'NEW_VALUE' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }]]);
       });
     });
 
@@ -127,23 +118,23 @@ describe('AddMoreBlock', () => {
         block.addMoreButton.click();
         block.addMoreButton.click();
       });
-  
+
       it('Then value is updated', () => {
         expect(block.value).toEqual([
-          [{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}],
-          [{ id: 'qb-end_add-more1--2', value: ''},{ id: 'qb-end_add-more2--2', value: ''},{ id: 'qb-end_add-more3--2', value: ''}],
-          [{ id: 'qb-end_add-more1--3', value: ''},{ id: 'qb-end_add-more2--3', value: ''},{ id: 'qb-end_add-more3--3', value: ''}],
+          [{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }],
+          [{ id: 'qb-end_add-more1--2', value: '' }, { id: 'qb-end_add-more2--2', value: '' }, { id: 'qb-end_add-more3--2', value: '' }],
+          [{ id: 'qb-end_add-more1--3', value: '' }, { id: 'qb-end_add-more2--3', value: '' }, { id: 'qb-end_add-more3--3', value: '' }],
         ]);
       });
 
       it('And object html contains 9 inputs', () => {
         expect(Array.from(block.htmlNode.querySelectorAll('.digiman__value-input')).length).toBe(9);
       });
-  
+
       it('And object html contains 1 add more button', () => {
         expect(Array.from(block.htmlNode.querySelectorAll('.add-more__add-button')).length).toBe(1);
       });
-  
+
       it('And object html contains 2 remove buttons', () => {
         expect(Array.from(block.htmlNode.querySelectorAll('.add-more__remove-button')).length).toBe(2);
       });
@@ -156,9 +147,9 @@ describe('AddMoreBlock', () => {
 
         it('Then value is updated', () => {
           expect(block.value).toEqual([
-            [{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}],
-            [{ id: 'qb-end_add-more1--2', value: ''},{ id: 'qb-end_add-more2--2', value: 'NEW_VALUE1'},{ id: 'qb-end_add-more3--2', value: ''}],
-            [{ id: 'qb-end_add-more1--3', value: ''},{ id: 'qb-end_add-more2--3', value: ''},{ id: 'qb-end_add-more3--3', value: 'NEW_VALUE2'}]
+            [{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }],
+            [{ id: 'qb-end_add-more1--2', value: '' }, { id: 'qb-end_add-more2--2', value: 'NEW_VALUE1' }, { id: 'qb-end_add-more3--2', value: '' }],
+            [{ id: 'qb-end_add-more1--3', value: '' }, { id: 'qb-end_add-more2--3', value: '' }, { id: 'qb-end_add-more3--3', value: 'NEW_VALUE2' }]
           ]);
         });
 
@@ -166,11 +157,11 @@ describe('AddMoreBlock', () => {
           beforeEach(() => {
             Array.from(block.htmlNode.querySelectorAll('.add-more__remove-button'))[0].click();
           });
-  
+
           it('Then value is updated', () => {
             expect(block.value).toEqual([
-              [{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}],
-              [{ id: 'qb-end_add-more1--2', value: ''},{ id: 'qb-end_add-more2--2', value: ''},{ id: 'qb-end_add-more3--2', value: 'NEW_VALUE2'}]
+              [{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }],
+              [{ id: 'qb-end_add-more1--2', value: '' }, { id: 'qb-end_add-more2--2', value: '' }, { id: 'qb-end_add-more3--2', value: 'NEW_VALUE2' }]
             ]);
           });
 
@@ -181,9 +172,9 @@ describe('AddMoreBlock', () => {
 
             it('Then value is updated', () => {
               expect(block.value).toEqual([
-                [{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}],
-                [{ id: 'qb-end_add-more1--2', value: ''},{ id: 'qb-end_add-more2--2', value: ''},{ id: 'qb-end_add-more3--2', value: 'NEW_VALUE2'}],
-                [{ id: 'qb-end_add-more1--3', value: ''},{ id: 'qb-end_add-more2--3', value: ''},{ id: 'qb-end_add-more3--3', value: ''}]
+                [{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }],
+                [{ id: 'qb-end_add-more1--2', value: '' }, { id: 'qb-end_add-more2--2', value: '' }, { id: 'qb-end_add-more3--2', value: 'NEW_VALUE2' }],
+                [{ id: 'qb-end_add-more1--3', value: '' }, { id: 'qb-end_add-more2--3', value: '' }, { id: 'qb-end_add-more3--3', value: '' }]
               ]);
             });
 
@@ -193,9 +184,9 @@ describe('AddMoreBlock', () => {
               });
 
               it('Then value is reset to empty', () => {
-                expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: ''},{ id: 'qb-end_add-more2--1', value: ''},{ id: 'qb-end_add-more3--1', value: ''}]]);
+                expect(block.value).toEqual([[{ id: 'qb-end_add-more1--1', value: '' }, { id: 'qb-end_add-more2--1', value: '' }, { id: 'qb-end_add-more3--1', value: '' }]]);
               });
-        
+
               it('And html is updated to reflect that change', () => {
                 const blocks = block.htmlNode.querySelectorAll('.digiman__value-input');
                 expect(blocks[0].value).toEqual('');
@@ -203,16 +194,8 @@ describe('AddMoreBlock', () => {
                 expect(blocks[2].value).toEqual('');
               });
 
-              it('And object html contains 3 inputs', () => {
-                expect(Array.from(block.htmlNode.querySelectorAll('.digiman__value-input')).length).toBe(3);
-              });
-          
               it('And object html contains 1 add more button', () => {
                 expect(Array.from(block.htmlNode.querySelectorAll('.add-more__add-button')).length).toBe(1);
-              });
-          
-              it('And object html contains 0 remove buttons', () => {
-                expect(Array.from(block.htmlNode.querySelectorAll('.add-more__remove-button')).length).toBe(0);
               });
             });
           });
@@ -224,6 +207,8 @@ describe('AddMoreBlock', () => {
   describe('When ADD_MORE block is created with read only access', () => {
     beforeEach(() => {
       block = new AddMoreBlock(addMoredata(READ_ONLY));
+      const addMoreBlockView = new AddMoreBlockView();
+      addMoreBlockView.createView(block);
     });
 
     it('Then readOnly is set to true', () => {

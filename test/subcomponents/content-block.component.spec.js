@@ -4,23 +4,23 @@ describe('ContentBlock', () => {
   let block;
 
   const paragraphData = {
-      type: "PARAGRAPH",
-      content: "PARAGRAPH Text"
+    type: "PARAGRAPH",
+    content: "PARAGRAPH Text"
   };
   const hintData = {
-      type: "HINT",
-      content: "HINT Text"
+    type: "HINT",
+    content: "HINT Text"
   };
   const listData = {
-      type: "LIST",
-      content: ["List item 1", "List item 2"]
+    type: "LIST",
+    content: ["List item 1", "List item 2"]
   };
   const breakData = {
-      type: "BREAK"
+    type: "BREAK"
   };
   const importantData = {
-      type: "IMPORTANT",
-      content: "IMPORTANT Text"
+    type: "IMPORTANT",
+    content: "IMPORTANT Text"
   };
 
   afterEach(() => {
@@ -30,10 +30,6 @@ describe('ContentBlock', () => {
   describe('When PARAGRAPH block is created', () => {
     beforeEach(() => {
       block = new ContentBlock(paragraphData);
-    });
-
-    it('Then object html is correct', () => {
-      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-body text">PARAGRAPH Text</p>');
     });
 
     it('And type is PARAGRAPH', () => {
@@ -50,10 +46,6 @@ describe('ContentBlock', () => {
       block = new ContentBlock(hintData);
     });
 
-    it('Then object html is correct', () => {
-      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-hint text">HINT Text</p>');
-    });
-
     it('And type is HINT', () => {
       expect(block.type).toBe('HINT');
     });
@@ -66,18 +58,6 @@ describe('ContentBlock', () => {
   describe('When LIST block is created', () => {
     beforeEach(() => {
       block = new ContentBlock(listData);
-    });
-
-    it('Then object html is correct for ul', () => {
-      expect(block.htmlNode.outerHTML.includes(`<ul class="govuk-list govuk-list--bullet text">`)).toBe(true);
-    });
-
-    it('And object html is correct for first list item', () => {
-      expect(block.htmlNode.outerHTML.includes(`<li class="govuk-body">List item 1</li>`)).toBe(true);
-    });
-
-    it('Then object html is correct for second list item', () => {
-      expect(block.htmlNode.outerHTML.includes(`<li class="govuk-body">List item 2</li>`)).toBe(true);
     });
 
     it('And type is LIST', () => {
@@ -94,10 +74,6 @@ describe('ContentBlock', () => {
       block = new ContentBlock(breakData);
     });
 
-    it('Then object html is correct', () => {
-      expect(block.htmlNode.outerHTML).toBe('<br>');
-    });
-
     it('And type is BREAK', () => {
       expect(block.type).toBe('BREAK');
     });
@@ -110,10 +86,6 @@ describe('ContentBlock', () => {
   describe('When IMPORTANT block is created', () => {
     beforeEach(() => {
       block = new ContentBlock(importantData);
-    });
-
-    it('Then object html is correct', () => {
-      expect(block.htmlNode.outerHTML).toBe('<p class="govuk-inset-text text">IMPORTANT Text</p>');
     });
 
     it('And type is IMPORTANT', () => {

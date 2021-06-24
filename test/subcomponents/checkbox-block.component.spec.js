@@ -43,10 +43,6 @@ describe('CheckboxBlock', () => {
       block = new CheckboxBlock(checkboxData(EDITABLE));
     });
 
-    it('Then html object contains defined label', () => {
-      expect(block.htmlNode.querySelector('.govuk-fieldset__legend.govuk-fieldset__legend--m.text').innerHTML.trim()).toEqual('Select any option');
-    });
-
     it('And hint is as defined', () => {
       expect(block.hint).toBe(undefined);
     });
@@ -94,10 +90,6 @@ describe('CheckboxBlock', () => {
         });
         expect(atmOption.selected).toBe(true);
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(true);
-      });
     });
 
     describe('When CHECKBOX state is set to ATM second time', () => {
@@ -116,10 +108,6 @@ describe('CheckboxBlock', () => {
         });
         expect(atmOption.selected).toBe(false);
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(false);
-      });
     });
 
     describe('When CHECKBOX state is reset', () => {
@@ -133,10 +121,6 @@ describe('CheckboxBlock', () => {
           return option.value === 'ATM';
         });
         expect(atmOption.selected).toBe(false);
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#checkbox-id-ATM').checked).toBe(false);
       });
     });
   });

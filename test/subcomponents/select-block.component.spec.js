@@ -33,10 +33,6 @@ describe('SelectBlock', () => {
       block = new SelectBlock(selectData(EDITABLE));
     });
 
-    it('Then html object contains defined label', () => {
-      expect(block.htmlNode.querySelector('.govuk-fieldset__legend.govuk-fieldset__legend--m.text').innerHTML.trim()).toEqual('Select any option');
-    });
-
     it('And hint is as defined', () => {
       expect(block.hint).toBe(undefined);
     });
@@ -81,10 +77,6 @@ describe('SelectBlock', () => {
         expect(atmOption.selected).toBe(true);
       });
 
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('option[value="ATM"][selected="selected"]').getAttribute('selected')).toBe('selected');
-      });
-
       describe('When SELECT state is set to society', () => {
         afterEach(() => {
           block.resetState();
@@ -100,11 +92,6 @@ describe('SelectBlock', () => {
           });
           expect(societyOption.selected).toBe(true);
         });
-
-        it('And html is updated to reflect that change', () => {
-          expect(block.htmlNode.querySelector('option[value="society"][selected="selected"]').getAttribute('selected')).toBe('selected');
-        });
-
         describe('When SELECT state is reset', () => {
           beforeEach(() => {
             block.resetState();
@@ -115,10 +102,6 @@ describe('SelectBlock', () => {
               return option.value === 'ATM';
             });
             expect(atmOption.selected).toBe(false);
-          });
-
-          it('And html is updated to reflect that change', () => {
-            expect(block.htmlNode.querySelector('option[value="society"][selected="selected"]')).toBe(null);
           });
         });
       });

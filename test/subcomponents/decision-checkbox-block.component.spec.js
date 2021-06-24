@@ -26,10 +26,6 @@ describe('DecisionCheckboxBlock', () => {
       block = new DecisionCheckboxBlock(checkboxData(EDITABLE));
     });
 
-    it('Then html object contains data-next-section-id', () => {
-      expect(block.htmlNode.querySelector('#checkbox-id-HIT').dataset.nextSectionId).toEqual('HIT');
-    });
-
     it('And type is CHECKBOX', () => {
       expect(block.type).toBe('CHECKBOX');
     });
@@ -73,10 +69,6 @@ describe('DecisionCheckboxBlock', () => {
       it('And nextSection returns HIT', () => {
         expect(block.nextSection).toBe('HIT');
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#checkbox-id-HIT').checked).toBe(true);
-      });
     });
 
     describe('When CHECKBOX is state is set to HIT and then HIT is selected again', () => {
@@ -98,10 +90,6 @@ describe('DecisionCheckboxBlock', () => {
 
       it('And nextSection is set to empty string', () => {
         expect(block.nextSection).toBe('');
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#checkbox-id-HIT').checked).toBe(false);
       });
     });
   });

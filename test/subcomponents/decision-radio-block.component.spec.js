@@ -27,10 +27,6 @@ describe('DecisionRadioBlock', () => {
       block = new DecisionRadioBlock(radioData(EDITABLE));
     });
 
-    it('Then html object contains data-next-section-id', () => {
-      expect(block.htmlNode.querySelector('#radio-id-ONE-radio-one').dataset.nextSectionId).toEqual('ONE');
-    });
-
     it('And type is RADIO', () => {
       expect(block.type).toBe('RADIO');
     });
@@ -61,10 +57,6 @@ describe('DecisionRadioBlock', () => {
 
       it('And nextSection returns ONE', () => {
         expect(block.nextSection).toBe('ONE');
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#radio-id-ONE-radio-one').checked).toBe(true);
       });
     });
 

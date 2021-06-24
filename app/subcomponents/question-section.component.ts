@@ -9,7 +9,6 @@ import { ValueBlockInterface } from '../interfaces/value-block.interface';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { QuestionSectionInterface } from '../interfaces/question-section.interface';
 import { BlockFactory } from '../factories/block.factory';
-import { createElement } from '../vendor/utils/index.utils';
 import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
 import { AddMoreBlock } from './add-more-block.component';
 import { SelectBlock } from './select-block.component';
@@ -27,13 +26,11 @@ export class QuestionSection {
   private _readOnly: boolean;
   private _id: string;
   private _digimanId: string;
-  private _htmlNode: HTMLElement;
   private _blockFactory: BlockFactory;
   private _hasIntroductionHeading: boolean;
   private _isSectionWithIntroductionHeading: boolean;
 
   constructor(data: QuestionSectionInterface) {
-    this._htmlNode = null;
     this._readOnly = data.readOnly;
     this._hasIntroductionHeading = data.hasIntroductionHeading;
     this._isSectionWithIntroductionHeading = false;
@@ -42,10 +39,6 @@ export class QuestionSection {
     this._blockFactory = new BlockFactory();
 
     this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)[], data.question as DecisionBlockInterface);
-  }
-
-  get htmlNode(): HTMLElement {
-    return this._htmlNode;
   }
 
   get hasIntroductionHeading(): boolean {
@@ -72,6 +65,10 @@ export class QuestionSection {
     return this._id;
   }
 
+  get digimanId(): string {
+    return this._digimanId;
+  }
+
   getContentBlockById(id: String): ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock | LinkBlock {
     let contentBlock = this.contentBlocks.find(block => {
       if (block instanceof FormBlock || block instanceof AddMoreBlock) {
@@ -88,14 +85,6 @@ export class QuestionSection {
     }
 
     return contentBlock;
-  }
-
-  /**
-  * @method updateView
-  * Builds the HTML for the question section object out of content blocks and decision block
-  **/
-  updateView() {
-    this._htmlNode = this._createView();
   }
 
   resetAllFormBlocksState() {
@@ -116,8 +105,6 @@ export class QuestionSection {
     if (questions) {
       this._createDecisionBlock(questions);
     }
-
-    this.updateView();
   }
 
   _createDecisionBlock(block: DecisionBlockInterface) {
@@ -129,21 +116,5 @@ export class QuestionSection {
       this._isSectionWithIntroductionHeading = this._hasIntroductionHeading && this._id === 'qb-start-id' && index === 0;
       this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly, this._hasIntroductionHeading, this._isSectionWithIntroductionHeading));
     });
-  }
-
-  _createView(): HTMLElement {
-    let questionNode = createElement(`<div class="question-section" id="${this._digimanId}__${this.id}" data-current-state="${this.id}" data-next-state="${this.decisionBlock.nextSection}" data-selected-option-id="${this.decisionBlock.selectedOptionId}"></div>`);
-
-    //create html per each block
-    for (let block of this.contentBlocks) {
-      questionNode.append(block.htmlNode);
-    }
-
-    //add html for decisions
-    if (this.decisionBlock && this.decisionBlock.htmlNode) {
-      questionNode.append(this.decisionBlock.htmlNode);
-    }
-
-    return questionNode;
   }
 }

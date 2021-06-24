@@ -9,8 +9,6 @@ export class CheckboxBlock extends OptionBlock {
   constructor(data: OptionBlockInterface) {
     super(data as OptionBlockInterface);
     this._isSingleOptionWithoutLegend = data.options.length === 1 && (!data.label || data.label.length === 0);
-
-    this.updateView();
   }
 
   get isSingleOptionWithoutLegend(): boolean {
@@ -21,21 +19,13 @@ export class CheckboxBlock extends OptionBlock {
     let option = this.getOptionById(value as string);
 
     this._selectCheckboxOption(option, isChecked);
-
-    this.updateView();
   }
 
   resetState() {
     this.unSelectAllOptions();
-
-    this.updateView();
   }
   
   _selectCheckboxOption(option: OptionInterface, isChecked: boolean) {
     option.selected = isChecked;
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as CheckboxBlock);
   }
 }

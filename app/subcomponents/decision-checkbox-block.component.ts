@@ -15,8 +15,6 @@ export class DecisionCheckboxBlock extends CheckboxBlock implements DecisionBloc
     this._nextSection = '';
     this._selectedOptionId = '';
     this._isLastQuestion = data.options.find( option => option.questionBlockId === DigimanState.DONE) ? true : false;
-
-    this.updateView();
   }
 
   get nextSection(): string {
@@ -46,8 +44,6 @@ export class DecisionCheckboxBlock extends CheckboxBlock implements DecisionBloc
 
     this.nextSection = (option.selected) ? option.questionBlockId : '';
     this.selectedOptionId = (option.selected && option.optionId) ? option.optionId : '';
-
-    this.updateView();
   }
 
   getOptionById(value: string): OptionInterface {
@@ -63,18 +59,5 @@ export class DecisionCheckboxBlock extends CheckboxBlock implements DecisionBloc
     super.unSelectAllOptions();
 
     this.nextSection = '';
-
-    this.updateView();
-  }
-
-  removeErrors() {
-    if (this.nextSection.trim() === '' && this.htmlNode.classList.contains('has-errors')) {
-      this.htmlNode.classList.remove('has-errors');
-      this.htmlNode.querySelector('.govuk-error-message').innerHTML = '';
-    }
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as DecisionCheckboxBlock);
   }
 }

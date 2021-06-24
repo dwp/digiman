@@ -10,8 +10,6 @@ export class RadioBlock extends OptionBlock {
     super(data as OptionBlockInterface);
 
     this._hasTwoOptions = data.options.length === 2;
-
-    this.updateView();
   }
 
   get hasTwoOptions(): boolean {
@@ -23,21 +21,13 @@ export class RadioBlock extends OptionBlock {
 
     this.unSelectAllOptions();
     this._selectRadioOption(option);
-
-    this.updateView();
   }
 
   resetState() {
     this.unSelectAllOptions();
-
-    this.updateView();
   }
 
   _selectRadioOption(option: OptionInterface) {
     option.selected = true;
-  }
-
-  updateView() {
-    this.htmlNode = blockBuilder(this as RadioBlock);
   }
 }

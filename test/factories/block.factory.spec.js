@@ -128,10 +128,6 @@ describe('Block Factory', () => {
             expect(block instanceof ContentBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode).not.toBe(undefined);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('HEADING');
         });
@@ -148,10 +144,6 @@ describe('Block Factory', () => {
 
         it('Then content block is returned', () => {
             expect(block instanceof ContentBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {
@@ -172,10 +164,6 @@ describe('Block Factory', () => {
             expect(block instanceof ContentBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('IMPORTANT');
         });
@@ -192,10 +180,6 @@ describe('Block Factory', () => {
 
         it('Then content block is returned', () => {
             expect(block instanceof ContentBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {
@@ -216,10 +200,6 @@ describe('Block Factory', () => {
             expect(block instanceof ContentBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('BREAK');
         });
@@ -232,10 +212,6 @@ describe('Block Factory', () => {
 
         it('Then content block is returned', () => {
             expect(block instanceof ContentBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {
@@ -256,10 +232,6 @@ describe('Block Factory', () => {
             expect(block instanceof ContentBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('LIST_ORDERED');
         });
@@ -276,10 +248,6 @@ describe('Block Factory', () => {
 
         it('Then value block is returned', () => {
             expect(block instanceof ValueBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {
@@ -316,10 +284,6 @@ describe('Block Factory', () => {
             expect(block instanceof ValueBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('TEXTAREA');
         });
@@ -352,10 +316,6 @@ describe('Block Factory', () => {
 
         it('Then value block is returned', () => {
             expect(block instanceof DateBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {
@@ -408,10 +368,6 @@ describe('Block Factory', () => {
             expect(block instanceof OptionBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('CHECKBOX');
         });
@@ -446,10 +402,6 @@ describe('Block Factory', () => {
             expect(block instanceof OptionBlock).toBe(true);
         });
 
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
-        });
-
         it('And object has defined _type property', () => {
             expect(block._type).toEqual('RADIO');
         });
@@ -482,10 +434,6 @@ describe('Block Factory', () => {
 
         it('Then value block is returned', () => {
             expect(block instanceof OptionBlock).toBe(true);
-        });
-
-        it('And object has defined _htmlNode property', () => {
-            expect(block._htmlNode instanceof HTMLElement).toBe(true);
         });
 
         it('And object has defined _type property', () => {

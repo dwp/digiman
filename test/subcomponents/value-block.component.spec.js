@@ -7,16 +7,16 @@ describe('ValueBlock', () => {
 
   let textareaData = (readOnly) => {
     return {
-             id : "textarea-id",
-             type: "TEXTAREA",
-             label: "Textarea Label",
-             readOnly: readOnly
-           }
+      id: "textarea-id",
+      type: "TEXTAREA",
+      label: "Textarea Label",
+      readOnly: readOnly
+    }
   };
 
   let textInputData = (readOnly) => {
     return {
-      id : "input-id",
+      id: "input-id",
       type: "TEXT_INPUT",
       label: "Input Label",
       hint: "Input hint text",
@@ -33,20 +33,8 @@ describe('ValueBlock', () => {
       block = new ValueBlock(textInputData(EDITABLE));
     });
 
-    it('Then object html contains defined label', () => {
-      expect(block.htmlNode.querySelector('#input-id')).not.toBe(null);
-    });
-
-    it('And object html contains defined hint', () => {
-      expect(block.htmlNode.querySelector('#input-id-hint')).not.toBe(null);
-    });
-
     it('And readOnly is set to false', () => {
       expect(block.readOnly).toBe(false);
-    });
-
-    it('And object html contains textarea HTML', () => {
-      expect(block.htmlNode.querySelector('#input-id')).not.toBe(null);
     });
 
     it('And hint is as defined', () => {
@@ -81,10 +69,6 @@ describe('ValueBlock', () => {
       it('Then value is set to NEW_VALUE', () => {
         expect(block.value).toBe('NEW_VALUE');
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#input-id').value).toEqual('NEW_VALUE');
-      });
     });
 
     describe('When TEXT_INPUT state is reset', () => {
@@ -96,24 +80,12 @@ describe('ValueBlock', () => {
       it('Then value is reset to empty string', () => {
         expect(block.value).toBe('');
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('#input-id').value).toEqual('');
-      });
     });
   });
 
   describe('When TEXTAREA block is created', () => {
     beforeEach(() => {
       block = new ValueBlock(textareaData(EDITABLE));
-    });
-
-    it('Then object html contains defined label', () => {
-      expect(block.htmlNode.querySelector('label.govuk-label')).not.toBe(null);
-    });
-
-    it('And object html contains textarea', () => {
-      expect(block.htmlNode.querySelector('textarea.govuk-textarea')).not.toBe(null);
     });
 
     it('And hint is undefined', () => {
@@ -148,10 +120,6 @@ describe('ValueBlock', () => {
       it('Then value is set to NEW_VALUE', () => {
         expect(block.value).toBe('NEW_VALUE');
       });
-
-      it('And html should be updated with new textarea value', () => {
-        expect(block.htmlNode.querySelector('textarea.govuk-textarea').value).toEqual('NEW_VALUE');
-      });
     });
 
     describe('When TEXT_INPUT state is reset', () => {
@@ -162,10 +130,6 @@ describe('ValueBlock', () => {
 
       it('Then value should be reset', () => {
         expect(block.value).toBe('');
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.htmlNode.querySelector('textarea.govuk-textarea').value).toEqual('');
       });
     });
   });
