@@ -6,7 +6,7 @@
     <p id="{{id}}-hint" class="govuk-hint">
       {{#hint}}{{hint}}{{/hint}}
     </p>
-    <p id="{{id}}" data-name="{{id}}">{{value}}</p>
+    <p id="{{id}}" data-name="{{id}}" class="govuk-body text digiman__value-input--read-only">{{value}}</p>
   {{/readOnly}}
   {{^readOnly}}
     <label class="govuk-label govuk-label--m" for="{{id}}">
@@ -15,6 +15,6 @@
     <span id="{{id}}-hint" class="govuk-hint">
       {{#hint}}{{hint}}{{/hint}}
     </span>
-    <input class="govuk-input govuk-input--width-20" id="{{id}}" name="{{id}}" type="text" value="{{value}}" aria-describedby="{{id}}-hint">
+    <input class="govuk-input govuk-input--width-20 digiman__value-input" id="{{id}}" name="{{id}}" type="text" value="{{value}}" aria-describedby="{{id}}-hint">
   {{/readOnly}}
 </div>

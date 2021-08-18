@@ -30,6 +30,48 @@
       "content": "Heading"
      },
      {
+      "type": "SELECT",
+      "id": "qb-start-id_select-label_vvm6h04guf",
+      "label": "Select label",
+      "hint": "Select hint",
+      "options": [
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-1_0",
+        "text": "Option 1"
+       },
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-2_1",
+        "text": "Option 2"
+       },
+       {
+        "value": "qb-start-id_select-label_vvm6h04guf_option-3_2",
+        "text": "Select option 3"
+       }
+      ]
+     },
+     {
+      "type": "ADD_MORE",
+      "id": "qb-start-id_add-more",
+      "blocks": [
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more1",
+        "label": "First"
+        },
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more2",
+        "label": "Second"
+        },
+        {
+        "type": "TEXT_INPUT",
+        "id": "qb-start-id_add-more3",
+        "label": "Third",
+        "hint": "Hint"
+        }
+      ]
+     },
+     {
       "type": "PARAGRAPH",
       "content": "Normal paragraph"
      },
@@ -92,6 +134,11 @@
       ]
      },
      {
+      "type": "LINK",
+      "content": "Link text",
+      "url": "mailto:example@example.com?subject=Email subject&body=2%20Monthly%20Earnings%20Dispute%0A%0AClaimant%20surname%20and%20first%20initial%3A%0A%0AContract%20ID%3A%0A%0AAP%3A%0A%0AUC%20earnings%20used%0A%0AEmployer%3A%0A%0APlease%20ensure%20you%20populate%20all%20of%20the%20fields%20above%20before%20sending%20this%20email.%0A%0AE_M_A_I_L_B_L_O_C_K"
+     },
+     {
       "type": "RADIO",
       "id": "qb-start-id_radio-label_vvm6h04guf",
       "label": "Radio label",
@@ -127,7 +174,30 @@
      ],
      "type": "CHECKBOX"
     },
-    "contents": []
+    "contents": [
+      {
+        "type": "ADD_MORE",
+        "id": "qb-end_add-more",
+        "blocks": [
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more1",
+          "label": "First"
+          },
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more2",
+          "label": "Second"
+          },
+          {
+          "type": "TEXT_INPUT",
+          "id": "qb-end_add-more3",
+          "label": "Third",
+          "hint": "Hint"
+          }
+        ]
+       }
+    ]
    },
    {
     "id": "qb-another",
@@ -148,8 +218,93 @@
      {
       "type": "PARAGRAPH",
       "content": "Follow to the end block"
-     }
-    ]
-   }
+     },
+      {
+       "type": "HEADING",
+       "content": "Heading"
+      },
+      {
+       "type": "PARAGRAPH",
+       "content": "Normal paragraph"
+      },
+      {
+       "type": "IMPORTANT",
+       "content": "Important paragraph"
+      },
+      {
+       "type": "HINT",
+       "content": "Hint paragraph"
+      },
+      {
+       "type": "LIST",
+       "content": [
+        "List item 1",
+        "List item 2",
+        "List item 3"
+       ]
+      },
+      {
+       "type": "LIST_ORDERED",
+       "content": [
+        "Ordered list item 1",
+        "Ordered list item 2",
+        "Ordered list item 3"
+       ]
+      },
+      {
+       "type": "TEXT_INPUT",
+       "id": "qb-start-id_input-box-label_t7zvl3vu232",
+       "label": "Input box label",
+       "hint": "Input box hint"
+      },
+      {
+       "type": "TEXTAREA",
+       "id": "qb-start-id_textarea-label_rolwxjc87f2",
+       "label": "Textarea label",
+       "hint": "Textarea hint"
+      },
+      {
+       "type": "DATE",
+       "id": "qb-start-id_date-label_uh7op7uusg2",
+       "label": "Date label",
+       "hint": ""
+      },
+      {
+       "type": "CHECKBOX",
+       "id": "qb-start-id_checkbox-label_0miprh7apb2",
+       "label": "Checkbox label",
+       "hint": "Checkbox hint",
+       "options": [
+        {
+         "value": "qb-start-id_checkbox-label_0miprh7apb_option-1_02",
+         "text": "Option 1"
+        },
+        {
+         "value": "qb-start-id_checkbox-label_0miprh7apb_option-2_12",
+         "text": "Option 2"
+        }
+       ]
+      },
+      {
+       "type": "RADIO",
+       "id": "qb-start-id_radio-label_vvm6h04guf2",
+       "label": "Radio label",
+       "hint": "Radio hint",
+       "options": [
+        {
+         "value": "qb-start-id_radio-label_vvm6h04guf_option-1_02",
+         "text": "Option 1"
+        },
+        {
+         "value": "qb-start-id_radio-label_vvm6h04guf_option-2_12",
+         "text": "Option 2"
+        }
+       ]
+      },
+      {
+       "type": "BREAK"
+      }
+     ]
+    }
   ]
- }
+}

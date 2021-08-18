@@ -6,13 +6,75 @@ describe('Digiman', () => {
   const modelJSON = {
     "id": "verify_bank",
     "version": "1.0",
-    "questionBlocks" : [
+    "questionBlocks": [
       {
-        "id" : "qb-start-id",
+        "id": "qb-start-id",
         "title": "Title",
+        "hasIntroductionHeading": true,
         "readOnly": false,
         "digimanId": "verify_bank-1.0-edit",
-        "contents" : [
+        "contents": [
+          {
+            "type": "HEADING",
+            "content": "Heading of text.",
+            "hasIntroductionHeading": true,
+            "isSectionWithIntroductionHeading": true
+          },
+          {
+            "type": "TEXT_INPUT",
+            "id": "text-input-test",
+            "label": "Input box label",
+            "hint": "Input box hint",
+            "readOnly": false
+          },
+          {
+            "type": "TEXTAREA",
+            "id": "textarea-test",
+            "label": "Textarea label",
+            "hint": "Textarea hint",
+            "readOnly": false
+          },
+          {
+            "type": "DATE",
+            "id": "date-input-test",
+            "label": "Date label",
+            "hint": "",
+            "readOnly": false
+          },
+          {
+            "type": "CHECKBOX",
+            "id": "checkbox-input-test",
+            "label": "Checkbox label",
+            "hint": "Checkbox hint",
+            "readOnly": false,
+            "options": [
+              {
+                "value": "checkbox-input-test-1_0",
+                "text": "Option 1"
+              },
+              {
+                "value": "checkbox-input-test-2_1",
+                "text": "Option 2"
+              }
+            ]
+          },
+          {
+            "type": "RADIO",
+            "id": "radio-input-test",
+            "label": "Radio label",
+            "hint": "Radio hint",
+            "readOnly": false,
+            "options": [
+              {
+                "value": "radio-input-test-1_0",
+                "text": "Option 1"
+              },
+              {
+                "value": "radio-input-test-2_1",
+                "text": "Option 2"
+              }
+            ]
+          },
           {
             "type": "HINT",
             "content": "Paragraph of page level hint."
@@ -22,26 +84,77 @@ describe('Digiman', () => {
             "content": "Paragraph of text."
           },
           {
+            "type": "HEADING",
+            "content": "Heading of text.",
+            "hasIntroductionHeading": true,
+            "isSectionWithIntroductionHeading": false
+          },
+          {
             "type": "IMPORTANT",
             "content": "Important information paragraph."
-          }
+          },
+          {
+            "type": "SELECT",
+            "readOnly": false,
+            "id": "qb-start-id_select-label_vvm6h04guf",
+            "label": "Select label",
+            "hint": "Select hint",
+            "options": [
+              {
+                "value": "qb-start-id_select-label_vvm6h04guf_option-1_0",
+                "text": "Option 1"
+              },
+              {
+                "value": "qb-start-id_select-label_vvm6h04guf_option-2_1",
+                "text": "Option 2"
+              },
+              {
+                "value": "qb-start-id_select-label_vvm6h04guf_option-3_2",
+                "text": "Select option 3"
+              }
+            ]
+          },
+          {
+            "type": "ADD_MORE",
+            "readOnly": false,
+            "id": "qb-start-id_add-more",
+            "blocks": [
+              {
+                "type": "TEXT_INPUT",
+                "id": "qb-start-id_add-more1",
+                "label": "First"
+              },
+              {
+                "type": "TEXT_INPUT",
+                "id": "qb-start-id_add-more2",
+                "label": "Second"
+              },
+              {
+                "type": "TEXT_INPUT",
+                "id": "qb-start-id_add-more3",
+                "label": "Third",
+                "hint": "Hint"
+              }
+            ]
+          },
         ],
-        "question" : {
+        "question": {
           "id": "qb-start-id_decision",
-          "type" : "RADIO",
-          "label" : "Where would you like to go?",
+          "type": "RADIO",
+          "label": "Where would you like to go?",
           "readOnly": false,
-          "options" : [
+          "options": [
             { "questionBlockId": "qb-question-id", "text": "Next question", "optionId": "next-id" },
             { "questionBlockId": "qb-end-yes", "text": "End", "optionId": "end-id" }
           ]
         }
       },
       {
-        "id" : "qb-question-id",
+        "id": "qb-question-id",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
-        "contents" : [
+        "contents": [
           {
             "type": "LIST",
             "content": [
@@ -53,65 +166,66 @@ describe('Digiman', () => {
             "type": "BREAK"
           },
           {
-            "id" : "qb-question-id_input-id",
+            "id": "qb-question-id_input-id",
             "type": "TEXT_INPUT",
             "label": "Input Label",
             "help": "Input hint text",
             "readOnly": false
           },
           {
-            "id" : "qb-question-id_date-id",
+            "id": "qb-question-id_date-id",
             "type": "DATE",
             "label": "Date Label",
             "hint": null,
             "readOnly": false
           },
           {
-            "id" : "qb-question-id_textarea-id",
+            "id": "qb-question-id_textarea-id",
             "type": "TEXTAREA",
             "label": "Textarea Label",
             "readOnly": false
           },
           {
-            "id" : "qb-question-id_checkbox-id",
+            "id": "qb-question-id_checkbox-id",
             "label": "Select any option",
             "type": "CHECKBOX",
             "readOnly": false,
             "options": [
-              { "text": "ATM statement (cash point)", "value": "ATM"},
+              { "text": "ATM statement (cash point)", "value": "ATM" },
               { "text": "Bank card", "value": "card" },
-              { "text": "Building society pass book", "value": "society"},
-              { "text": "Cheque book", "value": "Cheque"},
-              { "text": "Credit Union statement", "value": "CreditUnion"},
+              { "text": "Building society pass book", "value": "society" },
+              { "text": "Cheque book", "value": "Cheque" },
+              { "text": "Credit Union statement", "value": "CreditUnion" },
               { "text": "Other recent financial statements", "value": "Other" },
               { "text": "Official letter confirming account has recently been opened in the claimant's name", "value": "letter" },
               { "text": "Recent bank account statement", "value": "Recent" }
             ]
           }
         ],
-        "question" : {
+        "question": {
           "id": "qb-question-id_decision",
-          "type" : "RADIO",
-          "label" : "Action question block?",
+          "type": "RADIO",
+          "label": "Action question block?",
           "readOnly": false,
           "digimanId": "verify_bank-1.0-edit",
-          "options" : [
-            { "questionBlockId": "qb-end-yes", "text": "Yes"},
-            { "questionBlockId": "qb-end-no", "text": "No"}
+          "options": [
+            { "questionBlockId": "qb-end-yes", "text": "Yes" },
+            { "questionBlockId": "qb-end-no", "text": "No" }
           ]
         }
       },
       {
-        "id" : "qb-end-yes",
+        "id": "qb-end-yes",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
-        "contents" : [],
-        "question" : {
+        "contents": [],
+        "question": {
           "id": "qb-end-yes-action-question-id_decision",
           "type": "CHECKBOX",
           "label": "Confirm the action has been completed",
           "readOnly": false,
-          "options" : [
+          "options": [
             {
               "questionBlockId": "done", "text": "Done"
             }
@@ -119,10 +233,11 @@ describe('Digiman', () => {
         }
       },
       {
-        "id" : "qb-end-no",
+        "id": "qb-end-no",
         "readOnly": false,
+        "hasIntroductionHeading": true,
         "digimanId": "verify_bank-1.0-edit",
-        "contents" : [
+        "contents": [
           {
             "type": "PARAGRAPH",
             "content": "Actions:"
@@ -135,13 +250,13 @@ describe('Digiman', () => {
             ]
           }
         ],
-        "question" : {
+        "question": {
           "id": "qb-end-no--action-question-id_decision",
           "type": "CHECKBOX",
           "label": "Confirm the action has been completed",
           "readOnly": false,
-          "options" : [
-            { "questionBlockId": "done", "text": "Done"}
+          "options": [
+            { "questionBlockId": "done", "text": "Done" }
           ]
         }
       }
@@ -151,21 +266,21 @@ describe('Digiman', () => {
     "definitionType": "verify_bank",
     "definitionVersion": "1.0",
     "agentTodoId": "1234-1234-1234",
-    "questionBlockData" : [
+    "questionBlockData": [
       {
-        "questionBlockId" : "qb-start-id",
-        "answerId" : "qb-question-id",
+        "questionBlockId": "qb-start-id",
+        "answerId": "qb-question-id",
         "optionId": "next-id"
       },
       {
-        "questionBlockId" : "qb-question-id",
-        "answerId" : "qb-end-yes",
-        "data" : [
-          { "id" : "qb-question-id_checkbox-id", "value" : "CreditUnion" },
-          { "id" : "qb-question-id_checkbox-id", "value" : "ATM" },
-          { "id" : "qb-question-id_input-id", "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('input');</script>" },
-          { "id" : "qb-question-id_textarea-id", "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('textarea');</script>" },
-          { "id" : "qb-question-id_date-id", "value": 20001230 }
+        "questionBlockId": "qb-question-id",
+        "answerId": "qb-end-yes",
+        "data": [
+          { "id": "qb-question-id_checkbox-id", "value": "CreditUnion" },
+          { "id": "qb-question-id_checkbox-id", "value": "ATM" },
+          { "id": "qb-question-id_input-id", "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('input');</script>" },
+          { "id": "qb-question-id_textarea-id", "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('textarea');</script>" },
+          { "id": "qb-question-id_date-id", "value": 20001230 }
         ]
       }
     ]
@@ -174,7 +289,7 @@ describe('Digiman', () => {
     "definitionType": "verify_bank",
     "definitionVersion": "1.0",
     "agentTodoId": "1234-1234-1234",
-    "questionBlockData" : []
+    "questionBlockData": []
   };
 
   const body = document.querySelector('body');
@@ -203,6 +318,9 @@ describe('Digiman', () => {
                     </div>`;
 
   const editFixture = `<div class="panel digiman" id="digiman-test" data-read-only="false" data-state-endpoint="test-endpoint.com" data-general-error="Error">
+    ${fixture}
+  </div>`;
+  const editWithAutosaveFixture = `<div class="panel digiman" id="digiman-test-autosave" data-auto-save-on-completion="true" data-read-only="false" data-state-endpoint="test-endpoint.com" data-general-error="Error">
     ${fixture}
   </div>`;
   const readFixture = `<div class="panel digiman" id="digiman-test-read" data-read-only="true" data-state-endpoint="test-endpoint.com" data-general-error="Error">
@@ -250,16 +368,16 @@ describe('Digiman', () => {
       expect(digimanComponent.csrfToken.value).toBe('1234');
     });
 
-    it('And DONE_STATE is defined', () => {
-      expect(digimanComponent.DONE_STATE).toBe('done');
-    });
-
     it('And questionSections is defined', () => {
       expect(digimanComponent.questionSections).toEqual([]);
     });
 
     it('And state is defined', () => {
       expect(digimanComponent.state).toEqual([]);
+    });
+
+    it('And postCompletionQuery to be empty string', () => {
+      expect(digimanComponent.postCompletionQuery).toEqual('');
     });
 
     describe('When Digiman model is loaded', () => {
@@ -391,17 +509,13 @@ describe('Digiman', () => {
       });
 
       describe('When updateFormBlockState is called', () => {
+        let inputBlock, dateBlock;
         beforeEach(() => {
-          const target = { name: 'qb-question-id_input-id', value: 'TestValue' };
-          const targetDay = { name: 'qb-question-id_date-id', value: '01', dataset: { type: 'day' } };
-          const targetMonth = { name: 'qb-question-id_date-id', value: '10', dataset: { type: 'month' } };
-          const invalidTargetYear = { name: 'qb-question-id_date-id', value: 'qwer', dataset: { type: 'year' } };
-          const qsId = 'qb-question-id';
+          inputBlock = digimanComponent.questionSections[1].getContentBlockById('qb-question-id_input-id');
+          dateBlock = digimanComponent.questionSections[1].getContentBlockById('qb-question-id_date-id');
 
-          digimanComponent.updateFormBlockState(target, qsId);
-          digimanComponent.updateFormBlockState(targetDay, qsId);
-          digimanComponent.updateFormBlockState(targetMonth, qsId);
-          digimanComponent.updateFormBlockState(invalidTargetYear, qsId);
+          digimanComponent.updateFormBlockState(inputBlock, 'TestValue');
+          digimanComponent.updateFormBlockState(dateBlock, 20001001);
         });
 
         it('Then value is updated to TestValue', () => {
@@ -413,17 +527,14 @@ describe('Digiman', () => {
         });
       });
 
-      describe('When updateDateBlockState is called', () => {
+      describe('When updateFormBlockState for DATE block is called', () => {
         let dateBlock;
         beforeEach(() => {
-          const targetDay = { name: 'date-id', value: '01', dataset: { type: 'day' } };
-          const targetMonth = { name: 'qdate-id', value: '12', dataset: { type: 'month' } };
-          const targetYear = { name: 'date-id', value: '1999', dataset: { type: 'year' } };
-          dateBlock = new DateBlock({id: 'qb-question-id_date-id', type: 'DATE', label: 'Date Label', hint: null, readOnly: false});
+          dateBlock = new DateBlock({ id: 'qb-question-id_date-id', type: 'DATE', label: 'Date Label', hint: null, readOnly: false });
 
-          digimanComponent.updateDateBlockState(dateBlock, targetDay);
-          digimanComponent.updateDateBlockState(dateBlock, targetMonth);
-          digimanComponent.updateDateBlockState(dateBlock, targetYear);
+          digimanComponent.updateFormBlockState(dateBlock, '01', 'day');
+          digimanComponent.updateFormBlockState(dateBlock, '12', 'month');
+          digimanComponent.updateFormBlockState(dateBlock, '1999', 'year');
         });
 
         afterEach(() => {
@@ -447,33 +558,6 @@ describe('Digiman', () => {
         });
       });
 
-      describe('When updateDateBlock is called', () => {
-        let dateBlock;
-        beforeEach(() => {
-          dateBlock = new DateBlock({id: 'qb-question-id_date-id', type: 'DATE', label: 'Date Label', hint: null, readOnly: false});
-
-          digimanComponent.updateDateBlockDay(dateBlock, '01');
-          digimanComponent.updateDateBlockMonth(dateBlock, '02');
-          digimanComponent.updateDateBlockYear(dateBlock, '1899');
-        });
-
-        afterEach(() => {
-          dateBlock = null;
-        });
-
-        it('Then day is set to 01', () => {
-          expect(dateBlock.day).toBe('01');
-        });
-
-        it('And month is set to 02', () => {
-          expect(dateBlock.month).toBe('02');
-        });
-
-        it('And year is set to 1899', () => {
-          expect(dateBlock.year).toBe('1899');
-        });
-      });
-
       describe('When setNextState is called with checked target', () => {
         beforeEach(() => {
 
@@ -486,10 +570,6 @@ describe('Digiman', () => {
 
         it('Then qb-start-id decision block nextSection is set to qb-question-id', () => {
           expect(digimanComponent.getQuestionSectionById('qb-start-id').decisionBlock.nextSection).toBe('qb-question-id');
-        });
-
-        it('And object html is updated', () => {
-          expect(digimanComponent.getQuestionSectionById('qb-start-id').html.includes(`data-next-state="qb-question-id"`)).toBe(true);
         });
 
         it('And html is updated', () => {
@@ -532,10 +612,10 @@ describe('Digiman', () => {
         beforeEach(() => {
           let qs = digimanComponent.getQuestionSectionById('qb-question-id');
           digimanComponent.updateFormChoices(qs, [
-                                                { "id" : "qb-question-id_checkbox-id", "value" : "Other" },
-                                                { "id" : "qb-question-id_input-id", "value": "Input value after update" },
-                                                { "id" : "qb-question-id_textarea-id", "value": "Textarea value after update" }
-                                              ]);
+            { "id": "qb-question-id_checkbox-id", "value": "Other" },
+            { "id": "qb-question-id_input-id", "value": "Input value after update" },
+            { "id": "qb-question-id_textarea-id", "value": "Textarea value after update" }
+          ]);
         });
 
         it('Then Other checkbox is selected', () => {
@@ -596,7 +676,7 @@ describe('Digiman', () => {
 
           spyOn(digimanComponent, 'handleDecisionBlockClick');
 
-          digimanComponent.handleClick(event);
+          digimanComponent.handleDecisionClick(event);
         });
 
         it('Then handleDecisionBlockClick is called once', () => {
@@ -666,7 +746,7 @@ describe('Digiman', () => {
           document.getElementById('verify_bank-1.0-edit__qb-start-id').dataset.nextState = 'qb-end-yes';
           document.getElementById('verify_bank-1.0-edit__qb-start-id').dataset.selectedOptionId = 'end-id';
 
-          digimanComponent.handleClick(event);
+          digimanComponent.handleDecisionClick(event);
         });
 
         it('Then handleDecisionBlockClick is not called', () => {
@@ -695,21 +775,21 @@ describe('Digiman', () => {
         let optionBlock;
         beforeEach(() => {
           optionBlock = digimanComponent.getQuestionSectionById('qb-question-id').getContentBlockById('qb-question-id_checkbox-id');
-          digimanComponent.setFormBlockState(optionBlock, 'letter', true);
+          optionBlock.setState('letter', true);
         });
 
         it('Then qb-question-id_checkbox-id CHECKBOX is selected', () => {
-          expect(optionBlock.options).toEqual([{"text":"ATM statement (cash point)","value":"ATM","selected":true},{"text":"Bank card","value":"card"},{"text":"Building society pass book","value":"society"},{"text":"Cheque book","value":"Cheque"},{"text":"Credit Union statement","value":"CreditUnion","selected":true},{"text":"Other recent financial statements","value":"Other"},{"text":"Official letter confirming account has recently been opened in the claimant's name","value":"letter","selected":true},{"text":"Recent bank account statement","value":"Recent"}]);
+          expect(optionBlock.options).toEqual([{ "text": "ATM statement (cash point)", "value": "ATM", "selected": true }, { "text": "Bank card", "value": "card" }, { "text": "Building society pass book", "value": "society" }, { "text": "Cheque book", "value": "Cheque" }, { "text": "Credit Union statement", "value": "CreditUnion", "selected": true }, { "text": "Other recent financial statements", "value": "Other" }, { "text": "Official letter confirming account has recently been opened in the claimant's name", "value": "letter", "selected": true }, { "text": "Recent bank account statement", "value": "Recent" }]);
         });
 
         describe('When another state is set for Option Block', () => {
           beforeEach(() => {
-            digimanComponent.setFormBlockState(optionBlock, 'letter', true);
-            digimanComponent.setFormBlockState(optionBlock, 'letter', false);
+            optionBlock.setState('letter', true);
+            optionBlock.setState('letter', false);
           });
 
           it('And the qb-question-id_checkbox-id CHECKBOX is unselected', () => {
-            expect(optionBlock.options).toEqual([{"text":"ATM statement (cash point)","value":"ATM","selected":true},{"text":"Bank card","value":"card"},{"text":"Building society pass book","value":"society"},{"text":"Cheque book","value":"Cheque"},{"text":"Credit Union statement","value":"CreditUnion","selected":true},{"text":"Other recent financial statements","value":"Other"},{"text":"Official letter confirming account has recently been opened in the claimant's name","value":"letter","selected":false},{"text":"Recent bank account statement","value":"Recent"}]);
+            expect(optionBlock.options).toEqual([{ "text": "ATM statement (cash point)", "value": "ATM", "selected": true }, { "text": "Bank card", "value": "card" }, { "text": "Building society pass book", "value": "society" }, { "text": "Cheque book", "value": "Cheque" }, { "text": "Credit Union statement", "value": "CreditUnion", "selected": true }, { "text": "Other recent financial statements", "value": "Other" }, { "text": "Official letter confirming account has recently been opened in the claimant's name", "value": "letter", "selected": false }, { "text": "Recent bank account statement", "value": "Recent" }]);
           });
         });
       });
@@ -727,7 +807,7 @@ describe('Digiman', () => {
 
           spyOn(digimanComponent, 'resetStateTree');
           spyOn(digimanComponent, 'setNextState');
-          spyOn(digimanComponent, 'sendState');
+          spyOn(digimanComponent, 'debouncedSendState');
 
           digimanComponent.handleDecisionBlockClick(options);
         });
@@ -740,21 +820,63 @@ describe('Digiman', () => {
           expect(digimanComponent.setNextState).toHaveBeenCalled();
         });
 
-        it('And sendState is called', () => {
-          expect(digimanComponent.sendState).toHaveBeenCalled();
+        it('And debouncedSendState is called', () => {
+          expect(digimanComponent.debouncedSendState).toHaveBeenCalled();
         });
 
         it('And state is updated', () => {
           expect(digimanComponent.state).toEqual(
             [
-              { questionBlockId: 'qb-start-id', answerId: 'qb-question-id', optionId: 'next-id' },
-              { questionBlockId: 'qb-question-id', answerId: 'qb-end-yes', data:
-                [
-                  { id: 'qb-question-id_input-id', value: 'âêîôûŵŷ!@£$%^&*()_+=-p[]\\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß"" ::" ":\';][p <script>alert(\'input\');</script>' },
-                  { id: 'qb-question-id_date-id', value: 20001230 },
-                  { id: 'qb-question-id_textarea-id', value: 'âêîôûŵŷ!@£$%^&*()_+=-p[]\\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß"" ::" ":\';][p <script>alert(\'textarea\');</script>' },
-                  { id: 'qb-question-id_checkbox-id', value: 'ATM' },
-                  { id: 'qb-question-id_checkbox-id', value: 'CreditUnion' }
+              {
+                "questionBlockId": "qb-start-id",
+                "answerId": "qb-question-id",
+                "optionId": "next-id",
+                "data": [
+                  {
+                    "id": "qb-start-id_add-more",
+                    "value": [
+                      [
+                        {
+                          "id": "qb-start-id_add-more1--1",
+                          "value": ""
+                        },
+                        {
+                          "id": "qb-start-id_add-more2--1",
+                          "value": ""
+                        },
+                        {
+                          "id": "qb-start-id_add-more3--1",
+                          "value": ""
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              },
+              {
+                "questionBlockId": "qb-question-id",
+                "answerId": "qb-end-yes",
+                "data": [
+                  {
+                    "id": "qb-question-id_input-id",
+                    "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('input');</script>"
+                  },
+                  {
+                    "id": "qb-question-id_date-id",
+                    "value": 20001230
+                  },
+                  {
+                    "id": "qb-question-id_textarea-id",
+                    "value": "âêîôûŵŷ!@£$%^&*()_+=-p[]\\';l,./`~¡€#¢∞§¶•ªº–≠≤≥÷¬˚…æ«øπ“‘Ω≈ç√∫~µ≤≥…¬˚∆˙©ƒ∂ßåŒ„‰ÂÊÁËÈØ∏“œ∑´®†¥¨^ø¬˚∆˙©ƒ∂ß\"\" ::\" \":';][p <script>alert('textarea');</script>"
+                  },
+                  {
+                    "id": "qb-question-id_checkbox-id",
+                    "value": "ATM"
+                  },
+                  {
+                    "id": "qb-question-id_checkbox-id",
+                    "value": "CreditUnion"
+                  }
                 ]
               }
             ]
@@ -773,7 +895,7 @@ describe('Digiman', () => {
 
           spyOn(digimanComponent, 'resetStateTree');
           spyOn(digimanComponent, 'setNextState');
-          spyOn(digimanComponent, 'sendState');
+          spyOn(digimanComponent, 'debouncedSendState');
 
           digimanComponent.handleDecisionBlockClick(options);
         });
@@ -786,8 +908,167 @@ describe('Digiman', () => {
           expect(digimanComponent.setNextState).toHaveBeenCalled();
         });
 
-        it('And sendState is called', () => {
-          expect(digimanComponent.sendState).toHaveBeenCalled();
+        it('And debouncedSendState is called', () => {
+          expect(digimanComponent.debouncedSendState).toHaveBeenCalled();
+        });
+      });
+
+      describe('When Digiman first decision block is selected', () => {
+        beforeEach(() => {
+          let node = document.getElementById('qb-start-id_decision-qb-end-yes-end-id');
+          node.checked = true;
+
+          const event = {
+            target: node
+          };
+          digimanComponent.handleDecisionClick(event);
+        });
+
+        describe('When content blocks are modified', () => {
+          beforeEach(() => {
+            //Text input
+            let inputBox = element.querySelector('#text-input-test');
+            inputBox.value = 'changing state text input';
+
+            const inputEvent = {
+              target: inputBox
+            };
+
+            digimanComponent.handleBlur(inputEvent);
+
+            //Textarea
+            let textArea = element.querySelector('#textarea-test');
+            textArea.value = 'changing state textarea';
+
+            const textAreaEvent = {
+              target: textArea
+            };
+
+            digimanComponent.handleBlur(textAreaEvent);
+
+            //Date inputs
+            let dateDay = element.querySelector('#id-section-date-input-test .day');
+            let dateMonth = element.querySelector('#id-section-date-input-test .month');
+            let dateYear = element.querySelector('#id-section-date-input-test .year');
+            dateDay.value = '10';
+            dateMonth.value = '10';
+            dateYear.value = '2010';
+
+            const dateEvent = {
+              target: dateYear
+            };
+
+            digimanComponent.handleBlur(dateEvent);
+
+            //Radio options
+            let radioOption = element.querySelector('#radio-input-test-radio-input-test-1_0');
+            radioOption.checked = true;
+
+            const radioEvent = {
+              target: radioOption
+            };
+
+            digimanComponent.handleClick(radioEvent);
+
+            //Checkbox options
+            let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-1_0');
+            checkboxOption.checked = true;
+
+            const checkboxEvent = {
+              target: checkboxOption
+            };
+
+            digimanComponent.handleClick(checkboxEvent);
+          });
+
+          it('Then state is not updated', () => {
+            expect(digimanComponent.state[0].data).toEqual([{ "id": "qb-start-id_add-more", "value": [[{ "id": "qb-start-id_add-more1--1", "value": "" }, { "id": "qb-start-id_add-more2--1", "value": "" }, { "id": "qb-start-id_add-more3--1", "value": "" }]] }]);
+          });
+        });
+
+        describe('When Digiman state is loaded with partially completed state', () => {
+          it('Then postCompletionQuery is an empty string', () => {
+            expect(digimanComponent.postCompletionQuery).toEqual('');
+          });
+        });
+
+        describe('When DONE checkbox is clicked', () => {
+          beforeEach(() => {
+            let endNode = document.getElementById('qb-end-yes-action-question-id_decision-done');
+            endNode.checked = true;
+
+            const event = {
+              target: endNode
+            };
+            digimanComponent.handleDecisionClick(event);
+          });
+
+          it('Then postCompletionQuery is set to empty string', () => {
+            expect(digimanComponent.postCompletionQuery).toEqual('');
+          });
+
+          describe('When a content blocks are modified', () => {
+
+            beforeEach(() => {
+              //Text input
+              let inputBox = element.querySelector('#text-input-test');
+              inputBox.value = 'changing state text input 2';
+
+              const inputEvent = {
+                target: inputBox
+              };
+
+              digimanComponent.handleBlur(inputEvent);
+
+              //Textarea
+              let textArea = element.querySelector('#textarea-test');
+              textArea.value = 'changing state textarea 2';
+
+              const textAreaEvent = {
+                target: textArea
+              };
+
+              digimanComponent.handleBlur(textAreaEvent);
+
+              //Date inputs
+              let dateDay = element.querySelector('#id-section-date-input-test .day');
+              let dateMonth = element.querySelector('#id-section-date-input-test .month');
+              let dateYear = element.querySelector('#id-section-date-input-test .year');
+              dateDay.value = '11';
+              dateMonth.value = '11';
+              dateYear.value = '2011';
+
+              const dateEvent = {
+                target: dateYear
+              };
+
+              digimanComponent.handleBlur(dateEvent);
+
+              //Radio options
+              let radioOption = element.querySelector('#radio-input-test-radio-input-test-2_1');
+              radioOption.checked = true;
+
+              const radioEvent = {
+                target: radioOption
+              };
+
+              digimanComponent.handleClick(radioEvent);
+
+              //Checkbox options
+              let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-2_1');
+              checkboxOption.checked = true;
+
+              const checkboxEvent = {
+                target: checkboxOption
+              };
+
+              digimanComponent.handleClick(checkboxEvent);
+            });
+
+            it('Then state is updated', () => {
+              expect(digimanComponent.state[0].data).toEqual([{ "id": "qb-start-id_add-more", "value": [[{ "id": "qb-start-id_add-more1--1", "value": "" }, { "id": "qb-start-id_add-more2--1", "value": "" }, { "id": "qb-start-id_add-more3--1", "value": "" }]] }]);
+            });
+          });
         });
       });
     });
@@ -833,6 +1114,10 @@ describe('Digiman', () => {
 
       it('Then questionSections are read only', () => {
         expect(digimanComponent.questionSections[0].readOnly).toBe(true);
+      });
+
+      it('And container does not have class "digiman--completed"', () => {
+        expect(digimanComponent.container.classList.contains('digiman--completed')).toBe(false);
       });
 
       describe('When createUniqueId is called', () => {
@@ -945,6 +1230,210 @@ describe('Digiman', () => {
 
     it('And error message contains refresh link', () => {
       expect(digimanComponent.errorNode.innerHTML.indexOf('digiman__refresh-button') > 0).toBe(true);
+    });
+  });
+
+  describe('When Digiman Component is initialised with auto save', () => {
+
+    beforeEach(() => {
+      body.insertAdjacentHTML('beforeend', editWithAutosaveFixture);
+      element = document.getElementById('digiman-test-autosave');
+      digimanComponent = new Digiman(element);
+    });
+
+    describe('When Digiman model and state is loaded', () => {
+      beforeEach(() => {
+        let modelJsonTemplate = JSON.parse(JSON.stringify(modelJSON));
+        let stateJsonTemplate = JSON.parse(JSON.stringify(stateJSON));
+
+        spyOn(digimanComponent, 'fetchModel').and.callFake(() => {
+          digimanComponent.handleModelSuccessResponse(modelJsonTemplate);
+        });
+
+        digimanComponent.handleStateSuccessResponse(stateJsonTemplate);
+
+        let node = document.getElementById('qb-start-id_decision-qb-end-yes-end-id');
+        node.checked = true;
+
+        const event = {
+          target: node
+        };
+        digimanComponent.handleDecisionClick(event);
+      });
+
+      describe('When content blocks are modified', () => {
+
+        beforeEach(() => {
+          //Text input
+          let inputBox = element.querySelector('#text-input-test');
+          inputBox.value = 'changing state text input';
+
+          const inputEvent = {
+            target: inputBox
+          };
+
+          digimanComponent.handleBlur(inputEvent);
+
+          //Textarea
+          let textArea = element.querySelector('#textarea-test');
+          textArea.value = 'changing state textarea';
+
+          const textAreaEvent = {
+            target: textArea
+          };
+
+          digimanComponent.handleBlur(textAreaEvent);
+
+          //Date inputs
+          let dateDay = element.querySelector('#id-section-date-input-test .day');
+          let dateMonth = element.querySelector('#id-section-date-input-test .month');
+          let dateYear = element.querySelector('#id-section-date-input-test .year');
+          dateDay.value = '10';
+          dateMonth.value = '10';
+          dateYear.value = '2010';
+
+          const dateEvent = {
+            target: dateYear
+          };
+
+          digimanComponent.handleBlur(dateEvent);
+
+          //Radio options
+          let radioOption = element.querySelector('#radio-input-test-radio-input-test-1_0');
+          radioOption.checked = true;
+
+          const radioEvent = {
+            target: radioOption
+          };
+
+          digimanComponent.handleClick(radioEvent);
+
+          //Checkbox options
+          let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-1_0');
+          checkboxOption.checked = true;
+
+          const checkboxEvent = {
+            target: checkboxOption
+          };
+
+          digimanComponent.handleClick(checkboxEvent);
+        });
+
+        it('Then state is not updated', () => {
+          expect(digimanComponent.state[0].data).toEqual([{ "id": "qb-start-id_add-more", "value": [[{ "id": "qb-start-id_add-more1--1", "value": "" }, { "id": "qb-start-id_add-more2--1", "value": "" }, { "id": "qb-start-id_add-more3--1", "value": "" }]] }]);
+        });
+      });
+
+      describe('When Digiman state is loaded with partially completed state', () => {
+        it('Then postCompletionQuery is an empty string', () => {
+          expect(digimanComponent.postCompletionQuery).toEqual('');
+        });
+      });
+
+      describe('When DONE checkbox is clicked', () => {
+        beforeEach(() => {
+          let endNode = document.getElementById('qb-end-yes-action-question-id_decision-done');
+          endNode.checked = true;
+
+          const event = {
+            target: endNode
+          };
+          digimanComponent.handleDecisionClick(event);
+        });
+
+        it('Then postCompletionQuery is set to ?postCompletionState=true', () => {
+          expect(digimanComponent.postCompletionQuery).toEqual('?postCompletionState=true');
+        });
+
+        describe('When a content blocks are modified', () => {
+
+          beforeEach(() => {
+            //Text input
+            let inputBox = element.querySelector('#text-input-test');
+            inputBox.value = 'changing state text input 2';
+
+            const inputEvent = {
+              target: inputBox
+            };
+
+            digimanComponent.handleBlur(inputEvent);
+
+            //Textarea
+            let textArea = element.querySelector('#textarea-test');
+            textArea.value = 'changing state textarea 2';
+
+            const textAreaEvent = {
+              target: textArea
+            };
+
+            digimanComponent.handleBlur(textAreaEvent);
+
+            //Select
+            let select = element.querySelector('#id-qb-start-id_select-label_vvm6h04guf');
+            select.value = 'qb-start-id_select-label_vvm6h04guf_option-2_1';
+
+            const selectEvent = {
+              target: select
+            };
+
+            digimanComponent.handleChange(selectEvent);
+
+            //Date inputs
+            let dateDay = element.querySelector('#id-section-date-input-test .day');
+            let dateMonth = element.querySelector('#id-section-date-input-test .month');
+            let dateYear = element.querySelector('#id-section-date-input-test .year');
+            dateDay.value = '11';
+            dateMonth.value = '11';
+            dateYear.value = '2011';
+
+            const dateEvent = {
+              target: dateYear
+            };
+
+            digimanComponent.handleBlur(dateEvent);
+
+            //Radio options
+            let radioOption = element.querySelector('#radio-input-test-radio-input-test-2_1');
+            radioOption.checked = true;
+
+            const radioEvent = {
+              target: radioOption
+            };
+
+            digimanComponent.handleClick(radioEvent);
+
+            //Checkbox options
+            let checkboxOption = element.querySelector('#checkbox-input-test-checkbox-input-test-2_1');
+            checkboxOption.checked = true;
+
+            const checkboxEvent = {
+              target: checkboxOption
+            };
+
+            digimanComponent.handleClick(checkboxEvent);
+
+            //Add more inputs 
+            let addMoreInput1 = element.querySelector('#qb-start-id_add-more1--1');
+            let addMoreInput2 = element.querySelector('#qb-start-id_add-more2--1');
+            let addMoreInput3 = element.querySelector('#qb-start-id_add-more3--1');
+            addMoreInput1.value = '11';
+            addMoreInput2.value = '12';
+            addMoreInput3.value = '2011';
+
+            const addMoreEvent1 = { target: addMoreInput1 };
+            const addMoreEvent2 = { target: addMoreInput2 };
+            const addMoreEvent3 = { target: addMoreInput3 };
+
+            digimanComponent.handleBlur(addMoreEvent1);
+            digimanComponent.handleBlur(addMoreEvent2);
+            digimanComponent.handleBlur(addMoreEvent3);
+          });
+
+          it('Then state is updated', () => {
+            expect(digimanComponent.state[0].data).toEqual([{ "id": "text-input-test", "value": "changing state text input 2" }, { "id": "textarea-test", "value": "changing state textarea 2" }, { "id": "checkbox-input-test", "value": "checkbox-input-test-2_1" }, { "id": "radio-input-test", "value": "radio-input-test-2_1" }, { "id": "qb-start-id_select-label_vvm6h04guf", "value": "qb-start-id_select-label_vvm6h04guf_option-2_1" }, { "id": "qb-start-id_add-more", "value": [[{ "id": "qb-start-id_add-more1--1", "value": "11" }, { "id": "qb-start-id_add-more2--1", "value": "12" }, { "id": "qb-start-id_add-more3--1", "value": "2011" }]] }]);
+          });
+        });
+      });
     });
   });
 });

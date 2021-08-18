@@ -7,16 +7,16 @@ describe('ValueBlock', () => {
 
   let textareaData = (readOnly) => {
     return {
-             id : "textarea-id",
-             type: "TEXTAREA",
-             label: "Textarea Label",
-             readOnly: readOnly
-           }
+      id: "textarea-id",
+      type: "TEXTAREA",
+      label: "Textarea Label",
+      readOnly: readOnly
+    }
   };
 
   let textInputData = (readOnly) => {
     return {
-      id : "input-id",
+      id: "input-id",
       type: "TEXT_INPUT",
       label: "Input Label",
       hint: "Input hint text",
@@ -33,20 +33,8 @@ describe('ValueBlock', () => {
       block = new ValueBlock(textInputData(EDITABLE));
     });
 
-    it('Then object html contains defined label', () => {
-      expect(block.html.includes('Input Label')).toBe(true);
-    });
-
-    it('And object html contains defined hint', () => {
-      expect(block.html.includes('Input hint text')).toBe(true);
-    });
-
     it('And readOnly is set to false', () => {
       expect(block.readOnly).toBe(false);
-    });
-
-    it('And object html contains textarea HTML', () => {
-      expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="" aria-describedby="input-id-hint">`)).toBe(true);
     });
 
     it('And hint is as defined', () => {
@@ -81,10 +69,6 @@ describe('ValueBlock', () => {
       it('Then value is set to NEW_VALUE', () => {
         expect(block.value).toBe('NEW_VALUE');
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="NEW_VALUE" aria-describedby="input-id-hint">`)).toBe(true);
-      });
     });
 
     describe('When TEXT_INPUT state is reset', () => {
@@ -96,24 +80,12 @@ describe('ValueBlock', () => {
       it('Then value is reset to empty string', () => {
         expect(block.value).toBe('');
       });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<input class="govuk-input govuk-input--width-20" id="input-id" name="input-id" type="text" value="" aria-describedby="input-id-hint">`)).toBe(true);
-      });
     });
   });
 
   describe('When TEXTAREA block is created', () => {
     beforeEach(() => {
       block = new ValueBlock(textareaData(EDITABLE));
-    });
-
-    it('Then object html contains defined label', () => {
-      expect(block.html.includes(`Textarea Label`)).toBe(true);
-    });
-
-    it('And object html contains textarea HTML', () => {
-      expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint"></textarea>`)).toBe(true);
     });
 
     it('And hint is undefined', () => {
@@ -148,10 +120,6 @@ describe('ValueBlock', () => {
       it('Then value is set to NEW_VALUE', () => {
         expect(block.value).toBe('NEW_VALUE');
       });
-
-      it('And html should be updated', () => {
-        expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint">NEW_VALUE</textarea>`)).toBe(true);
-      });
     });
 
     describe('When TEXT_INPUT state is reset', () => {
@@ -162,10 +130,6 @@ describe('ValueBlock', () => {
 
       it('Then value should be reset', () => {
         expect(block.value).toBe('');
-      });
-
-      it('And html is updated to reflect that change', () => {
-        expect(block.html.includes(`<textarea class="govuk-textarea" id="textarea-id" name="textarea-id" rows="5" aria-describedby="textarea-id-hint"></textarea>`)).toBe(true);
       });
     });
   });

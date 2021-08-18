@@ -77,7 +77,7 @@ describe('Block Builder', () => {
       block = blockBuilder(checkboxData);
     });
     it('Then html string containing checkbox section is returned', () => {
-      expect(block.includes(`<div class="govuk-form-group" id="id-section-checkbox-id">`)).toBe(true);
+      expect(block.outerHTML.includes(`<div class="govuk-form-group" id="id-section-checkbox-id">`)).toBe(true);
     });
   });
 
@@ -86,7 +86,7 @@ describe('Block Builder', () => {
       block = blockBuilder(radioData);
     });
     it('Then html string containing radio section is returned', () => {
-      expect(block.includes(`<div class="govuk-form-group" id="id-section-radio-id">`)).toBe(true);
+      expect(block.outerHTML.includes(`<div class="govuk-form-group" id="id-section-radio-id">`)).toBe(true);
     });
   });
 
@@ -95,7 +95,7 @@ describe('Block Builder', () => {
       block = blockBuilder(textareaData);
     });
     it('Then html string containing textarea section is returned', () => {
-      expect(block.includes(`<div class="govuk-form-group text" id="id-section-textarea-id">`)).toBe(true);
+      expect(block.outerHTML.includes(`<div class="govuk-form-group text" id="id-section-textarea-id">`)).toBe(true);
     });
   });
 
@@ -104,7 +104,7 @@ describe('Block Builder', () => {
       block = blockBuilder(dateData);
     });
     it('Then html string containing date section is returned', () => {
-      expect(block.includes(`<div class="govuk-form-group" id="id-section-date-id">`)).toBe(true);
+      expect(block.outerHTML.includes(`<div class="govuk-form-group" id="id-section-date-id">`)).toBe(true);
     });
   });
 
@@ -113,7 +113,7 @@ describe('Block Builder', () => {
       block = blockBuilder(textInputData);
     });
     it('Then html string containing text input section is returned', () => {
-      expect(block.includes(`<div class="govuk-form-group text" id="id-section-input-id">`)).toBe(true);
+      expect(block.outerHTML.includes(`<div class="govuk-form-group text" id="id-section-input-id">`)).toBe(true);
     });
   });
 
@@ -122,7 +122,7 @@ describe('Block Builder', () => {
       block = blockBuilder(paragraphData);
     });
     it('Then html string containing paragraph section is returned', () => {
-      expect(block.includes(`<p class="govuk-body text">PARAGRAPH Text</p>`)).toBe(true);
+      expect(block.outerHTML.includes(`<p class="govuk-body text">PARAGRAPH Text</p>`)).toBe(true);
     });
   });
 
@@ -131,7 +131,7 @@ describe('Block Builder', () => {
       block = blockBuilder(hintData);
     });
     it('Then html string containing hint section is returned', () => {
-      expect(block.includes(`<p class="govuk-hint text">HINT Text</p>`)).toBe(true);
+      expect(block.outerHTML.includes(`<p class="govuk-hint text">HINT Text</p>`)).toBe(true);
     });
   });
 
@@ -140,7 +140,7 @@ describe('Block Builder', () => {
       block = blockBuilder(importantData);
     });
     it('Then html string containing important information section is returned', () => {
-      expect(block.includes(`<p class="govuk-inset-text text">IMPORTANT Text</p>`)).toBe(true);
+      expect(block.outerHTML.includes(`<p class="govuk-inset-text text">IMPORTANT Text</p>`)).toBe(true);
     });
   });
 
@@ -149,7 +149,7 @@ describe('Block Builder', () => {
       block = blockBuilder(breakData);
     });
     it('Then html string containing break section is returned', () => {
-      expect(block.includes(`<br />`)).toBe(true);
+      expect(block.outerHTML.includes(`<br>`)).toBe(true);
     });
   });
 
@@ -158,7 +158,7 @@ describe('Block Builder', () => {
       block = blockBuilder(listData);
     });
     it('Then html string containing list section is returned', () => {
-      expect(block.includes(`<ul class="govuk-list govuk-list--bullet text">`)).toBe(true);
+      expect(block.outerHTML.includes(`<ul class="govuk-list govuk-list--bullet text">`)).toBe(true);
     });
   });
 });

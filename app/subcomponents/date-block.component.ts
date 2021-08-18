@@ -2,6 +2,8 @@ import blockBuilder from '../services/block-builder.service';
 import * as dateUtils from '../utils/date.utils';
 import { FormBlock } from './form-block.component';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
+import { DigimanDate } from '../enums/digiman-date.enum';
+import { ValueInterface } from '../interfaces/value.interface';
 
 export class DateBlock extends FormBlock {
   private _day: string;
@@ -16,10 +18,9 @@ export class DateBlock extends FormBlock {
     this._day = data.day;
     this._month = data.month;
     this._year = data.year;
+    this._value = null;
 
     this.hint = (this.hint && this.hint.length > 0) ? this.hint : this._DEFAULT_HINT_TEXT;
-
-    this.updateView();
   }
 
   get value(): number {
@@ -64,17 +65,19 @@ export class DateBlock extends FormBlock {
     return stringValue.length === 8;
   }
 
-  setState(value: number) {
-    let stringValue = dateUtils.sanitiseDate(value.toString());
+  setState(value: number | string | Array<Array<ValueInterface>>, type?: string) {
+    if (type) {
+      this._updateDateBlockState(value as string, type);
+    } else {
+      let stringValue = dateUtils.sanitiseDate(value.toString());
     
-    if (this.isValueValid(stringValue)) {
-      this.value = value;
+      if (this.isValueValid(stringValue)) {
+        this.value = value as number;
 
-      this.day = dateUtils.getDay(stringValue);
-      this.month = dateUtils.getMonth(stringValue);
-      this.year = dateUtils.getYear(stringValue);
-
-      this.updateView();
+        this.day = dateUtils.getDay(stringValue);
+        this.month = dateUtils.getMonth(stringValue);
+        this.year = dateUtils.getYear(stringValue);
+      }
     }
   }
 
@@ -83,11 +86,27 @@ export class DateBlock extends FormBlock {
     this.day = '';
     this.month = '';
     this.year = '';
-    
-    this.updateView();
   }
 
-  updateView() {
-    this.html = blockBuilder(this as DateBlock);
+  getDateBlockState(type: string) {
+    if (type === DigimanDate.DAY) {
+      return this.day;
+    } else if (type === DigimanDate.MONTH) {
+      return this.month;
+    } else if (type === DigimanDate.YEAR) {
+      return this.year;
+    }
+  }
+
+  _updateDateBlockState(value: string, type: string) {
+    if (type === DigimanDate.DAY) {
+      this.day = value as string;
+    } else if (type === DigimanDate.MONTH) {
+      this.month = value as string;
+    } else if (type === DigimanDate.YEAR) {
+      this.year = value as string;
+    }
+
+    this.updateValue();
   }
 }

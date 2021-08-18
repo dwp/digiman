@@ -1,6 +1,7 @@
 import blockBuilder from '../services/block-builder.service';
 import { FormBlock } from './form-block.component';
 import { ValueBlockInterface } from '../interfaces/value-block.interface';
+import { BlockType } from '../enums/block-type.enum';
 
 export class ValueBlock extends FormBlock {
   private _value: string;
@@ -9,8 +10,6 @@ export class ValueBlock extends FormBlock {
     super(data as ValueBlockInterface);
 
     this._value = '';
-
-    this.updateView();
   }
 
   get value(): string {
@@ -23,17 +22,9 @@ export class ValueBlock extends FormBlock {
 
   setState(value: string) {
     this.value = value;
-
-    this.updateView();
   }
 
   resetState() {
     this.value = '';
-
-    this.updateView();
-  }
-
-  updateView() {
-    this.html = blockBuilder(this as ValueBlock);
   }
 }

@@ -8,14 +8,13 @@ module.exports = function(config) {
       'karma-jasmine',
       'karma-chrome-launcher',
       'karma-json-fixtures-preprocessor',
-      'karma-spec-reporter',
-      'karma-coverage'
+      'karma-spec-reporter'
     ],
     files: [
       'node_modules/isomorphic-fetch/',
       'node_modules/govuk-frontend/',
       'test/definitions/*.json',
-      { pattern: 'app/**/*', watched: true, served: true, included: false, nocache: false },
+      { pattern: 'app/**/*.ts', watched: true, served: true, included: false, nocache: false },
       { pattern: 'test/**/*.spec.js', watched: true, served: true, included: true },
     ],
     autoWatch: true,
@@ -53,8 +52,7 @@ module.exports = function(config) {
       //use webpack to support require() in test-suits .js files
       //use babel-loader from webpack to compile es2015 features in .js files
       //add webpack as preprocessor
-      './app/**/*.js': ['webpack'],
-      './test/**/*.spec.js': ['webpack', 'coverage'],
+      './test/**/*.spec.js': ['webpack'],
       './test/definitions/*.json': ['json_fixtures']
     },
     webpackMiddleware: {
@@ -72,10 +70,10 @@ module.exports = function(config) {
         timings: false,
         version: false
       },
-      logLevel: "warn"
+      logLevel: 'warn'
     },
     webpack: webpackConfigDigiman,
-    reporters: ['spec', 'coverage'],
+    reporters: ['spec'],
     specReporter: {
         maxLogLines: 10,            // limit number of lines logged per test
         suppressErrorSummary: true, // do not print error summary
@@ -83,15 +81,7 @@ module.exports = function(config) {
         suppressPassed: false,      // do not print information about passed tests
         suppressSkipped: true,      // do not print information about skipped tests
         showSpecTiming: false,      // print the time elapsed for each spec
-        failFast: true              // test would finish with error when a first fail occurs.
-    },
-    coverageReporter: {
-        includeAllSources: true,
-        dir: 'test-reports/',
-        reporters: [
-            { type: 'html', subdir: 'coverage' },
-            { type: 'text-summary' }
-        ]
+        failFast: false              // test would finish with error when a first fail occurs.
     }
   });
 };

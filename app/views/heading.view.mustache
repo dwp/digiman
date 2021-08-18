@@ -1,1 +1,11 @@
-<p class="text govuk-heading-l">{{content}}</p>
+{{#hasIntroductionHeading}}
+  {{#isSectionWithIntroductionHeading}}
+    <h2 class="text govuk-heading-l">{{content}}</h2>
+  {{/isSectionWithIntroductionHeading}}
+  {{^isSectionWithIntroductionHeading}}
+    <h3 class="text govuk-heading-l">{{content}}</h3>
+  {{/isSectionWithIntroductionHeading}}
+{{/hasIntroductionHeading}}
+{{^hasIntroductionHeading}}
+  <h2 class="text govuk-heading-l">{{content}}</h2>
+{{/hasIntroductionHeading}}

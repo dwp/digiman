@@ -1,4 +1,3 @@
-import { BlockType } from '../enums/block-type.enum';
 import { FormBlockInterface } from './form-block.interface';
 
 export interface ValueBlockInterface extends FormBlockInterface {

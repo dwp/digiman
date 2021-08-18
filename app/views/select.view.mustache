@@ -1,0 +1,31 @@
+<div class="govuk-form-group text" id="id-section-{{id}}">
+  {{#readOnly}}
+    <h3 class="govuk-fieldset__legend govuk-fieldset__legend--s">
+      {{label}}
+    </h3>
+    <p id="{{id}}-hint" class="govuk-hint">
+      {{#hint}}{{hint}}{{/hint}}
+    </p>
+    {{#options}}
+      {{#selected}}
+        <p id="id-{{value}}" data-name="{{id}}" class="govuk-body text digiman__value-input--read-only">{{text}}</p>
+      {{/selected}}
+    {{/options}}
+  {{/readOnly}}
+  {{^readOnly}}
+      <label class="govuk-fieldset__legend govuk-fieldset__legend--m text" for="id-{{id}}">
+        {{label}}
+      </label>
+      <span id="id-select-{{id}}-hint" class="govuk-hint text">
+          {{#hint}}{{hint}}{{/hint}}
+      </span>
+      <select id="id-{{id}}" name="{{id}}" aria-describedby="{{id}}-hint" class="govuk-select digiman__select form-control">
+          <option value="Select" disabled {{#noOptionSelected}}selected="true"{{/noOptionSelected}}>Select</option>
+          {{#options}}
+            <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>
+                {{text}}
+            </option>
+          {{/options}}
+      </select>
+  {{/readOnly}}
+</div>

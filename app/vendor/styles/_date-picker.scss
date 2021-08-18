@@ -19,21 +19,6 @@ $is-ie: false !default;
   }
 }
 
-.link-style {
-  color: #005ea5;
-  -webkit-appearance: none;
-  background: none;
-  border: none;
-  text-decoration: underline;
-  padding: 0;
-  margin-bottom: 10px;
-
-  &:hover {
-      color: #073873;
-      cursor: pointer;
-  }
-}
-
 .date-picker {
   text-align: center;
   @media (min-width: 550px) {

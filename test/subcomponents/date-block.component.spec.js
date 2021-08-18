@@ -7,7 +7,7 @@ describe('DateBlock', () => {
 
   let dateData = (readOnly, hint) => {
     return {
-      id : "date-id",
+      id: "date-id",
       label: "Select any date",
       type: "DATE",
       readOnly: readOnly,
@@ -23,10 +23,6 @@ describe('DateBlock', () => {
     beforeEach(() => {
       block = new DateBlock(dateData(EDITABLE, null));
       block.setState(19991230);
-    });
-
-    it('Then html object contains defined label', () => {
-      expect(block.html.includes(`Select any date`)).toBe(true);
     });
 
     it('And hint is set to default', () => {
@@ -73,15 +69,15 @@ describe('DateBlock', () => {
       it('Then value is 20001131', () => {
         expect(block.value).toEqual(20001131);
       });
-  
+
       it('And day is 30', () => {
         expect(block.day).toEqual("31");
       });
-  
+
       it('And month is 12', () => {
         expect(block.month).toEqual("11");
       });
-  
+
       it('And year is 1999', () => {
         expect(block.year).toEqual("2000");
       });

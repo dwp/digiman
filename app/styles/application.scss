@@ -6,45 +6,13 @@ $_govuk-imported-modules: null;
     @import 'node_modules/govuk-frontend/govuk/components/textarea/_textarea.scss';
     @import 'node_modules/govuk-frontend/govuk/components/date-input/_date-input.scss';
     @import 'node_modules/govuk-frontend/govuk/components/inset-text/_inset-text.scss';
+    @import 'node_modules/govuk-frontend/govuk/components/select/_select.scss';
     @import 'node_modules/govuk-frontend/govuk/core/_lists.scss';
     @import 'node_modules/govuk-frontend/govuk/core/_links.scss';
     @import 'node_modules/govuk-frontend/govuk/core/_typography.scss';
     @import 'node_modules/govuk-frontend/govuk/helpers/_typography.scss';
     @import '../vendor/styles/_date-picker.scss';
 
-    .text {
-        max-width: 30em;
-    }
-
-    .govuk-form-group {
-        margin-bottom: 30px;
-    }
-
-    /* Hide for both screenreaders and browsers */
-    .hidden,
-    .js-enabled .js-hidden {
-        display: none !important;
-        visibility: hidden;
-    }
-
-    .visually-hidden {
-        position: absolute;
-        left: -9999em;
-        top: auto;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-    }
-
-    .visually-hidden.focusable:active,
-    .visually-hidden.focusable:active,
-    .visually-hidden.focusable:active,
-    .visually-hidden.focusable:focus {
-        clip: auto;
-        height: auto;
-        margin: 0;
-        overflow: visible;
-        position: static;
-        width: auto;
-    }
+    @import 'components/layout.scss';
+    @import 'components/spinner.scss';
 }

@@ -1,5 +1,3 @@
-import { DecisionBlock } from './decision-block.component';
-import { OptionBlock } from './option-block.component';
 import { ValueBlock } from './value-block.component';
 import { FormBlock } from './form-block.component';
 import { DateBlock } from './date-block.component';
@@ -10,39 +8,56 @@ import { OptionBlockInterface } from '../interfaces/option-block.interface';
 import { ValueBlockInterface } from '../interfaces/value-block.interface';
 import { DateBlockInterface } from '../interfaces/date-block.interface';
 import { QuestionSectionInterface } from '../interfaces/question-section.interface';
-import { BlockType } from '../enums/block-type.enum';
+import { BlockFactory } from '../factories/block.factory';
+import { AddMoreBlockInterface } from '../interfaces/add-more-block.interface';
+import { AddMoreBlock } from './add-more-block.component';
+import { SelectBlock } from './select-block.component';
+import { RadioBlock } from './radio-block.component';
+import { CheckboxBlock } from './checkbox-block.component';
+import { DecisionCheckboxBlock } from './decision-checkbox-block.component';
+import { DecisionRadioBlock } from './decision-radio-block.component';
+import { LinkBlockInterface } from '../interfaces/link-block.interface';
+import { LinkBlock } from './link-block.component';
 
 export class QuestionSection {
 
-  private _contentBlocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock)[] = [];
-  private _decisionBlock: DecisionBlock;
-  private _html: string;
+  private _contentBlocks: (ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock | LinkBlock)[] = [];
+  private _decisionBlock: DecisionCheckboxBlock | DecisionRadioBlock;
   private _readOnly: boolean;
   private _id: string;
   private _digimanId: string;
+  private _blockFactory: BlockFactory;
+  private _hasIntroductionHeading: boolean;
+  private _isSectionWithIntroductionHeading: boolean;
 
   constructor(data: QuestionSectionInterface) {
-    this._html = null;
     this._readOnly = data.readOnly;
+    this._hasIntroductionHeading = data.hasIntroductionHeading;
+    this._isSectionWithIntroductionHeading = false;
     this._id = data.id;
     this._digimanId = data.digimanId;
+    this._blockFactory = new BlockFactory();
 
-    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], data.question as DecisionBlockInterface);
+    this._init(data.contents as (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)[], data.question as DecisionBlockInterface);
   }
 
-  get html(): string {
-    return this._html;
+  get hasIntroductionHeading(): boolean {
+    return this._hasIntroductionHeading;
   }
 
   get readOnly(): boolean {
     return this._readOnly;
   }
 
-  get decisionBlock(): DecisionBlock {
+  set readOnly(readOnly: boolean) {
+    this._readOnly = readOnly;
+  }
+
+  get decisionBlock(): DecisionRadioBlock | DecisionCheckboxBlock {
     return this._decisionBlock;
   }
 
-  get contentBlocks(): (ValueBlock | ContentBlock | OptionBlock | DateBlock)[] {
+  get contentBlocks() {
     return this._contentBlocks;
   }
 
@@ -50,97 +65,56 @@ export class QuestionSection {
     return this._id;
   }
 
-  getContentBlockById(id: String): ValueBlock | ContentBlock | OptionBlock | DateBlock {
-    return this.contentBlocks.find(block => {
-      if (block instanceof FormBlock) {
+  get digimanId(): string {
+    return this._digimanId;
+  }
+
+  getContentBlockById(id: String): ValueBlock | ContentBlock | SelectBlock | RadioBlock | CheckboxBlock | DateBlock | AddMoreBlock | LinkBlock {
+    let contentBlock = this.contentBlocks.find(block => {
+      if (block instanceof FormBlock || block instanceof AddMoreBlock) {
         return block.id === id;
       }
     });
-  }
 
-  /**
-  * @method updateView
-  * Builds the HTML for the question section object out of content blocks and decision block
-  **/
-  updateView() {
-    this._html = this._createView();
+    if (!contentBlock) {
+      contentBlock = this.contentBlocks
+        .filter(block => block.type === "ADD_MORE")
+        .find((addMoreBlock: AddMoreBlock) => addMoreBlock.blocks
+          .find((childrenBlocks: ValueBlock[]) => childrenBlocks
+            .find((child: ValueBlock) => child.id === id)))
+    }
+
+    return contentBlock;
   }
 
   resetAllFormBlocksState() {
     this.decisionBlock.resetState();
 
     this.contentBlocks.forEach(formBlock => {
-      if (formBlock instanceof FormBlock) {
+      if (formBlock instanceof FormBlock || formBlock instanceof AddMoreBlock) {
         formBlock.resetState();
       }
     });
   }
 
-  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface)[], questions: DecisionBlockInterface) {
+  _init(content: (ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)[], questions: DecisionBlockInterface) {    
     // create block for each object in content[]
-    this._createContentBlocks(content as (ValueBlock | ContentBlock | OptionBlock | DateBlock)[]);
+    this._createContentBlocks(content);
 
     // create one decision block for object (radio)
     if (questions) {
-      this._createDecisionBlock(questions as DecisionBlockInterface);
-    }
-
-    // create HTML string
-    this.updateView();
-  }
-
-  _createDecisionBlock(blockData: DecisionBlockInterface) {
-    blockData.readOnly = this.readOnly;
-    this._decisionBlock = new DecisionBlock(blockData);
-  }
-
-  _createContentBlocks(blocks: (ValueBlock | ContentBlock | OptionBlock | DateBlock)[]) {
-    for (let block of blocks) {
-      if (block.type === BlockType.TEXT_INPUT || block.type === BlockType.TEXTAREA) {
-        this._createValueBlock(block as ValueBlockInterface);
-      } else if (block.type === BlockType.CHECKBOX || block.type === BlockType.RADIO) {
-        this._createOptionBlock(block as OptionBlockInterface);
-      } else if (block.type === BlockType.DATE) {
-        this._createDateBlock(block as DateBlockInterface);
-      } else {
-        this._createContentBlock(block as ContentBlockInterface);
-      }
+      this._createDecisionBlock(questions);
     }
   }
 
-  _createValueBlock(block: ValueBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new ValueBlock(block as ValueBlockInterface));
+  _createDecisionBlock(block: DecisionBlockInterface) {
+    this._decisionBlock = this._blockFactory.createDecisionBlock(block, this.readOnly);
   }
 
-  _createDateBlock(block: DateBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new DateBlock(block as DateBlockInterface));
-  }
-
-  _createOptionBlock(block: OptionBlockInterface) {
-    block.readOnly = this.readOnly;
-    this._contentBlocks.push(new OptionBlock(block as OptionBlockInterface));
-  }
-
-  _createContentBlock(block: ContentBlockInterface) {
-    this._contentBlocks.push(new ContentBlock(block as ContentBlockInterface));
-  }
-
-  _createView(): string {
-    let startHtml = `<div class="question-section" id="${this._digimanId}__${this.id}" data-current-state="${this.id}" data-next-state="${this.decisionBlock.nextSection}" data-selected-option-id="${this.decisionBlock.selectedOptionId}">`;
-    let endHtml = '</div>'
-
-    //create html per each block
-    this.contentBlocks.forEach((block) => {
-      startHtml += block.html;
+  _createContentBlocks(blocks: Array<(ValueBlockInterface | OptionBlockInterface | ContentBlockInterface | DateBlockInterface | AddMoreBlockInterface | LinkBlockInterface)>) {
+    blocks.forEach((block, index) => {
+      this._isSectionWithIntroductionHeading = this._hasIntroductionHeading && this._id === 'qb-start-id' && index === 0;
+      this._contentBlocks.push(this._blockFactory.createContentBlock(block, this.readOnly, this._hasIntroductionHeading, this._isSectionWithIntroductionHeading));
     });
-
-    //add html for decisions
-    if (this.decisionBlock && this.decisionBlock.html) {
-      startHtml += this.decisionBlock.html;
-    }
-
-    return startHtml + endHtml;
   }
 }

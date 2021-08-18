@@ -14,7 +14,7 @@
                   data-name="{{id}}"
                   {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
               >
-                {{text}}
+                <span class="govuk-body text">{{text}}</span>
             </li>
           {{/selected}}
         {{/options}}
@@ -22,25 +22,29 @@
     </div>
   {{/readOnly}}
   {{^readOnly}}
-    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint">
+    {{^isSingleOptionWithoutLegend}}
+    <fieldset class="govuk-fieldset" aria-describedby="{{id}}-hint {{id}}-error">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m text">
         {{label}}
       </legend>
+      {{/isSingleOptionWithoutLegend}}
       <span id="{{id}}-hint" class="govuk-hint text">
         {{#hint}}{{hint}}{{/hint}}
       </span>
+      <span data-validation-error="" id="{{id}}-error" class="govuk-error-message form-error text"></span>
       <div class="govuk-checkboxes">
         {{#options}}
           <div class="govuk-checkboxes__item">
             <input
-                    class="govuk-checkboxes__input"
-                    id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
-                    name="{{id}}"
-                    type="checkbox"
-                    {{#optionId}}data-option-id="{{optionId}}"{{/optionId}}
-                    value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                class="govuk-checkboxes__input digiman__checkbox {{^questionBlockId}}digiman__checkbox--content-block{{/questionBlockId}}{{#questionBlockId}}digiman__checkbox--decision-block{{/questionBlockId}}"
+                id="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
+                name="{{id}}"
+                type="checkbox"
+                {{#optionId}}data-option-id="{{optionId}}"{{/optionId}}
+                value="{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
               {{#selected}}checked{{/selected}}
               {{#questionBlockId}}data-next-section-id="{{questionBlockId}}"{{/questionBlockId}}
+              {{#isSingleOptionWithoutLegend}}aria-describedby="{{id}}-hint {{id}}-error"{{/isSingleOptionWithoutLegend}}
             >
             <label class="govuk-label govuk-checkboxes__label"
                    for="{{id}}-{{^questionBlockId}}{{value}}{{/questionBlockId}}{{#questionBlockId}}{{questionBlockId}}{{/questionBlockId}}{{#optionId}}-{{optionId}}{{/optionId}}"
@@ -50,6 +54,6 @@
           </div>
         {{/options}}
       </div>
-    </fieldset>
+    {{^isSingleOptionWithoutLegend}}</fieldset>{{/isSingleOptionWithoutLegend}}
   {{/readOnly}}
 </div>

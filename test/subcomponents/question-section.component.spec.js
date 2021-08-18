@@ -1,7 +1,7 @@
 import { QuestionSection } from '../../app/subcomponents/question-section.component';
 import { FormBlock } from '../../app/subcomponents/form-block.component';
-import { DecisionBlock } from '../../app/subcomponents/decision-block.component';
 import { ContentBlock } from '../../app/subcomponents/content-block.component';
+import { DecisionRadioBlock } from '../../app/subcomponents/decision-radio-block.component';
 
 describe('QuestionSection', () => {
   let qs, contentBlock, view;
@@ -9,10 +9,10 @@ describe('QuestionSection', () => {
   const EDITABLE = false;
   let data = (readOnly) => {
     return {
-      "id" : "qb-start-id",
+      "id": "qb-start-id",
       "title": "Title",
       "readOnly": readOnly,
-      "contents" : [
+      "contents": [
         {
           "type": "HINT",
           "content": "Paragraph of page level hint."
@@ -27,22 +27,65 @@ describe('QuestionSection', () => {
         },
         {
           "type": "DATE",
-          "id" : "qb-start-id_date-id",
+          "id": "qb-start-id_date-id",
           "label": "Date Label",
           "help": "Date hint text"
         },
         {
-          "id" : "qb-start-id_input-id",
+          "id": "qb-start-id_input-id",
           "type": "TEXT_INPUT",
           "label": "Input Label",
           "help": "Input hint text"
+        },
+        {
+          "type": "ADD_MORE",
+          "id": "qb-start-id_add-more",
+          "blocks": [
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more1",
+              "label": "First"
+            },
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more2",
+              "label": "Second"
+            },
+            {
+              "type": "TEXT_INPUT",
+              "id": "qb-start-id_add-more3",
+              "label": "Third",
+              "hint": "Hint"
+            }
+          ]
+        },
+        {
+          "type": "SELECT",
+          "readOnly": false,
+          "id": "qb-start-id_select-label_vvm6h04guf",
+          "label": "Select label",
+          "hint": "Select hint",
+          "options": [
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-1_0",
+              "text": "Option 1"
+            },
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-2_1",
+              "text": "Option 2"
+            },
+            {
+              "value": "qb-start-id_select-label_vvm6h04guf_option-3_2",
+              "text": "Select option 3"
+            }
+          ]
         }
       ],
-      "question" : {
+      "question": {
         "id": "qb-start-id_decision",
-        "type" : "RADIO",
-        "label" : "Where would you like to go?",
-        "options" : [
+        "type": "RADIO",
+        "label": "Where would you like to go?",
+        "options": [
           { "questionBlockId": "qb-question-id", "text": "Next question", "optionId": "next-id" },
           { "questionBlockId": "qb-end-no", "text": "End", "optionId": "end-id" }
         ]
@@ -61,12 +104,12 @@ describe('QuestionSection', () => {
       qs = new QuestionSection(data(EDITABLE));
     });
 
-    it('Then 4 content blocks are defined', () => {
-      expect(qs.contentBlocks.length).toBe(5);
+    it('Then 7 content blocks are defined', () => {
+      expect(qs.contentBlocks.length).toBe(7);
     });
 
     it('And decision block is defined', () => {
-      expect(qs.decisionBlock instanceof DecisionBlock).toBe(true);
+      expect(qs.decisionBlock instanceof DecisionRadioBlock).toBe(true);
     });
 
     it('And id of question section is qb-start-id', () => {
@@ -75,38 +118,6 @@ describe('QuestionSection', () => {
 
     it('And readOnly is set to false', () => {
       expect(qs.readOnly).toBe(false);
-    });
-
-    it('And html of question section contains decision block section html', () => {
-      expect(qs.html.includes(`id="id-section-qb-start-id_decision"`)).toBe(true);
-    });
-
-    it('And html of question section contains paragraph block html', () => {
-      expect(qs.html.includes(`<p class="govuk-body text">Paragraph of text.</p>`)).toBe(true);
-    });
-
-    it('And html of question section contains day input for date block html', () => {
-      expect(qs.html.includes(`id="qb-start-id_date-id.day"`)).toBe(true);
-    });
-
-    it('And html of question section contains month input for date block html', () => {
-      expect(qs.html.includes(`id="qb-start-id_date-id.month"`)).toBe(true);
-    });
-
-    it('And html of question section contains year input for date block html', () => {
-      expect(qs.html.includes(`id="qb-start-id_date-id.year"`)).toBe(true);
-    });
-
-    it('And html of question section contains hint block html', () => {
-      expect(qs.html.includes(`<p class="govuk-hint text">Paragraph of page level hint.</p>`)).toBe(true);
-    });
-
-    it('And html of question section contains paragraph block html', () => {
-      expect(qs.html.includes(`<p class="govuk-body text">Paragraph of text.</p>`)).toBe(true);
-    });
-
-    it('And html of question section contains important information block html', () => {
-      expect(qs.html.includes(`<p class="govuk-inset-text text">Important information paragraph.</p>`)).toBe(true);
     });
 
     describe('When getContentBlockById is called with existing ID:qb-start-id_input-id', () => {
@@ -119,7 +130,7 @@ describe('QuestionSection', () => {
       });
 
       it('And block is of type FormBlock', () => {
-        expect(contentBlock  instanceof FormBlock).toBe(true);
+        expect(contentBlock instanceof FormBlock).toBe(true);
       });
     });
 
@@ -160,7 +171,7 @@ describe('QuestionSection', () => {
           label: 'string',
           readOnly: false,
           type: "CHECKBOX",
-          updateView: () => {}
+          updateView: () => { }
         });
       });
 
@@ -199,60 +210,6 @@ describe('QuestionSection', () => {
         expect(qs.contentBlocks[1].readOnly).toBe(undefined);
       });
     });
-
-    describe('When _createView is called', () => {
-      beforeEach(() => {
-        qs._contentBlocks = [];
-        qs._createContentBlocks([{ id: 'test-id', type: 'TEXT_INPUT' }, { content: 'test', type: 'PARAGRAPH' }]);
-        qs._digimanId = 'test-id';
-        view = qs._createView();
-      });
-
-      it('Then _createView returns question section html', () => {
-        expect(view.includes(`<div class="question-section" id="test-id__qb-start-id" data-current-state="qb-start-id" data-next-state="" data-selected-option-id="">`)).toBe(true);
-      });
-
-      it('And updated html does not match getter method', () => {
-        expect(view).not.toEqual(qs.html);
-      });
-
-      it('And updated html does not contain old paragraph block', () => {
-        expect(view.includes(`<p class="text">Paragraph of text.</p>`)).toBe(false);
-      });
-
-      it('And updated html does contain new paragraph block', () => {
-        expect(view.includes(`<p class="govuk-body text">test</p>`)).toBe(true);
-      });
-
-    });
-
-    describe('When updateView is called', () => {
-      beforeEach(() => {
-        qs._contentBlocks = [];
-        qs._createContentBlocks([{ id: 'test-id', type: 'TEXT_INPUT' }, { content: 'test', type: 'PARAGRAPH' }]);
-        qs._digimanId = 'test-id';
-        view = qs._createView();
-
-        qs.updateView();
-      });
-
-      it('Then _createView returns question section html', () => {
-        expect(view.includes(`<div class="question-section" id="test-id__qb-start-id" data-current-state="qb-start-id" data-next-state="" data-selected-option-id="">`)).toBe(true);
-      });
-
-      it('And updated html does match getter method', () => {
-        expect(view).toEqual(qs.html);
-      });
-
-      it('And updated html does not contain old paragraph block', () => {
-        expect(view.includes(`<p class="text">Paragraph of text.</p>`)).toBe(false);
-      });
-
-      it('And updated html does contain new paragraph block', () => {
-        expect(view.includes(`<p class="govuk-body text">test</p>`)).toBe(true);
-      });
-
-    });
   });
 
   describe('When question section is initialised with read only access', () => {
@@ -267,21 +224,21 @@ describe('QuestionSection', () => {
     describe('When _createDecisionBlock is called', () => {
       beforeEach(() => {
         qs._createDecisionBlock({
-                                  id: 'test-id',
-                                  nextSection: 'string',
-                                  selectedOptionId: 'string',
-                                  options: [
-                                    {
-                                      text: 'string',
-                                      questionBlockId: 'test',
-                                    }
-                                  ],
-                                  hint: 'string',
-                                  label: 'string',
-                                  readOnly: false,
-                                  type: "CHECKBOX",
-                                  updateView: () => {}
-                                });
+          id: 'test-id',
+          nextSection: 'string',
+          selectedOptionId: 'string',
+          options: [
+            {
+              text: 'string',
+              questionBlockId: 'test',
+            }
+          ],
+          hint: 'string',
+          label: 'string',
+          readOnly: false,
+          type: "CHECKBOX",
+          updateView: () => { }
+        });
       });
 
       it('Then decision block is defined', () => {

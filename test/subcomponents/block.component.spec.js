@@ -2,10 +2,6 @@ import { Block } from '../../app/subcomponents/block.component';
 
 describe('Block', () => {
   let blockComponent;
-  const data = {
-      type: "PARAGRAPH",
-      text: "Test Text"
-  };
 
   afterEach(() => {
     blockComponent = null;
