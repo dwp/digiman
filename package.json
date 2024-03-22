@@ -61,7 +61,7 @@
     "karma-jasmine": "2.0.1",
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-spec-reporter": "0.0.32",
-    "karma-webpack": "4.0.2",
+    "karma-webpack": "5.0.0",
     "mini-css-extract-plugin": "0.8.2",
     "mustache": "3.1.0",
     "resolve-url-loader": "3.1.2",
